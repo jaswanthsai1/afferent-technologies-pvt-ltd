@@ -14,10 +14,9 @@ const ServiceCard = ({ title, description, icon, delay = 0 }: ServiceCardProps) 
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       viewport={{ once: false }}
-      whileHover={{ scale: 1.02, y: -5 }}
       className="group"
     >
-      <div className="space-card p-6 h-full transition-all duration-300 group-hover:border-electric-blue/50">
+      <div className="space-card p-6 h-full">
         {/* Glow effect on hover */}
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-electric-blue/5 to-cosmic-orange/5 opacity-0 group-hover:opacity-100 transition-opacity" />
         

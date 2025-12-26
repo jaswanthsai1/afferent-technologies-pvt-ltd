@@ -135,8 +135,24 @@
   }
 
   .space-card {
-    @apply relative overflow-hidden rounded-2xl border border-border/30 bg-card/50 backdrop-blur-xl;
+    @apply relative overflow-hidden rounded-2xl border border-border/30 bg-card/50 backdrop-blur-xl transition-all duration-300;
     background: linear-gradient(135deg, hsl(var(--card) / 0.6) 0%, hsl(var(--space-nebula) / 0.2) 100%);
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.5), 0 0 15px -5px hsl(var(--electric-blue) / 0.1);
+  }
+
+  .space-card:hover {
+    @apply border-electric-blue/40 -translate-y-1;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px hsl(var(--electric-blue) / 0.2);
+  }
+
+  .glow-interactive {
+    @apply transition-all duration-300 cursor-pointer;
+    box-shadow: 0 0 10px -5px hsl(var(--electric-blue) / 0.2);
+  }
+
+  .glow-interactive:hover {
+    @apply border-electric-blue/50 -translate-y-1;
+    box-shadow: 0 0 20px -5px hsl(var(--electric-blue) / 0.4);
   }
 
   .planet-section {

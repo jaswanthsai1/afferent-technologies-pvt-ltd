@@ -286,14 +286,15 @@ const Index = () => {
                   </p>
 
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {['AI & ML', 'Cybersecurity', 'Data Science', 'IoT', 'CSE & Software', 'Robotics'].map((domain) => (
-                      <div
-                        key={domain}
-                        className="px-4 py-3 rounded-xl bg-muted/30 border border-border/30 text-center font-display text-sm tracking-wider hover:border-electric-blue/50 transition-colors cursor-pointer"
-                      >
-                        {domain}
-                      </div>
-                    ))}
+                      {['AI & ML', 'Cybersecurity', 'Data Science', 'IoT', 'CSE & Software', 'Robotics'].map((domain) => (
+                        <div
+                          key={domain}
+                          className="px-4 py-3 rounded-xl bg-muted/30 border border-border/30 text-center font-display text-sm tracking-wider glow-interactive"
+                        >
+                          {domain}
+                        </div>
+                      ))}
+
                   </div>
                 </div>
               </PlanetSection>
@@ -315,8 +316,8 @@ const Index = () => {
 
                   <ul className="space-y-3">
                     {['Custom Software Development', 'System Integration', 'Cloud Solutions', 'Enterprise Applications'].map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-muted-foreground">
-                        <div className="w-2 h-2 rounded-full bg-electric-blue" />
+                      <li key={item} className="flex items-center gap-3 text-muted-foreground p-2 rounded-lg hover:bg-white/5 transition-all duration-300 group cursor-default border border-transparent hover:border-border/30 hover:shadow-[0_0_15px_-5px_hsl(var(--electric-blue)/0.2)]">
+                        <div className="w-2 h-2 rounded-full bg-electric-blue group-hover:scale-125 transition-transform" />
                         {item}
                       </li>
                     ))}
@@ -351,7 +352,7 @@ const Index = () => {
                     {['React', 'Node.js', 'Python', 'AWS', 'MongoDB', 'PostgreSQL'].map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-full bg-muted/50 text-xs font-display tracking-wider text-muted-foreground border border-border/30"
+                        className="px-3 py-1 rounded-full bg-muted/50 text-xs font-display tracking-wider text-muted-foreground border border-border/30 glow-interactive"
                       >
                         {tech}
                       </span>
@@ -387,7 +388,7 @@ const Index = () => {
                     {['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase'].map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-full bg-muted/50 text-xs font-display tracking-wider text-muted-foreground border border-border/30"
+                        className="px-3 py-1 rounded-full bg-muted/50 text-xs font-display tracking-wider text-muted-foreground border border-border/30 glow-interactive"
                       >
                         {tech}
                       </span>
@@ -421,8 +422,8 @@ const Index = () => {
 
                   <ul className="space-y-3">
                     {['Custom AI Agents', 'Workflow Automation', 'Chatbots & Virtual Assistants', 'Process Optimization'].map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-muted-foreground">
-                        <Sparkles className="w-4 h-4 text-cosmic-orange" />
+                      <li key={item} className="flex items-center gap-3 text-muted-foreground p-2 rounded-lg hover:bg-white/5 transition-all duration-300 group cursor-default border border-transparent hover:border-border/30 hover:shadow-[0_0_15px_-5px_hsl(var(--electric-blue)/0.2)]">
+                        <Sparkles className="w-4 h-4 text-cosmic-orange group-hover:scale-125 transition-transform" />
                         {item}
                       </li>
                     ))}

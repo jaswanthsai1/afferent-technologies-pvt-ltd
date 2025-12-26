@@ -100,7 +100,8 @@ export const InternshipCareerRoadmap = () => {
                   </motion.div>
                 </div>
 
-                <div className="space-card p-6 md:p-8 group hover:border-electric-blue/40 transition-all cursor-default">
+                  <div className="space-card p-6 md:p-8 group cursor-default">
+
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <h3 className="font-display text-2xl font-bold text-white group-hover:text-electric-blue transition-colors">
                       {milestone.title}
