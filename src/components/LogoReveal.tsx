@@ -29,21 +29,21 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
       transition={{ duration: 0.5 }}
     >
       {/* Rotating Earth */}
-      <motion.div
-        className="relative"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={
-          phase === 'complete'
-            ? { scale: 0.15, x: '-42vw', y: '-42vh', rotate: 0 }
-            : phase === 'logo'
-            ? { scale: 0.8, rotate: 360 }
-            : { scale: 1.2, rotate: 180 }
-        }
-        transition={{
-          duration: phase === 'complete' ? 1 : 2,
-          ease: 'easeInOut',
-        }}
-      >
+        <motion.div
+          className="relative"
+          initial={{ scale: 0 }}
+          animate={
+            phase === 'complete'
+              ? { scale: 0.15, x: '-42vw', y: '-42vh' }
+              : phase === 'logo'
+              ? { scale: 0.8 }
+              : { scale: 1.2 }
+          }
+          transition={{
+            duration: phase === 'complete' ? 1 : 2,
+            ease: 'easeInOut',
+          }}
+        >
         {/* Earth glow */}
         <motion.div
           className="absolute inset-0 rounded-full blur-3xl"

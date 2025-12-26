@@ -25,7 +25,6 @@ import IntroVideo from '@/components/IntroVideo';
 import LogoReveal from '@/components/LogoReveal';
 import StarField from '@/components/StarField';
 import Navigation from '@/components/Navigation';
-import FloatingLogo from '@/components/FloatingLogo';
 import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
 
@@ -111,29 +110,16 @@ const Index = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              <FloatingLogo />
-              <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+                <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
 
-              {/* Hero / Home Section */}
-              <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
-                <div className="container mx-auto px-4 text-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                  >
+                {/* Hero / Home Section */}
+                <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
+                  <div className="container mx-auto px-4 text-center">
                     <motion.div
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50 mb-6"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8 }}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.5 }}
                     >
-                      <Sparkles className="w-4 h-4 text-cosmic-orange" />
-                      <span className="text-sm font-display tracking-wider text-muted-foreground">
-                        PIONEERING TECHNOLOGY SOLUTIONS
-                      </span>
-                    </motion.div>
-
                       <div className="mb-8 flex justify-center">
                         <motion.img 
                           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/now-1-1766777372055.jpeg?width=8000&height=8000&resize=contain" 
@@ -181,29 +167,10 @@ const Index = () => {
                           Learn More
                         </span>
                       </motion.button>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-
-                  {/* Scroll indicator */}
-                  <motion.div
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: [0, 10, 0] }}
-                    transition={{ delay: 1.5, y: { repeat: Infinity, duration: 2 } }}
-                  >
-                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                      <span className="text-xs font-display tracking-widest">SCROLL TO EXPLORE</span>
-                      <div className="w-6 h-10 rounded-full border-2 border-border/50 flex justify-center pt-2">
-                        <motion.div
-                          className="w-1.5 h-1.5 rounded-full bg-electric-blue"
-                          animate={{ y: [0, 12, 0] }}
-                          transition={{ repeat: Infinity, duration: 1.5 }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              </section>
+                  </div>
+                </section>
 
               {/* About Us Section - Mars */}
               <PlanetSection
