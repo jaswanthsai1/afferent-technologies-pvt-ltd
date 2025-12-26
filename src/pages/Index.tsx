@@ -520,18 +520,9 @@ const Index = () => {
 
                 <BlackHoleNewsletter />
 
-                {/* Footer */}
-                <footer className="py-12 border-t border-border/20">
-                  <div className="container mx-auto px-4 text-center">
-                    <p className="font-display text-sm text-muted-foreground tracking-wider">
-                      © {new Date().getFullYear()} AFFERENT TECHNOLOGIES PVT LTD. All rights reserved.
-                    </p>
-                  </div>
-                </footer>
-
                 <div className="w-full py-6 bg-black/40 backdrop-blur-sm border-t border-white/5 text-center relative z-10">
                   <p className="text-sm text-muted-foreground/60 tracking-widest font-display">
-                    Copyright Afferent Technologies Pvt Ltd. All Rights Reserved
+                    © Copyright Afferent Technologies Pvt Ltd. All Rights Reserved | <a href="mailto:info@afferenttech.com" className="hover:text-white transition-colors">info@afferenttech.com</a>
                   </p>
                 </div>
             </motion.div>
