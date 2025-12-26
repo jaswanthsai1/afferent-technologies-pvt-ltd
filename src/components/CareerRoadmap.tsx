@@ -11,18 +11,18 @@ const milestones = [
     orbit: 'Orbit 1: Foundation'
   },
   {
-    title: 'Training Phase',
-    description: 'Master advanced technologies through intensive, hands-on workshops.',
-    icon: <Zap className="w-6 h-6" />,
-    color: 'text-yellow-400',
-    orbit: 'Orbit 2: Specialization'
-  },
-  {
     title: 'Project Selection',
     description: 'Choose your mission trajectory and join a high-impact development squad.',
     icon: <Telescope className="w-6 h-6" />,
     color: 'text-purple-400',
-    orbit: 'Orbit 3: Exploration'
+    orbit: 'Orbit 2: Exploration'
+  },
+  {
+    title: 'Training Phase',
+    description: 'Master advanced technologies through intensive, hands-on workshops.',
+    icon: <Zap className="w-6 h-6" />,
+    color: 'text-yellow-400',
+    orbit: 'Orbit 3: Specialization'
   },
   {
     title: 'Development Sprint',
