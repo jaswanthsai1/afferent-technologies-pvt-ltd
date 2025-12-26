@@ -94,6 +94,9 @@ const Index = () => {
         {/* Star field background */}
         <StarField count={200} />
 
+        {/* Persistent Audio - Starts as early as possible */}
+        <SpaceAudio showControls={phase === 'main'} />
+
         {/* Intro Video Phase */}
         <AnimatePresence>
           {phase === 'intro' && (
@@ -117,8 +120,8 @@ const Index = () => {
                 transition={{ duration: 1 }}
               >
                   <FloatingLogo />
-                  <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
-                  <SpaceAudio />
+                    <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+
 
                 {/* Hero / Home Section */}
                 <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
