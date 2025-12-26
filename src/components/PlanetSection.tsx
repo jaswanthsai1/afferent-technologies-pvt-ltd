@@ -106,6 +106,54 @@ const PlanetSection = ({
           />
         </motion.div>
 
+        {/* Orbiting Satellites */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={`satellite-${i}`}
+            className="absolute top-1/2 left-1/2"
+            initial={{ rotate: i * 120 }}
+            animate={{ rotate: (i * 120) + 360 }}
+            transition={{
+              duration: 15 + i * 5,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            style={{ 
+              width: '150%', 
+              height: '150%',
+              marginLeft: '-75%',
+              marginTop: '-75%',
+              zIndex: i === 1 ? -1 : 2 // Some go behind
+            }}
+          >
+            <motion.div 
+              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-1"
+              animate={{
+                scale: [0.8, 1, 0.8],
+                opacity: [0.4, 1, 0.4]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              {/* Satellite Body */}
+              <div className="w-2 h-2 bg-slate-400 rounded-sm shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+              {/* Solar Panels */}
+              <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
+              <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
+              
+              {/* Signal Blink */}
+              <motion.div 
+                className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-red-500"
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            </motion.div>
+          </motion.div>
+        ))}
+
         {/* Rings for Saturn */}
         {planetName === 'Saturn' && (
           <div 

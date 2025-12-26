@@ -15,6 +15,11 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
   const layer2Y = useTransform(scrollY, [0, 1000], [0, -250]);
   const layer3Y = useTransform(scrollY, [0, 1000], [0, -400]);
 
+  // Parallax for nebulae
+  const nebula1Y = useTransform(scrollY, [0, 1000], [0, -150]);
+  const nebula2Y = useTransform(scrollY, [0, 1000], [0, -300]);
+  const nebula3Y = useTransform(scrollY, [0, 1000], [0, -450]);
+
   const starLayers = useMemo(() => {
     const layers = [[], [], []];
     const colors = [
@@ -30,6 +35,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
       const layerIndex = Math.floor(Math.random() * 3);
       const size = Math.random() * (layerIndex === 2 ? 3 : 1.5) + 0.5;
       const color = colors[Math.floor(Math.random() * colors.length)];
+      const isVariable = Math.random() > 0.85;
       
       layers[layerIndex].push({
         id: i,
@@ -38,8 +44,9 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         top: Math.random() * 100 + '%',
         color,
         opacity: Math.random() * 0.7 + 0.3,
-        duration: Math.random() * 4 + 3,
+        duration: isVariable ? Math.random() * 2 + 1 : Math.random() * 4 + 3,
         delay: Math.random() * 5,
+        isVariable,
       });
     }
     return layers;
@@ -66,9 +73,28 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         left: '-10%',
         top: '0%',
         duration: 40,
+        y: nebula1Y,
+      },
+      {
+        color: 'hsla(280, 70%, 50%, 0.1)',
+        width: '100vw',
+        height: '80vh',
+        left: '20%',
+        top: '40%',
+        duration: 50,
+        y: nebula2Y,
+      },
+      {
+        color: 'hsla(200, 70%, 50%, 0.1)',
+        width: '130vw',
+        height: '110vh',
+        left: '-30%',
+        top: '20%',
+        duration: 60,
+        y: nebula3Y,
       }
     ];
-  }, []);
+  }, [nebula1Y, nebula2Y, nebula3Y]);
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-space-deep">
@@ -87,6 +113,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
               height: nebula.height,
               left: nebula.left,
               top: nebula.top,
+              y: nebula.y,
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{
@@ -225,7 +252,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
   );
 };
 
-const StarItem = ({ size, left, top, color, opacity, duration, delay }: any) => (
+const StarItem = ({ size, left, top, color, opacity, duration, delay, isVariable }: any) => (
   <motion.div
     className="absolute rounded-full"
     style={{
@@ -234,17 +261,17 @@ const StarItem = ({ size, left, top, color, opacity, duration, delay }: any) => 
       left,
       top,
       background: color,
-      boxShadow: size > 2 ? `0 0 ${size * 3}px ${color}` : 'none',
+      boxShadow: (size > 2 || isVariable) ? `0 0 ${size * 4}px ${color}` : 'none',
     }}
     animate={{
-      opacity: [opacity, opacity * 0.3, opacity],
-      scale: [1, 1.2, 1],
+      opacity: isVariable ? [opacity, opacity * 0.1, opacity] : [opacity, opacity * 0.3, opacity],
+      scale: isVariable ? [1, 1.5, 0.8, 1] : [1, 1.2, 1],
     }}
     transition={{
       duration,
       repeat: Infinity,
       delay,
-      ease: 'easeInOut',
+      ease: isVariable ? 'anticipate' : 'easeInOut',
     }}
   />
 );
