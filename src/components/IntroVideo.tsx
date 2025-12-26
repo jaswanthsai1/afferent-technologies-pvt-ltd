@@ -278,7 +278,8 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
           </motion.div>
         )}
       </motion.div>
-    </AnimatePresence>
+      </AnimatePresence>
+    </>
   );
 };
 
