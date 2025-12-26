@@ -40,7 +40,7 @@ const milestones = [
   }
 ];
 
-export const CareerRoadmap = () => {
+export const InternshipCareerRoadmap = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -54,75 +54,69 @@ export const CareerRoadmap = () => {
   });
 
   return (
-    <section id="roadmap" className="py-24 relative overflow-hidden" ref={containerRef}>
+    <section id="roadmap" className="py-24 relative overflow-hidden bg-black/40" ref={containerRef}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-20 space-y-4">
           <h2 className="font-display text-4xl md:text-5xl font-black tracking-tighter text-white">
-            GALACTIC <span className="text-gradient-primary">CAREER ROADMAP</span>
+            INTERNSHIP <span className="text-gradient-primary">CAREER ROADMAP</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Your flight path from student to industry professional across the Afferent galaxy.
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* SVG Path Background */}
-          <div className="absolute left-[27px] md:left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 overflow-hidden pointer-events-none">
-            <div className="h-full w-full bg-white/5" />
+        <div className="relative max-w-5xl mx-auto">
+          {/* Progress Line */}
+          <div className="absolute left-8 md:left-12 top-0 bottom-0 w-px bg-white/10">
             <motion.div 
-              style={{ height: `${pathLength.get() * 100}%` }}
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-electric-blue via-purple-500 to-cosmic-orange"
+              style={{ scaleY: scrollYProgress }}
+              className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-electric-blue via-purple-500 to-cosmic-orange origin-top"
             />
           </div>
 
-          <div className="space-y-24">
+          <div className="space-y-12">
             {milestones.map((milestone, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                className={`flex items-start gap-8 md:gap-0 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-20 md:pl-32"
               >
-                <div className="flex-1 hidden md:block" />
-                
-                {/* Milestone Node */}
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className={`w-14 h-14 rounded-full bg-black border-4 border-white/10 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-transform hover:scale-110 group cursor-default`}>
-                    <div className={`${milestone.color} transition-colors group-hover:brightness-125`}>
+                {/* Milestone Marker */}
+                <div className="absolute left-0 top-0 flex items-center justify-center">
+                  <motion.div 
+                    whileHover={{ scale: 1.2 }}
+                    className={`w-16 h-16 md:w-24 md:h-24 rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center relative overflow-hidden group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className={`${milestone.color} relative z-10`}>
                       {milestone.icon}
                     </div>
-                  </div>
-                  <div className="mt-2 text-[10px] font-display font-bold text-white/40 uppercase tracking-[0.2em] whitespace-nowrap">
-                    {milestone.orbit}
-                  </div>
+                    <span className="mt-2 text-[8px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest hidden md:block">
+                      {milestone.orbit.split(':')[0]}
+                    </span>
+                  </motion.div>
                 </div>
 
-                <div className="flex-1">
-                  <div className={`space-card p-6 md:p-8 hover:border-electric-blue/30 transition-all ${
-                    index % 2 === 0 ? 'md:ml-12' : 'md:mr-12'
-                  }`}>
-                    <h3 className="font-display text-xl font-bold text-white mb-2">
+                <div className="space-card p-6 md:p-8 group hover:border-electric-blue/40 transition-all cursor-default">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                    <h3 className="font-display text-2xl font-bold text-white group-hover:text-electric-blue transition-colors">
                       {milestone.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {milestone.description}
-                    </p>
+                    <span className="text-xs font-display font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60">
+                      {milestone.orbit}
+                    </span>
                   </div>
+                  <p className="text-muted-foreground text-lg leading-relaxed max-w-3xl">
+                    {milestone.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Background Star System */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 -z-10 opacity-30">
-        <div className="w-[500px] h-[500px] rounded-full border border-white/5 animate-[spin_60s_linear_infinite]" />
-        <div className="absolute inset-0 w-[400px] h-[400px] rounded-full border border-white/5 m-auto animate-[spin_40s_linear_infinite_reverse]" />
       </div>
     </section>
   );

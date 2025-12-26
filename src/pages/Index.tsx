@@ -30,7 +30,7 @@ import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
 import { CelestialTeamMap } from '../components/CelestialTeamMap';
 import { MissionTrajectory } from '../components/MissionTrajectory';
-import { CareerRoadmap } from '../components/CareerRoadmap';
+import { InternshipCareerRoadmap } from '../components/CareerRoadmap';
 import { BlackHoleNewsletter } from '../components/BlackHoleNewsletter';
 import { SpaceAudio } from '../components/SpaceAudio';
 
@@ -241,8 +241,6 @@ const Index = () => {
 
                 <MissionTrajectory />
 
-                <CareerRoadmap />
-
 
                 {/* Internships Section - Saturn */}
                 <PlanetSection
@@ -265,6 +263,8 @@ const Index = () => {
                   ))}
                 </div>
               </PlanetSection>
+
+              <InternshipCareerRoadmap />
 
                 {/* Projects Section - Jupiter */}
                 <PlanetSection
