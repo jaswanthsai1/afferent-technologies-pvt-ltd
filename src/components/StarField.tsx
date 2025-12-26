@@ -80,26 +80,10 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
     return [
       {
         color: 'hsl(var(--space-nebula) / 0.15)',
-        width: '80vw',
-        height: '80vh',
+        width: '120vw',
+        height: '100vh',
         left: '-10%',
-        top: '10%',
-        duration: 30,
-      },
-      {
-        color: 'hsl(var(--electric-blue) / 0.1)',
-        width: '70vw',
-        height: '70vh',
-        left: '40%',
-        top: '-10%',
-        duration: 45,
-      },
-      {
-        color: 'hsl(var(--cosmic-orange) / 0.08)',
-        width: '60vw',
-        height: '60vh',
-        left: '20%',
-        top: '50%',
+        top: '0%',
         duration: 40,
       }
     ];

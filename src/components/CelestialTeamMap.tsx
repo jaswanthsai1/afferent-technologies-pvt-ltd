@@ -34,16 +34,16 @@ const team: TeamMember[] = [
     y: 60,
     color: 'hsl(var(--electric-blue))',
   },
-  {
-    id: 'ops-lead',
-    name: 'Operations Head',
-    role: 'COO',
-    bio: 'Expert in project management and operational efficiency, driving the successful delivery of our global projects.',
-    icon: Cpu,
-    x: 70,
-    y: 65,
-    color: 'hsl(var(--starlight))',
-  },
+    {
+      id: 'ops-lead',
+      name: 'MATURI JASWANTH SAI MADHU MOHAN',
+      role: 'Operations Head',
+      bio: 'Expert in project management and operational efficiency, driving the successful delivery of our global projects.',
+      icon: Cpu,
+      x: 70,
+      y: 65,
+      color: 'hsl(var(--starlight))',
+    },
 ];
 
 export const CelestialTeamMap = () => {

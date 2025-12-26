@@ -28,9 +28,9 @@ import Navigation from '@/components/Navigation';
 import FloatingLogo from '@/components/FloatingLogo';
 import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
-import { CelestialTeamMap } from '@/components/CelestialTeamMap';
-import { MissionTrajectory } from '@/components/MissionTrajectory';
-import { SpaceAudio } from '@/components/SpaceAudio';
+import { CelestialTeamMap } from '@/components/CelestialTeamMap.tsx';
+import { MissionTrajectory } from '@/components/MissionTrajectory.tsx';
+import { SpaceAudio } from '@/components/SpaceAudio.tsx';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
