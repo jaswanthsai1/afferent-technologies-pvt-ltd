@@ -259,8 +259,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
               MISSION AUTHORIZATION
             </AlertDialogTitle>
             <AlertDialogDescription className="text-muted-foreground text-lg py-4">
-              You are about to initiate the cosmic journey into the 
-              <span className="text-electric-blue font-bold"> Afferent Universe</span>.
+              You are about to enter the Afferent Universe. Please authorize the mission.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
