@@ -3,10 +3,12 @@ import { Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const SpaceAudio = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasInteracted = useRef(false);
 
-    const toggleAudio = () => {
+    const toggleAudio = (e?: React.MouseEvent) => {
+      if (e) e.stopPropagation();
       if (audioRef.current) {
         if (isPlaying) {
           audioRef.current.pause();
@@ -27,15 +29,42 @@ export const SpaceAudio = () => {
     };
 
     useEffect(() => {
+      const attemptPlay = () => {
+        if (audioRef.current && !hasInteracted.current) {
+          audioRef.current.play()
+            .then(() => {
+              setIsPlaying(true);
+              hasInteracted.current = true;
+              window.removeEventListener('click', attemptPlay);
+              window.removeEventListener('keydown', attemptPlay);
+              window.removeEventListener('touchstart', attemptPlay);
+            })
+            .catch(() => {
+              // Auto-play failed, wait for user interaction
+              setIsPlaying(false);
+            });
+        }
+      };
 
-    // Cleanup on unmount
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
+      // Try playing immediately
+      attemptPlay();
+
+      // Add listeners for interaction to trigger play if autoplay was blocked
+      window.addEventListener('click', attemptPlay);
+      window.addEventListener('keydown', attemptPlay);
+      window.addEventListener('touchstart', attemptPlay);
+
+      // Cleanup on unmount
+      return () => {
+        window.removeEventListener('click', attemptPlay);
+        window.removeEventListener('keydown', attemptPlay);
+        window.removeEventListener('touchstart', attemptPlay);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
+      };
+    }, []);
 
   return (
     <div className="fixed bottom-8 left-8 z-50">
