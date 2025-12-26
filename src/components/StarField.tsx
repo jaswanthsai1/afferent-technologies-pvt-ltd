@@ -9,37 +9,6 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const [cloudsCleared, setCloudsCleared] = useState(false);
-  const mouseMoveRef = useRef({ x: 0, y: 0, time: 0, distance: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (cloudsCleared) return;
-
-      const now = Date.now();
-      const dt = now - mouseMoveRef.current.time;
-      if (dt > 100) {
-        mouseMoveRef.current = { x: e.clientX, y: e.clientY, time: now, distance: 0 };
-        return;
-      }
-
-      const dx = e.clientX - mouseMoveRef.current.x;
-      const dy = e.clientY - mouseMoveRef.current.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      mouseMoveRef.current.distance += dist;
-      mouseMoveRef.current.x = e.clientX;
-      mouseMoveRef.current.y = e.clientY;
-      mouseMoveRef.current.time = now;
-
-      // If moved significantly in a short burst (a "scratch")
-      if (mouseMoveRef.current.distance > 300) {
-        setCloudsCleared(true);
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [cloudsCleared]);
 
   // Create different star layers for parallax effect
   const layer1Y = useTransform(scrollY, [0, 1000], [0, -100]);

@@ -4,40 +4,7 @@ import { Send } from 'lucide-react';
 
 export const BlackHoleNewsletter = () => {
   const [email, setEmail] = useState('');
-  const containerRef = useRef<HTMLDivElement>(null);
   
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { damping: 20, stiffness: 100 };
-  const pullX = useSpring(mouseX, springConfig);
-  const pullY = useSpring(mouseY, springConfig);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      
-      // Calculate distance from center
-      const dist = Math.sqrt(x * x + y * y);
-      const maxDist = 300;
-      
-      if (dist < maxDist) {
-        // Gravitational pull effect: move toward the mouse
-        mouseX.set(x * 0.2);
-        mouseY.set(y * 0.2);
-      } else {
-        mouseX.set(0);
-        mouseY.set(0);
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Subscribed:', email);
@@ -46,9 +13,8 @@ export const BlackHoleNewsletter = () => {
 
   return (
     <section id="newsletter" className="py-24 relative overflow-hidden flex items-center justify-center min-h-[600px]">
-      <div ref={containerRef} className="relative z-10 w-full max-w-2xl px-4">
-        <motion.div
-          style={{ x: pullX, y: pullY }}
+      <div className="relative z-10 w-full max-w-2xl px-4">
+        <div
           className="relative"
         >
           {/* Black Hole Visual */}
@@ -89,7 +55,7 @@ export const BlackHoleNewsletter = () => {
               </button>
             </form>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Decorative background particles */}
