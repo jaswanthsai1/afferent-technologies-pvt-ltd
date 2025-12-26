@@ -25,21 +25,52 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   const [isWarping, setIsWarping] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [stars, setStars] = useState<{width: string, height: string, left: string, top: string, duration: string, delay: string}[]>([]);
+  const [particles, setParticles] = useState<{left: string, top: string, bg: string, duration: number, delay: number}[]>([]);
 
   useEffect(() => {
     setMounted(true);
+    
+    // Generate stars only on client
+    const newStars = [...Array(50)].map(() => ({
+      width: Math.random() * 3 + 1 + 'px',
+      height: Math.random() * 3 + 1 + 'px',
+      left: Math.random() * 100 + '%',
+      top: Math.random() * 100 + '%',
+      duration: Math.random() * 3 + 2 + 's',
+      delay: Math.random() * 2 + 's',
+    }));
+    setStars(newStars);
+
+    // Generate particles
+    const newParticles = [...Array(20)].map((_, i) => ({
+      left: Math.random() * 100 + '%',
+      top: Math.random() * 100 + '%',
+      bg: i % 2 === 0 ? 'hsl(var(--electric-blue))' : 'hsl(var(--cosmic-orange))',
+      duration: Math.random() * 3 + 2,
+      delay: Math.random() * 2,
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const video = videoRef.current;
     if (video) {
-      video.play().catch(console.error);
-      
       const handleCanPlay = () => {
         setIsVideoReady(true);
+        video.play().catch(console.error);
       };
+
+      if (video.readyState >= 3) {
+        setIsVideoReady(true);
+        video.play().catch(console.error);
+      }
 
       video.addEventListener('canplay', handleCanPlay);
       
       const handleTimeUpdate = () => {
-        // Show prompt near the end of video or after 5 seconds
         if (video.currentTime >= video.duration - 2 || video.currentTime >= 5) {
           setShowPrompt(true);
         }
@@ -52,7 +83,6 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
       video.addEventListener('timeupdate', handleTimeUpdate);
       video.addEventListener('ended', handleEnded);
 
-      // Fallback: show prompt after 5 seconds regardless
       const timer = setTimeout(() => setShowPrompt(true), 5000);
 
       return () => {
@@ -62,7 +92,7 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
         clearTimeout(timer);
       };
     }
-  }, []);
+  }, [mounted]);
 
   const handleEnterClick = () => {
     setShowConfirm(true);
@@ -113,17 +143,17 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
 
         {/* Stars background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {mounted && [...Array(50)].map((_, i) => (
+          {mounted && stars.map((star, i) => (
             <div
               key={i}
               className="star"
               style={{
-                width: Math.random() * 3 + 1 + 'px',
-                height: Math.random() * 3 + 1 + 'px',
-                left: Math.random() * 100 + '%',
-                top: Math.random() * 100 + '%',
-                '--duration': Math.random() * 3 + 2 + 's',
-                '--delay': Math.random() * 2 + 's',
+                width: star.width,
+                height: star.height,
+                left: star.left,
+                top: star.top,
+                '--duration': star.duration,
+                '--delay': star.delay,
               } as React.CSSProperties}
             />
           ))}
@@ -251,25 +281,23 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
 
               {/* Floating particles */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {mounted && [...Array(20)].map((_, i) => (
+                {mounted && particles.map((particle, i) => (
                   <motion.div
                     key={i}
                     className="absolute w-1 h-1 rounded-full"
                     style={{
-                      background: i % 2 === 0 
-                        ? 'hsl(var(--electric-blue))' 
-                        : 'hsl(var(--cosmic-orange))',
-                      left: Math.random() * 100 + '%',
-                      top: Math.random() * 100 + '%',
+                      background: particle.bg,
+                      left: particle.left,
+                      top: particle.top,
                     }}
                     animate={{
                       y: [0, -100, 0],
                       opacity: [0, 1, 0],
                     }}
                     transition={{
-                      duration: Math.random() * 3 + 2,
+                      duration: particle.duration,
                       repeat: Infinity,
-                      delay: Math.random() * 2,
+                      delay: particle.delay,
                     }}
                   />
                 ))}

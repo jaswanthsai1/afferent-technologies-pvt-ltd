@@ -25,7 +25,14 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
   const nebula2Y = useTransform(scrollY, [0, 1000], [0, -300]);
   const nebula3Y = useTransform(scrollY, [0, 1000], [0, -450]);
 
-  const starLayers = useMemo(() => {
+  const [starLayers, setStarLayers] = useState<any[][]>([[], [], []]);
+  const [cosmicDust, setCosmicDust] = useState<any[]>([]);
+  const [meteorData, setMeteorData] = useState<any[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+
+    // Generate stars
     const layers = [[], [], []];
     const colors = [
       'hsl(var(--starlight))',
@@ -54,11 +61,10 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         isVariable,
       });
     }
-    return layers;
-  }, [count]);
+    setStarLayers(layers);
 
-  const cosmicDust = useMemo(() => {
-    return [...Array(40)].map((_, i) => ({
+    // Generate cosmic dust
+    const dust = [...Array(40)].map((_, i) => ({
       id: `dust-${i}`,
       left: Math.random() * 100 + '%',
       top: Math.random() * 100 + '%',
@@ -67,7 +73,32 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
       duration: Math.random() * 20 + 20,
       delay: Math.random() * 10,
     }));
-  }, []);
+    setCosmicDust(dust);
+
+    // Generate meteor data
+    const meteors = [...Array(8)].map((_, i) => {
+      const isComet = i < 2;
+      const meteorColors = ['#ffffff', 'hsl(var(--electric-blue))', 'hsl(var(--cosmic-orange))', '#b3d9ff'];
+      const color = isComet ? 'hsl(var(--electric-blue) / 0.8)' : meteorColors[i % meteorColors.length];
+      const duration = isComet ? 3 + Math.random() * 2 : 0.6 + Math.random() * 0.8;
+      const delay = Math.random() * 30 + i * 5;
+      const size = isComet ? 300 + Math.random() * 200 : 100 + Math.random() * 100;
+      
+      return {
+        id: `celestial-${i}`,
+        isComet,
+        color,
+        duration,
+        delay,
+        size,
+        left: Math.random() * 100 + '%',
+        top: Math.random() * 80 + '%',
+        rotate: -25 - Math.random() * 20,
+        repeatDelay: Math.random() * 20 + 15,
+      };
+    });
+    setMeteorData(meteors);
+  }, [count]);
 
   const nebulae = useMemo(() => {
     return [
@@ -201,58 +232,47 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         />
       ))}
       
-      {/* Upgraded Meteor Showers & Comets System */}
-      {mounted && [...Array(8)].map((_, i) => {
-        const isComet = i < 2;
-        const colors = ['#ffffff', 'hsl(var(--electric-blue))', 'hsl(var(--cosmic-orange))', '#b3d9ff'];
-        const color = isComet ? 'hsl(var(--electric-blue) / 0.8)' : colors[i % colors.length];
-        
-        // Comets are slower and larger
-        const duration = isComet ? 3 + Math.random() * 2 : 0.6 + Math.random() * 0.8;
-        const delay = Math.random() * 30 + i * 5;
-        const size = isComet ? 300 + Math.random() * 200 : 100 + Math.random() * 100;
-        
-        return (
+        {/* Upgraded Meteor Showers & Comets System */}
+        {mounted && meteorData.map((meteor) => (
           <motion.div
-            key={`celestial-${i}`}
+            key={meteor.id}
             className="absolute h-[1.5px] blur-[0.5px]"
             style={{
-              width: `${size}px`,
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 80 + '%',
-              transform: `rotate(${-25 - Math.random() * 20}deg)`,
-              background: isComet 
-                ? `linear-gradient(90deg, transparent 0%, ${color} 80%, white 100%)`
-                : `linear-gradient(90deg, transparent 0%, ${color} 50%, transparent 100%)`,
-              boxShadow: isComet ? `0 0 20px ${color}` : `0 0 10px ${color}`,
-              zIndex: isComet ? 1 : 0,
+              width: `${meteor.size}px`,
+              left: meteor.left,
+              top: meteor.top,
+              transform: `rotate(${meteor.rotate}deg)`,
+              background: meteor.isComet 
+                ? `linear-gradient(90deg, transparent 0%, ${meteor.color} 80%, white 100%)`
+                : `linear-gradient(90deg, transparent 0%, ${meteor.color} 50%, transparent 100%)`,
+              boxShadow: meteor.isComet ? `0 0 20px ${meteor.color}` : `0 0 10px ${meteor.color}`,
+              zIndex: meteor.isComet ? 1 : 0,
             }}
             animate={{
               x: [0, -1000],
               y: [0, 500],
               opacity: [0, 1, 1, 0],
-              scaleX: isComet ? [0, 1, 1, 0.5] : [0, 2, 0],
+              scaleX: meteor.isComet ? [0, 1, 1, 0.5] : [0, 2, 0],
             }}
             transition={{
-              duration: duration,
+              duration: meteor.duration,
               repeat: Infinity,
-              repeatDelay: Math.random() * 20 + 15,
-              delay: delay,
-              ease: isComet ? "linear" : "easeOut"
+              repeatDelay: meteor.repeatDelay,
+              delay: meteor.delay,
+              ease: meteor.isComet ? "linear" : "easeOut"
             }}
           >
             {/* Comet Head Glow */}
-            {isComet && (
+            {meteor.isComet && (
               <motion.div 
                 className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white"
-                style={{ boxShadow: `0 0 15px 5px ${color}` }}
+                style={{ boxShadow: `0 0 15px 5px ${meteor.color}` }}
                 animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: 0.2, repeat: Infinity }}
               />
             )}
           </motion.div>
-        );
-      })}
+        ))}
     </div>
   );
 };
