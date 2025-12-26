@@ -34,8 +34,6 @@ import { InternshipCareerRoadmap } from '../components/CareerRoadmap';
 import { BlackHoleNewsletter } from '../components/BlackHoleNewsletter';
 import { SpaceAudio } from '../components/SpaceAudio';
 import { StardustCursor } from '@/components/StardustCursor';
-import { HolographicStatus } from '@/components/HolographicStatus';
-import { ScrollRocket } from '@/components/ScrollRocket';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
@@ -97,8 +95,6 @@ const Index = () => {
     <HelmetProvider>
       <SEO />
       <StardustCursor />
-      <HolographicStatus />
-      <ScrollRocket />
       
       <div className="relative min-h-screen bg-background overflow-x-hidden">
         {/* Star field background */}
