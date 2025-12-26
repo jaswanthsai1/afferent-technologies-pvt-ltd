@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ShieldCheck, Rocket, Info } from 'lucide-react';
+import { ShieldCheck, Lock, Info } from 'lucide-react';
 
 interface IntroVideoProps {
   onEnter: () => void;
