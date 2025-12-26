@@ -34,7 +34,7 @@ export const SpaceAudio = () => {
     <div className="fixed bottom-8 left-8 z-50">
       <audio
         ref={audioRef}
-        src="https://cdn.pixabay.com/audio/2022/03/24/audio_91854614c9.mp3"
+        src="https://archive.org/download/interstellar-soundtrack/02%20-%20Cornfield%20Chase.mp3"
         loop
         preload="auto"
       />
