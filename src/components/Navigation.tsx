@@ -31,9 +31,9 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6 }}
-      className="fixed top-6 left-1/2 -translate-x-1/2 z-40"
+      className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] sm:w-auto"
     >
-      <div className="flex items-center gap-2 px-4 py-3 rounded-full bg-background/40 backdrop-blur-xl border border-border/30">
+      <div className="flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-2 md:py-3 rounded-full bg-background/40 backdrop-blur-xl border border-border/30 overflow-x-auto no-scrollbar">
         {navItems.map((item, index) => {
           const Icon = item.icon;
           const isExternal = !!item.href;

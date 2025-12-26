@@ -148,31 +148,31 @@ const Index = () => {
 
 
                 {/* Hero / Home Section */}
-                <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
+                <section id="home" className="min-h-screen flex items-center justify-center relative pt-24 pb-12">
                   <div className="container mx-auto px-4 text-center">
                     <motion.div
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: 0.5 }}
                     >
-                      <div className="mb-8 flex justify-center">
+                      <div className="mb-6 md:mb-8 flex justify-center">
                         <motion.img 
                           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/now-1-1766777372055.jpeg?width=8000&height=8000&resize=contain" 
                           alt="Afferent Technologies" 
-                          className="max-w-full h-auto max-h-[400px] md:max-h-[600px] object-contain mix-blend-screen contrast-125 brightness-110"
+                          className="max-w-full h-auto max-h-[300px] md:max-h-[600px] object-contain mix-blend-screen contrast-125 brightness-110"
                           initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1.15 }}
+                          animate={{ opacity: 1, scale: 1.1 }}
                           transition={{ duration: 1.5, ease: "easeOut" }}
                         />
                       </div>
 
-                    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+                    <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-4">
                       Afferent Technologies Pvt Ltd empowers the next generation with cutting-edge 
                       internships, innovative projects, and world-class IT solutions.
                     </p>
 
                     <motion.div
-                      className="flex flex-col sm:flex-row gap-4 justify-center"
+                      className="flex flex-col sm:flex-row gap-4 justify-center px-4"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 1 }}
@@ -181,12 +181,12 @@ const Index = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleNavigate('internships')}
-                        className="group relative px-8 py-4 rounded-full font-display font-bold tracking-wider overflow-hidden"
+                        className="group relative px-6 md:px-8 py-3 md:py-4 rounded-full font-display font-bold tracking-wider overflow-hidden"
                       >
                         <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange" />
                         <div className="absolute inset-[2px] bg-background rounded-full" />
-                        <span className="relative z-10 flex items-center gap-2 text-gradient-primary group-hover:text-gradient-secondary transition-all">
-                          <Rocket className="w-5 h-5 text-electric-blue group-hover:text-cosmic-orange" />
+                        <span className="relative z-10 flex items-center justify-center gap-2 text-gradient-primary group-hover:text-gradient-secondary transition-all">
+                          <Rocket className="w-4 h-4 md:w-5 md:h-5 text-electric-blue group-hover:text-cosmic-orange" />
                           Start Your Journey
                         </span>
                       </motion.button>
@@ -195,10 +195,10 @@ const Index = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleNavigate('about')}
-                        className="px-8 py-4 rounded-full font-display font-bold tracking-wider bg-muted/50 border border-border/50 hover:border-electric-blue/50 transition-colors"
+                        className="px-6 md:px-8 py-3 md:py-4 rounded-full font-display font-bold tracking-wider bg-muted/50 border border-border/50 hover:border-electric-blue/50 transition-colors"
                       >
-                        <span className="flex items-center gap-2 text-foreground">
-                          <Users className="w-5 h-5" />
+                        <span className="flex items-center justify-center gap-2 text-foreground">
+                          <Users className="w-4 h-4 md:w-5 md:h-5" />
                           Learn More
                         </span>
                       </motion.button>
@@ -215,31 +215,28 @@ const Index = () => {
                 subtitle="Pioneering Technology Education & Solutions"
                 planetPosition="right"
               >
-                  <div className="space-card p-8">
+                  <div className="space-card p-6 md:p-8">
                     <div className="flex flex-col lg:flex-row gap-8">
                       <div className="flex-1">
                         <div className="flex items-start gap-4 mb-6">
-                          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-planet-mars/30 to-cosmic-orange/20 flex items-center justify-center">
-                            <Award className="w-8 h-8 text-cosmic-orange" />
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-planet-mars/30 to-cosmic-orange/20 flex items-center justify-center shrink-0">
+                            <Award className="w-6 h-6 md:w-8 md:h-8 text-cosmic-orange" />
                           </div>
                           <div>
-                            <h3 className="font-display text-xl font-bold text-foreground mb-1">
+                            <h3 className="font-display text-lg md:text-xl font-bold text-foreground mb-1 leading-tight">
                               Founded by Annem Akhila
                             </h3>
-                            <p className="text-sm text-muted-foreground">Visionary Leader & Technology Innovator</p>
+                            <p className="text-xs md:text-sm text-muted-foreground">Visionary Leader & Technology Innovator</p>
                           </div>
                         </div>
 
-                        <p className="text-muted-foreground leading-relaxed mb-6">
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
                           Afferent Technologies Pvt Ltd is a leading technology company dedicated to bridging 
-                          the gap between academic knowledge and industry expertise. We provide comprehensive 
-                          internship programs, innovative project solutions, and cutting-edge IT services that 
-                          prepare students and businesses for the future of technology.
+                          the gap between academic knowledge and industry expertise.
                         </p>
 
-                        <p className="text-muted-foreground leading-relaxed mb-6">
-                          Our mission is to empower individuals with practical skills in emerging technologies 
-                          including Artificial Intelligence, Cybersecurity, Data Science, IoT, and Robotics. 
+                        <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                          Our mission is to empower individuals with practical skills in emerging technologies.
                         </p>
                       </div>
 
@@ -248,19 +245,19 @@ const Index = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 pt-6 mt-6 border-t border-border/30">
+                    <div className="grid grid-cols-3 gap-2 md:gap-4 pt-6 mt-6 border-t border-border/30">
 
                     <div className="text-center">
-                      <div className="font-display text-3xl font-black text-gradient-primary">500+</div>
-                      <div className="text-xs text-muted-foreground uppercase tracking-wider">Interns Trained</div>
+                      <div className="font-display text-xl md:text-3xl font-black text-gradient-primary">500+</div>
+                      <div className="text-[8px] md:text-xs text-muted-foreground uppercase tracking-wider">Interns</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-display text-3xl font-black text-gradient-secondary">100+</div>
-                      <div className="text-xs text-muted-foreground uppercase tracking-wider">Projects Delivered</div>
+                      <div className="font-display text-xl md:text-3xl font-black text-gradient-secondary">100+</div>
+                      <div className="text-[8px] md:text-xs text-muted-foreground uppercase tracking-wider">Projects</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-display text-3xl font-black text-gradient-primary">50+</div>
-                      <div className="text-xs text-muted-foreground uppercase tracking-wider">Happy Clients</div>
+                      <div className="font-display text-xl md:text-3xl font-black text-gradient-primary">50+</div>
+                      <div className="text-[8px] md:text-xs text-muted-foreground uppercase tracking-wider">Clients</div>
                       </div>
                     </div>
                   </div>
@@ -297,23 +294,21 @@ const Index = () => {
                 <PlanetSection
                   id="projects"
                   planetName="Jupiter"
-                  title="FINAL YEAR PROJECTS"
-                  subtitle="Industry-Ready Project Solutions"
+                  title="PROJECTS"
+                  subtitle="Industry-Ready Solutions"
                   planetPosition="right"
                   planetSize={550}
                 >
-                <div className="space-card p-8">
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    Get comprehensive support for your final year projects across multiple domains. 
-                    Our expert team guides you through conceptualization, implementation, and documentation 
-                    to ensure your project stands out.
+                <div className="space-card p-6 md:p-8">
+                  <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                    Get comprehensive support for your final year projects across multiple domains.
                   </p>
 
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                       {['AI & ML', 'Cybersecurity', 'Data Science', 'IoT', 'CSE & Software', 'Robotics'].map((domain) => (
                         <div
                           key={domain}
-                          className="px-4 py-3 rounded-xl bg-muted/30 border border-border/30 text-center font-display text-sm tracking-wider glow-interactive"
+                          className="px-3 md:px-4 py-2 md:py-3 rounded-xl bg-muted/30 border border-border/30 text-center font-display text-[10px] md:text-sm tracking-wider glow-interactive"
                         >
                           {domain}
                         </div>

@@ -55,7 +55,7 @@ export const CelestialTeamMap = () => {
   const [selected, setSelected] = useState<TeamMember | null>(null);
 
   return (
-    <div className="relative w-full h-[400px] bg-muted/10 rounded-3xl border border-border/30 overflow-hidden group">
+    <div className="relative w-full h-[300px] md:h-[400px] bg-muted/10 rounded-2xl md:rounded-3xl border border-border/30 overflow-hidden group">
       {/* Background Star Lines (Constellation) */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
         <line x1="50%" y1="40%" x2="30%" y2="60%" stroke="white" strokeWidth="1" strokeDasharray="4 4" />
@@ -82,14 +82,14 @@ export const CelestialTeamMap = () => {
             />
             {/* Planet Body */}
             <div 
-              className="relative w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center bg-background shadow-lg"
+              className="relative w-8 h-8 md:w-12 md:h-12 rounded-full border-2 border-white/20 flex items-center justify-center bg-background shadow-lg"
               style={{ borderColor: member.color }}
             >
-              <member.icon className="w-6 h-6" style={{ color: member.color }} />
+              <member.icon className="w-4 h-4 md:w-6 md:h-6" style={{ color: member.color }} />
             </div>
             
             {/* Label */}
-            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-display font-bold tracking-widest uppercase text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] md:text-[10px] font-display font-bold tracking-widest uppercase text-muted-foreground opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
               {member.name}
             </div>
           </div>
@@ -103,35 +103,35 @@ export const CelestialTeamMap = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-6 left-6 right-6 p-6 space-card border-electric-blue/30 z-20"
+            className="absolute bottom-2 left-2 right-2 md:bottom-6 md:left-6 md:right-6 p-4 md:p-6 space-card border-electric-blue/30 z-20"
           >
             <button 
               onClick={() => setSelected(null)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+              className="absolute top-2 right-2 md:top-4 md:right-4 text-muted-foreground hover:text-foreground p-1"
             >
               ✕
             </button>
-            <div className="flex items-center gap-4 mb-3">
+            <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
               <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center border border-white/10"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border border-white/10"
                 style={{ backgroundColor: `${selected.color}22` }}
               >
-                <selected.icon className="w-5 h-5" style={{ color: selected.color }} />
+                <selected.icon className="w-4 h-4 md:w-5 md:h-5" style={{ color: selected.color }} />
               </div>
               <div>
-                <h4 className="font-display font-bold text-lg leading-none">{selected.name}</h4>
-                <p className="text-xs text-electric-blue uppercase tracking-widest mt-1">{selected.role}</p>
+                <h4 className="font-display font-bold text-base md:text-lg leading-none">{selected.name}</h4>
+                <p className="text-[10px] md:text-xs text-electric-blue uppercase tracking-widest mt-1">{selected.role}</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
               {selected.bio}
             </p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="absolute top-4 left-6 text-[10px] font-display tracking-[0.2em] text-muted-foreground/50 uppercase">
-        Click a celestial node to explore our team
+      <div className="absolute top-2 left-4 md:top-4 md:left-6 text-[8px] md:text-[10px] font-display tracking-[0.2em] text-muted-foreground/50 uppercase">
+        Explore our team
       </div>
     </div>
   );

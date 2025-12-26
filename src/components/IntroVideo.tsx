@@ -124,41 +124,41 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                 {/* Glowing border effect */}
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-electric-blue via-cosmic-orange to-electric-blue opacity-75 blur-lg animate-pulse" />
                 
-                <div className="relative space-card px-12 py-10 text-center">
-                  {/* Decorative corner accents */}
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-electric-blue rounded-tl-lg" />
-                  <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-cosmic-orange rounded-tr-lg" />
-                  <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-cosmic-orange rounded-bl-lg" />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-electric-blue rounded-br-lg" />
+                  <div className="relative space-card px-6 md:px-12 py-8 md:py-10 text-center mx-4">
+                    {/* Decorative corner accents */}
+                    <div className="absolute top-0 left-0 w-6 md:w-8 h-6 md:h-8 border-t-2 border-l-2 border-electric-blue rounded-tl-lg" />
+                    <div className="absolute top-0 right-0 w-6 md:w-8 h-6 md:h-8 border-t-2 border-r-2 border-cosmic-orange rounded-tr-lg" />
+                    <div className="absolute bottom-0 left-0 w-6 md:w-8 h-6 md:h-8 border-b-2 border-l-2 border-cosmic-orange rounded-bl-lg" />
+                    <div className="absolute bottom-0 right-0 w-6 md:w-8 h-6 md:h-8 border-b-2 border-r-2 border-electric-blue rounded-br-lg" />
 
-                  <motion.h2
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="font-display text-2xl md:text-4xl font-bold text-foreground mb-2"
-                  >
-                    ARE YOU READY FOR A
-                  </motion.h2>
-                  <motion.h2
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="font-display text-3xl md:text-5xl font-black mb-8"
-                  >
-                    <span className="text-gradient-primary">SMALL</span>{' '}
-                    <span className="text-gradient-secondary">ADVENTURE</span>
-                    <span className="text-foreground">?</span>
-                  </motion.h2>
-
-                    <motion.button
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleEnterClick}
-                      className="group relative px-12 py-4 font-display text-xl font-bold uppercase tracking-widest overflow-hidden rounded-full"
+                    <motion.h2
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="font-display text-xl md:text-4xl font-bold text-foreground mb-2"
                     >
+                      ARE YOU READY FOR A
+                    </motion.h2>
+                    <motion.h2
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                      className="font-display text-2xl md:text-5xl font-black mb-8"
+                    >
+                      <span className="text-gradient-primary">SMALL</span>{' '}
+                      <span className="text-gradient-secondary">ADVENTURE</span>
+                      <span className="text-foreground">?</span>
+                    </motion.h2>
+
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleEnterClick}
+                        className="group relative px-8 md:px-12 py-3 md:py-4 font-display text-lg md:text-xl font-bold uppercase tracking-widest overflow-hidden rounded-full"
+                      >
                       {/* Button background */}
                       <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full" />
                       <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />

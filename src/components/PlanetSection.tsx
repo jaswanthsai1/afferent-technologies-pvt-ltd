@@ -22,27 +22,41 @@ const PlanetSection = ({
   planetPosition = 'right',
 }: PlanetSectionProps) => {
   const planetStyle = getPlanetStyle(planetName);
-  const positionClasses = {
-    left: '-left-32 top-1/2 -translate-y-1/2',
-    right: '-right-32 top-1/2 -translate-y-1/2',
-    center: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-  };
+    const positionClasses = {
+      left: '-left-48 md:-left-32 top-1/2 -translate-y-1/2',
+      right: '-right-48 md:-right-32 top-1/2 -translate-y-1/2',
+      center: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+    };
 
-  return (
-    <section
-      id={id}
-      className="planet-section min-h-screen relative py-20 md:py-32"
-    >
-      {/* Planet Background */}
-      <motion.div
-        className={`absolute ${positionClasses[planetPosition]} pointer-events-none`}
-        initial={{ opacity: 0, scale: 0.5 }}
-        whileInView={{ opacity: 0.6, scale: 1 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
-        viewport={{ once: false, amount: 0.3 }}
-        style={{ width: planetSize, height: planetSize }}
+    const mobileSize = planetSize * 0.7;
+
+    return (
+      <section
+        id={id}
+        className="planet-section min-h-screen relative py-16 md:py-32 overflow-hidden"
       >
-        {/* Planet glow */}
+        {/* Planet Background */}
+        <motion.div
+          className={`absolute ${positionClasses[planetPosition]} pointer-events-none`}
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 0.4, scale: 1 }}
+          transition={{ duration: 1.5, ease: 'easeOut' }}
+          viewport={{ once: false, amount: 0.3 }}
+          style={{ width: 'var(--planet-width)', height: 'var(--planet-height)' }}
+        >
+          <style dangerouslySetInnerHTML={{ __html: `
+            #${id} .pointer-events-none {
+              --planet-width: ${mobileSize}px;
+              --planet-height: ${mobileSize}px;
+            }
+            @media (min-width: 768px) {
+              #${id} .pointer-events-none {
+                --planet-width: ${planetSize}px;
+                --planet-height: ${planetSize}px;
+              }
+            }
+          `}} />
+          {/* Planet glow */}
         <div
           className="absolute inset-0 rounded-full blur-3xl"
           style={{
