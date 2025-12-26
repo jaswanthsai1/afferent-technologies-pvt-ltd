@@ -9,6 +9,11 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const [cloudsCleared, setCloudsCleared] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Create different star layers for parallax effect
   const layer1Y = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -103,7 +108,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
 
       {/* Realistic Nebulae */}
       <AnimatePresence>
-        {!cloudsCleared && nebulae.map((nebula, i) => (
+        {mounted && !cloudsCleared && nebulae.map((nebula, i) => (
           <motion.div
             key={`nebula-${i}`}
             className="absolute rounded-full blur-[120px]"
@@ -138,7 +143,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
 
       {/* Galactic Core Glow */}
       <AnimatePresence>
-        {!cloudsCleared && (
+        {mounted && !cloudsCleared && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
@@ -153,25 +158,25 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
 
       {/* Star Layers */}
       <motion.div style={{ y: layer1Y }} className="absolute inset-0">
-        {starLayers[0].map((star) => (
+        {mounted && starLayers[0].map((star) => (
           <StarItem key={star.id} {...star} />
         ))}
       </motion.div>
 
       <motion.div style={{ y: layer2Y }} className="absolute inset-0">
-        {starLayers[1].map((star) => (
+        {mounted && starLayers[1].map((star) => (
           <StarItem key={star.id} {...star} />
         ))}
       </motion.div>
 
       <motion.div style={{ y: layer3Y }} className="absolute inset-0">
-        {starLayers[2].map((star) => (
+        {mounted && starLayers[2].map((star) => (
           <StarItem key={star.id} {...star} />
         ))}
       </motion.div>
 
       {/* Cosmic Dust Particles */}
-      {cosmicDust.map((dust) => (
+      {mounted && cosmicDust.map((dust) => (
         <motion.div
           key={dust.id}
           className="absolute rounded-full bg-white blur-[1px]"
@@ -197,7 +202,7 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
       ))}
       
       {/* Upgraded Meteor Showers & Comets System */}
-      {[...Array(8)].map((_, i) => {
+      {mounted && [...Array(8)].map((_, i) => {
         const isComet = i < 2;
         const colors = ['#ffffff', 'hsl(var(--electric-blue))', 'hsl(var(--cosmic-orange))', '#b3d9ff'];
         const color = isComet ? 'hsl(var(--electric-blue) / 0.8)' : colors[i % colors.length];

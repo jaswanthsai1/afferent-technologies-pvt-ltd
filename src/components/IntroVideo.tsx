@@ -23,11 +23,20 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   const [isExiting, setIsExiting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isWarping, setIsWarping] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const video = videoRef.current;
     if (video) {
       video.play().catch(console.error);
+      
+      const handleCanPlay = () => {
+        setIsVideoReady(true);
+      };
+
+      video.addEventListener('canplay', handleCanPlay);
       
       const handleTimeUpdate = () => {
         // Show prompt near the end of video or after 5 seconds
@@ -47,6 +56,7 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
       const timer = setTimeout(() => setShowPrompt(true), 5000);
 
       return () => {
+        video.removeEventListener('canplay', handleCanPlay);
         video.removeEventListener('timeupdate', handleTimeUpdate);
         video.removeEventListener('ended', handleEnded);
         clearTimeout(timer);
@@ -75,29 +85,35 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
       <WarpSpeed active={isWarping} onComplete={handleWarpComplete} />
       
       <AnimatePresence>
-        <motion.div
-          className="fixed inset-0 z-50 bg-background overflow-hidden"
-          initial={{ y: 0 }}
-          animate={isExiting ? { y: '100%', scale: 0.9 } : { y: 0 }}
-          transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-        >
-          {/* Video Background */}
-          <video
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            muted
-            playsInline
-            loop={false}
+          <motion.div
+            className="fixed inset-0 z-50 bg-background overflow-hidden"
+            initial={{ y: 0 }}
+            animate={isExiting ? { y: '100%', scale: 0.9 } : { y: 0 }}
+            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
           >
-            <source src="/intro-video.mp4" type="video/mp4" />
-          </video>
+            {/* Video Background */}
+            {mounted && (
+              <motion.video
+                ref={videoRef}
+                className="absolute inset-0 w-full h-full object-cover"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isVideoReady ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+                muted
+                playsInline
+                loop={false}
+              >
+                <source src="/intro-video.mp4" type="video/mp4" />
+              </motion.video>
+            )}
+
 
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
 
         {/* Stars background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(50)].map((_, i) => (
+          {mounted && [...Array(50)].map((_, i) => (
             <div
               key={i}
               className="star"
@@ -235,7 +251,7 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
 
               {/* Floating particles */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {[...Array(20)].map((_, i) => (
+                {mounted && [...Array(20)].map((_, i) => (
                   <motion.div
                     key={i}
                     className="absolute w-1 h-1 rounded-full"

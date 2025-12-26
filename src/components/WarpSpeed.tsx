@@ -8,6 +8,11 @@ interface WarpSpeedProps {
 
 export const WarpSpeed: React.FC<WarpSpeedProps> = ({ active, onComplete }) => {
   const [show, setShow] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (active) {
@@ -32,7 +37,7 @@ export const WarpSpeed: React.FC<WarpSpeedProps> = ({ active, onComplete }) => {
           className="fixed inset-0 z-[10000] bg-black overflow-hidden pointer-events-none"
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            {lines.map((_, i) => {
+            {mounted && lines.map((_, i) => {
               const angle = (i / lines.length) * Math.PI * 2;
               const x = Math.cos(angle) * 100;
               const y = Math.sin(angle) * 100;
