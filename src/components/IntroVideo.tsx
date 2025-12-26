@@ -258,8 +258,66 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
               <ShieldCheck className="w-6 h-6 text-electric-blue" />
               MISSION AUTHORIZATION
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-muted-foreground text-lg py-4">
-              You are about to enter the Afferent Universe. Please authorize the mission.
+            <AlertDialogDescription className="text-muted-foreground text-sm sm:text-base py-4 space-y-4">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between text-electric-blue font-mono text-[10px] tracking-tighter">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-electric-blue animate-pulse" />
+                    ENCRYPTION: AES-256-GCM
+                  </div>
+                  <div className="flex items-center gap-2 text-cosmic-orange">
+                    SIGNAL: STABLE [99.9%]
+                  </div>
+                </div>
+
+                <p className="leading-relaxed text-xs sm:text-sm">
+                  Identity verified. You are about to initiate the cosmic journey into the <span className="text-foreground font-bold italic">Afferent Universe</span>. 
+                  Authorization grants access to secure neural pathways and proprietary technology assets.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 py-3 border-y border-border/20">
+                  <div className="space-y-1">
+                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Command Unit</span>
+                    <span className="block font-mono text-[11px] text-cosmic-orange">AFFERENT-NAV-V2</span>
+                  </div>
+                  <div className="space-y-1 text-right">
+                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Session Token</span>
+                    <span className="block font-mono text-[11px] text-cosmic-orange truncate">AUTH_0X7F2B...</span>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Vessel Vitals</span>
+                    <span className="block font-mono text-[11px] text-electric-blue">NOMINAL</span>
+                  </div>
+                  <div className="space-y-1 text-right">
+                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">ETA to Future</span>
+                    <span className="block font-mono text-[11px] text-electric-blue">Q1-2026</span>
+                  </div>
+                </div>
+
+                <div className="bg-muted/30 p-3 rounded-md border border-border/10">
+                  <div className="flex items-start gap-2">
+                    <Info className="w-3.5 h-3.5 text-electric-blue mt-0.5 shrink-0" />
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-foreground/90 uppercase tracking-tight">Pre-Flight Protocol</p>
+                      <p className="text-[10px] leading-tight opacity-70">
+                        Sensory immersion engaged. Biometric feedback active. Real-time telemetry will be logged for mission analysis.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 pt-1">
+                  <div className="h-1 flex-1 bg-muted/20 rounded-full overflow-hidden">
+                    <motion.div 
+                      className="h-full bg-electric-blue"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  </div>
+                  <span className="text-[9px] font-mono text-muted-foreground animate-pulse">PREPARING INTERFACE...</span>
+                </div>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
