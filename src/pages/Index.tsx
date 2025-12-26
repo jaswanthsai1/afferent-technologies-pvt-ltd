@@ -95,7 +95,7 @@ const Index = () => {
         <StarField count={200} />
 
         {/* Persistent Audio - Starts as early as possible */}
-        <SpaceAudio showControls={phase === 'main'} />
+        <SpaceAudio showControls={true} />
 
         {/* Intro Video Phase */}
         <AnimatePresence>

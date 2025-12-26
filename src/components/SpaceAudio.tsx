@@ -68,7 +68,7 @@ import { motion, AnimatePresence } from 'framer-motion';
     }, []);
 
     return (
-      <div className="fixed bottom-8 left-8 z-50">
+      <div className="fixed bottom-8 left-8 z-[100]">
         <audio
           ref={audioRef}
           src="/cornfield-chase.mp3"
