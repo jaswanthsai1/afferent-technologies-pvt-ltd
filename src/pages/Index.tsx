@@ -33,7 +33,7 @@ import { MissionTrajectory } from '../components/MissionTrajectory';
 import { InternshipCareerRoadmap } from '../components/CareerRoadmap';
 import { BlackHoleNewsletter } from '../components/BlackHoleNewsletter';
 import { SpaceAudio } from '../components/SpaceAudio';
-import { StardustCursor } from '@/components/StardustCursor';
+import { StardustCursor } from '../components/StardustCursor';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 

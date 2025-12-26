@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { getPlanetStyle } from '../lib/planet-styles';
 
 interface PlanetSectionProps {
