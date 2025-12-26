@@ -33,7 +33,7 @@ export const MissionTrajectory = () => {
       <div className="space-y-24 relative">
         {milestones.map((milestone, index) => (
           <motion.div
-            key={milestone.year}
+            key={`${milestone.year}-${milestone.title}`}
             initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}

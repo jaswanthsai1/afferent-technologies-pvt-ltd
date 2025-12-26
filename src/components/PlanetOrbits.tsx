@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
+import { getPlanetStyle } from '@/lib/planet-styles';
 
 interface PlanetOrbitsProps {
   onPlanetClick: (sectionId: string) => void;
 }
 
 const planets = [
-  { id: 'about', name: 'Mars', color: 'hsl(var(--mars))', size: 60, orbitRadius: 150, speed: 20 },
-  { id: 'internships', name: 'Saturn', color: 'hsl(var(--saturn))', size: 80, orbitRadius: 220, speed: 30 },
-  { id: 'projects', name: 'Jupiter', color: 'hsl(var(--jupiter))', size: 90, orbitRadius: 300, speed: 40 },
-  { id: 'it-projects', name: 'Neptune', color: 'hsl(var(--neptune))', size: 55, orbitRadius: 380, speed: 50 },
-  { id: 'web-dev', name: 'Venus', color: 'hsl(var(--venus))', size: 50, orbitRadius: 450, speed: 25 },
-  { id: 'app-dev', name: 'Mercury', color: 'hsl(var(--mercury))', size: 40, orbitRadius: 520, speed: 15 },
-  { id: 'automation', name: 'Uranus', color: 'hsl(var(--uranus))', size: 65, orbitRadius: 590, speed: 45 },
-  { id: 'contact', name: 'Earth', color: 'hsl(var(--earth))', size: 55, orbitRadius: 660, speed: 35 },
+  { id: 'about', name: 'Mars', size: 60, orbitRadius: 150, speed: 20 },
+  { id: 'internships', name: 'Saturn', size: 80, orbitRadius: 220, speed: 30 },
+  { id: 'projects', name: 'Jupiter', size: 90, orbitRadius: 300, speed: 40 },
+  { id: 'it-projects', name: 'Neptune', size: 55, orbitRadius: 380, speed: 50 },
+  { id: 'web-dev', name: 'Venus', size: 50, orbitRadius: 450, speed: 25 },
+  { id: 'app-dev', name: 'Mercury', size: 40, orbitRadius: 520, speed: 15 },
+  { id: 'automation', name: 'Uranus', size: 65, orbitRadius: 590, speed: 45 },
+  { id: 'contact', name: 'Earth', size: 55, orbitRadius: 660, speed: 35 },
 ];
 
 const PlanetOrbits = ({ onPlanetClick }: PlanetOrbitsProps) => {
@@ -72,24 +73,30 @@ const PlanetOrbits = ({ onPlanetClick }: PlanetOrbitsProps) => {
                 ease: 'linear',
               }}
             >
-              {/* Planet glow */}
-              <div
-                className="absolute inset-0 rounded-full blur-lg opacity-50 group-hover:opacity-100 transition-opacity"
-                style={{ background: planet.color }}
-              />
-              
-              {/* Planet body */}
-              <div
-                className="absolute inset-0 rounded-full transition-shadow group-hover:shadow-lg"
-                style={{
-                  background: `radial-gradient(circle at 30% 30%, 
-                    ${planet.color}, 
-                    color-mix(in srgb, ${planet.color} 60%, black))`,
-                  boxShadow: `inset -5px -5px 15px rgba(0,0,0,0.5), inset 3px 3px 10px rgba(255,255,255,0.2)`,
-                }}
-              />
+                {/* Planet glow */}
+                <div
+                  className="absolute inset-0 rounded-full blur-lg opacity-50 group-hover:opacity-100 transition-opacity"
+                  style={{ background: getPlanetStyle(planet.name).background }}
+                />
+                
+                {/* Planet body */}
+                <div
+                  className="absolute inset-0 rounded-full transition-shadow group-hover:shadow-lg overflow-hidden"
+                  style={getPlanetStyle(planet.name)}
+                />
 
-              {/* Tooltip */}
+                {/* Rings for Saturn */}
+                {planet.name === 'Saturn' && (
+                  <div 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[40%] rounded-[100%] border-[4px] border-[#e4d3a2]/40"
+                    style={{ 
+                      transform: 'translate(-50%, -50%) rotate(-25deg)',
+                      boxShadow: '0 0 10px rgba(0,0,0,0.5)'
+                    }}
+                  />
+                )}
+
+                {/* Tooltip */}
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-background/90 backdrop-blur-sm border border-border/50 text-[10px] font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                 {planet.name}
               </div>

@@ -182,7 +182,6 @@ const Index = () => {
               <PlanetSection
                 id="about"
                 planetName="Mars"
-                planetColor="hsl(15, 80%, 45%)"
                 title="ABOUT US"
                 subtitle="Pioneering Technology Education & Solutions"
                 planetPosition="right"
@@ -241,16 +240,15 @@ const Index = () => {
                 <MissionTrajectory />
 
 
-              {/* Internships Section - Saturn */}
-              <PlanetSection
-                id="internships"
-                planetName="Saturn"
-                planetColor="hsl(40, 60%, 55%)"
-                title="INTERNSHIPS"
-                subtitle="Launch Your Career in Technology"
-                planetPosition="left"
-                planetSize={500}
-              >
+                {/* Internships Section - Saturn */}
+                <PlanetSection
+                  id="internships"
+                  planetName="Saturn"
+                  title="INTERNSHIPS"
+                  subtitle="Launch Your Career in Technology"
+                  planetPosition="left"
+                  planetSize={500}
+                >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {internshipDomains.map((domain, index) => (
                     <ServiceCard
@@ -264,16 +262,15 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* Projects Section - Jupiter */}
-              <PlanetSection
-                id="projects"
-                planetName="Jupiter"
-                planetColor="hsl(25, 50%, 50%)"
-                title="FINAL YEAR PROJECTS"
-                subtitle="Industry-Ready Project Solutions"
-                planetPosition="right"
-                planetSize={550}
-              >
+                {/* Projects Section - Jupiter */}
+                <PlanetSection
+                  id="projects"
+                  planetName="Jupiter"
+                  title="FINAL YEAR PROJECTS"
+                  subtitle="Industry-Ready Project Solutions"
+                  planetPosition="right"
+                  planetSize={550}
+                >
                 <div className="space-card p-8">
                   <p className="text-muted-foreground leading-relaxed mb-6">
                     Get comprehensive support for your final year projects across multiple domains. 
@@ -294,15 +291,14 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* IT Company Projects Section - Neptune */}
-              <PlanetSection
-                id="it-projects"
-                planetName="Neptune"
-                planetColor="hsl(210, 70%, 45%)"
-                title="IT COMPANY PROJECTS"
-                subtitle="Enterprise-Grade Solutions"
-                planetPosition="left"
-              >
+                {/* IT Company Projects Section - Neptune */}
+                <PlanetSection
+                  id="it-projects"
+                  planetName="Neptune"
+                  title="IT COMPANY PROJECTS"
+                  subtitle="Enterprise-Grade Solutions"
+                  planetPosition="left"
+                >
                 <div className="space-card p-8">
                   <p className="text-muted-foreground leading-relaxed mb-6">
                     We partner with companies to deliver custom IT solutions tailored to their specific 
@@ -321,15 +317,14 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* Web Development Section - Venus */}
-              <PlanetSection
-                id="web-dev"
-                planetName="Venus"
-                planetColor="hsl(45, 70%, 60%)"
-                title="WEB DEVELOPMENT"
-                subtitle="Stunning Digital Experiences"
-                planetPosition="right"
-              >
+                {/* Web Development Section - Venus */}
+                <PlanetSection
+                  id="web-dev"
+                  planetName="Venus"
+                  title="WEB DEVELOPMENT"
+                  subtitle="Stunning Digital Experiences"
+                  planetPosition="right"
+                >
                 <div className="space-card p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <Globe className="w-12 h-12 text-cosmic-orange" />
@@ -358,15 +353,14 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* App Development Section - Mercury */}
-              <PlanetSection
-                id="app-dev"
-                planetName="Mercury"
-                planetColor="hsl(30, 20%, 50%)"
-                title="APP DEVELOPMENT"
-                subtitle="Mobile Solutions for Modern World"
-                planetPosition="left"
-              >
+                {/* App Development Section - Mercury */}
+                <PlanetSection
+                  id="app-dev"
+                  planetName="Mercury"
+                  title="APP DEVELOPMENT"
+                  subtitle="Mobile Solutions for Modern World"
+                  planetPosition="left"
+                >
                 <div className="space-card p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <Smartphone className="w-12 h-12 text-electric-blue" />
@@ -395,15 +389,14 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* Automation Section - Uranus */}
-              <PlanetSection
-                id="automation"
-                planetName="Uranus"
-                planetColor="hsl(180, 60%, 50%)"
-                title="AUTOMATION"
-                subtitle="AI Agents & Intelligent Systems"
-                planetPosition="right"
-              >
+                {/* Automation Section - Uranus */}
+                <PlanetSection
+                  id="automation"
+                  planetName="Uranus"
+                  title="AUTOMATION"
+                  subtitle="AI Agents & Intelligent Systems"
+                  planetPosition="right"
+                >
                 <div className="space-card p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <Cpu className="w-12 h-12 text-electric-blue" />
@@ -430,15 +423,14 @@ const Index = () => {
                 </div>
               </PlanetSection>
 
-              {/* Contact Section - Earth */}
-              <PlanetSection
-                id="contact"
-                planetName="Earth"
-                planetColor="hsl(200, 70%, 45%)"
-                title="CONTACT US"
-                subtitle="Let's Build Something Amazing Together"
-                planetPosition="left"
-              >
+                {/* Contact Section - Earth */}
+                <PlanetSection
+                  id="contact"
+                  planetName="Earth"
+                  title="CONTACT US"
+                  subtitle="Let's Build Something Amazing Together"
+                  planetPosition="left"
+                >
                 <div className="space-card p-8">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">

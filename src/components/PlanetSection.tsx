@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
+import { getPlanetStyle } from '@/lib/planet-styles';
 
 interface PlanetSectionProps {
   id: string;
   planetName: string;
-  planetColor: string;
   title: string;
   subtitle?: string;
   children: ReactNode;
@@ -15,13 +15,13 @@ interface PlanetSectionProps {
 const PlanetSection = ({
   id,
   planetName,
-  planetColor,
   title,
   subtitle,
   children,
   planetSize = 400,
   planetPosition = 'right',
 }: PlanetSectionProps) => {
+  const planetStyle = getPlanetStyle(planetName);
   const positionClasses = {
     left: '-left-32 top-1/2 -translate-y-1/2',
     right: '-right-32 top-1/2 -translate-y-1/2',
@@ -46,73 +46,36 @@ const PlanetSection = ({
         <div
           className="absolute inset-0 rounded-full blur-3xl"
           style={{
-            background: `radial-gradient(circle, ${planetColor} 0%, transparent 70%)`,
+            background: `radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)`,
             opacity: 0.4,
           }}
         />
         
         {/* Planet body */}
         <motion.div
-          className="absolute inset-0 rounded-full overflow-hidden"
+          className="absolute inset-0 rounded-full overflow-hidden shadow-2xl"
           animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-          style={{
-            background: `
-              radial-gradient(circle at 30% 30%, 
-                ${planetColor} 0%, 
-                color-mix(in srgb, ${planetColor} 70%, black) 50%, 
-                color-mix(in srgb, ${planetColor} 40%, black) 100%)
-            `,
-            boxShadow: `
-              inset -30px -30px 60px rgba(0,0,0,0.6),
-              inset 20px 20px 40px rgba(255,255,255,0.1),
-              0 0 80px ${planetColor}40
-            `,
-          }}
+          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+          style={planetStyle}
         >
-          {/* Surface texture */}
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: `
-                radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0,0,0,0.3) 100%),
-                repeating-conic-gradient(from 0deg, transparent 0deg 10deg, rgba(255,255,255,0.05) 10deg 20deg)
-              `,
-            }}
-          />
-          
-          {/* Atmospheric glow */}
+          {/* Atmospheric glow overlay */}
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `radial-gradient(circle at 70% 30%, rgba(255,255,255,0.2) 0%, transparent 50%)`,
+              background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 60%)`,
             }}
           />
         </motion.div>
 
-        {/* Rings for Saturn-like effect */}
+        {/* Rings for Saturn */}
         {planetName === 'Saturn' && (
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: 'rotateX(75deg)' }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 100, repeat: Infinity, ease: 'linear' }}
-          >
-            <div
-              className="absolute rounded-full border-4 border-cosmic-orange/40"
-              style={{
-                width: planetSize * 1.6,
-                height: planetSize * 1.6,
-              }}
-            />
-            <div
-              className="absolute rounded-full border-2 border-cosmic-orange/20"
-              style={{
-                width: planetSize * 1.8,
-                height: planetSize * 1.8,
-              }}
-            />
-          </motion.div>
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[30%] rounded-[100%] border-[8px] border-[#e4d3a2]/30"
+            style={{ 
+              transform: 'translate(-50%, -50%) rotate(-15deg)',
+              boxShadow: '0 0 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.5)'
+            }}
+          />
         )}
       </motion.div>
 
@@ -135,7 +98,7 @@ const PlanetSection = ({
           >
             <div
               className="w-3 h-3 rounded-full animate-pulse"
-              style={{ background: planetColor }}
+              style={{ background: planetStyle.background }}
             />
             <span className="font-display text-sm tracking-[0.3em] uppercase text-muted-foreground">
               {planetName}
