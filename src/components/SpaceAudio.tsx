@@ -4,88 +4,41 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export const SpaceAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const nodesRef = useRef<{
-    osc1: OscillatorNode;
-    osc2: OscillatorNode;
-    gain: GainNode;
-    lfo: OscillatorNode;
-  } | null>(null);
-
-  const initAudio = () => {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
-    
-    // Deep hum oscillators
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    
-    osc1.type = 'sine';
-    osc1.frequency.setValueAtTime(55, ctx.currentTime); // A1
-    
-    osc2.type = 'triangle';
-    osc2.frequency.setValueAtTime(55.5, ctx.currentTime); // Slightly detuned
-    
-    // Filter for "muffled" space feel
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(200, ctx.currentTime);
-    filter.Q.setValueAtTime(10, ctx.currentTime);
-
-    // LFO for pulsing effect
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.frequency.setValueAtTime(0.2, ctx.currentTime); // 0.2Hz pulse
-    lfoGain.gain.setValueAtTime(0.3, ctx.currentTime);
-    
-    lfo.connect(lfoGain);
-    lfoGain.connect(gain.gain);
-
-    osc1.connect(filter);
-    osc2.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    
-    osc1.start();
-    osc2.start();
-    lfo.start();
-
-    audioContextRef.current = ctx;
-    nodesRef.current = { osc1, osc2, gain, lfo };
-  };
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleAudio = () => {
-    if (!audioContextRef.current) {
-      initAudio();
-    }
-
-    const { current: ctx } = audioContextRef;
-    const { gain } = nodesRef.current!;
-
-    if (isPlaying) {
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx!.currentTime + 1);
-      setTimeout(() => setIsPlaying(false), 1000);
-    } else {
-      if (ctx!.state === 'suspended') {
-        ctx!.resume();
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play().catch(err => {
+          console.error("Audio playback failed:", err);
+        });
+        setIsPlaying(true);
       }
-      gain.gain.exponentialRampToValueAtTime(0.1, ctx!.currentTime + 1);
-      setIsPlaying(true);
     }
   };
 
   useEffect(() => {
+    // Cleanup on unmount
     return () => {
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
     };
   }, []);
 
   return (
     <div className="fixed bottom-8 left-8 z-50">
+      <audio
+        ref={audioRef}
+        src="https://cdn.pixabay.com/audio/2022/03/24/audio_91854614c9.mp3"
+        loop
+        preload="auto"
+      />
+      
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -134,7 +87,7 @@ export const SpaceAudio = () => {
           animate={{ x: isPlaying ? 0 : -20, opacity: isPlaying ? 1 : 0 }}
           className="text-[10px] font-display font-bold tracking-[0.2em] text-electric-blue uppercase bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full border border-electric-blue/20"
         >
-          Cosmic Ambience
+          Cornfield Chase
         </motion.span>
       </div>
     </div>
