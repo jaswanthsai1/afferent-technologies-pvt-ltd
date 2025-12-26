@@ -238,7 +238,7 @@ const Index = () => {
                         </p>
 
                         <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
-                          Our mission is to empower individuals with practical skills in emerging technologies.
+                          Our mission is to provide authentic technology education and empower individuals with practical skills in emerging technologies.
                         </p>
                       </div>
 

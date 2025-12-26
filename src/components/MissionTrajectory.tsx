@@ -3,9 +3,9 @@ import { useRef } from 'react';
 
 const milestones = [
   { year: '2015', title: 'Founding', description: 'Afferent Technologies begins its voyage into the tech universe.' },
-  { year: '2026', title: 'Expansion', description: 'Launched comprehensive internship programs in 5 major domains.' },
-  { year: '2026', title: 'Innovation', description: 'Pioneered AI & Robotics solutions for industrial applications.' },
-  { year: '2026', title: 'Future', description: 'Expanding our cosmic footprint to global horizons.' },
+  { year: '2019', title: 'Expansion', description: 'Launched comprehensive internship programs in 5 major domains.' },
+  { year: '2022', title: 'Innovation', description: 'Pioneered AI & Robotics solutions for industrial applications.' },
+  { year: '2025', title: 'Future', description: 'Expanding our cosmic footprint to global horizons.' },
 ];
 
 export const MissionTrajectory = () => {
