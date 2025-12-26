@@ -6,21 +6,28 @@ export const SpaceAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().catch(err => {
-          console.error("Audio playback failed:", err);
-        });
-        setIsPlaying(true);
+    const toggleAudio = () => {
+      if (audioRef.current) {
+        if (isPlaying) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        } else {
+          audioRef.current.play().catch(err => {
+            console.error("Audio playback failed:", err);
+            setIsPlaying(false);
+          });
+          setIsPlaying(true);
+        }
       }
-    }
-  };
+    };
 
-  useEffect(() => {
+    const handleAudioError = (e: any) => {
+      console.error("Audio source failed to load:", e);
+      setIsPlaying(false);
+    };
+
+    useEffect(() => {
+
     // Cleanup on unmount
     return () => {
       if (audioRef.current) {
@@ -34,9 +41,10 @@ export const SpaceAudio = () => {
     <div className="fixed bottom-8 left-8 z-50">
       <audio
         ref={audioRef}
-        src="https://archive.org/download/interstellar-soundtrack/02%20-%20Cornfield%20Chase.mp3"
+        src="/cornfield-chase.mp3"
         loop
         preload="auto"
+        onError={handleAudioError}
       />
       
       <motion.button
