@@ -4,7 +4,7 @@ import { User, Shield, Code, Cpu } from 'lucide-react';
 
 interface TeamMember {
   id: string;
-  name: string;
+  name: string | JSX.Element;
   role: string;
   bio: string;
   icon: any;
@@ -34,10 +34,15 @@ const team: TeamMember[] = [
     y: 60,
     color: 'hsl(var(--electric-blue))',
   },
-    {
-      id: 'ops-lead',
-      name: 'MATURI JASWANTH SAI MADHU MOHAN',
-      role: 'Operations Head',
+      {
+        id: 'ops-lead',
+        name: (
+          <>
+            MATURI JASWANTH SAI<br />
+            MADHU MOHAN
+          </>
+        ),
+        role: 'Operations Head',
       bio: 'Expert in project management and operational efficiency, driving the successful delivery of our global projects.',
       icon: Cpu,
       x: 70,
