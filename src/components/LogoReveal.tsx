@@ -55,28 +55,30 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
           transition={{ duration: 2, repeat: Infinity }}
         />
 
-        {/* Earth representation with logo */}
-        <motion.div
-          className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden"
-          style={{
-            boxShadow: '0 0 60px hsl(var(--electric-blue) / 0.5), 0 0 120px hsl(var(--cosmic-orange) / 0.3)',
-          }}
-        >
-          <img
-            src={companyLogo}
-            alt="Afferent Technologies Logo"
-            className="w-full h-full object-cover"
-          />
-          
-          {/* Animated ring */}
+          {/* Earth representation with logo */}
           <motion.div
-            className="absolute inset-0 rounded-full"
+            className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden"
             style={{
-              border: '2px solid transparent',
-              borderImage: 'linear-gradient(135deg, hsl(var(--electric-blue)), hsl(var(--cosmic-orange))) 1',
+              boxShadow: '0 0 60px hsl(var(--electric-blue) / 0.5), 0 0 120px hsl(var(--cosmic-orange) / 0.3)',
             }}
-          />
-        </motion.div>
+          >
+            <img
+              src={companyLogo}
+              alt="Afferent Technologies Logo"
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Animated ring */}
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: '2px solid transparent',
+                borderImage: 'linear-gradient(135deg, hsl(var(--electric-blue)), hsl(var(--cosmic-orange))) 1',
+              }}
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+            />
+          </motion.div>
 
         {/* Orbit rings */}
         <motion.div
