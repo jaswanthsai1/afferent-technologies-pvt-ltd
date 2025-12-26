@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WarpSpeed } from './WarpSpeed';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +22,7 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isWarping, setIsWarping] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -58,6 +60,10 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
 
   const handleConfirm = () => {
     setShowConfirm(false);
+    setIsWarping(true);
+  };
+
+  const handleWarpComplete = () => {
     setIsExiting(true);
     setTimeout(() => {
       onEnter();
@@ -65,23 +71,26 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   };
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-50 bg-background overflow-hidden"
-        initial={{ y: 0 }}
-        animate={isExiting ? { y: '100%', scale: 0.9 } : { y: 0 }}
-        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-      >
-        {/* Video Background */}
-        <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
-          muted
-          playsInline
-          loop={false}
+    <>
+      <WarpSpeed active={isWarping} onComplete={handleWarpComplete} />
+      
+      <AnimatePresence>
+        <motion.div
+          className="fixed inset-0 z-50 bg-background overflow-hidden"
+          initial={{ y: 0 }}
+          animate={isExiting ? { y: '100%', scale: 0.9 } : { y: 0 }}
+          transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
         >
-          <source src="/intro-video.mp4" type="video/mp4" />
-        </video>
+          {/* Video Background */}
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            muted
+            playsInline
+            loop={false}
+          >
+            <source src="/intro-video.mp4" type="video/mp4" />
+          </video>
 
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
