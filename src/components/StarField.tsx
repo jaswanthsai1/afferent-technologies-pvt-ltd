@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useMemo, useRef } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useMemo, useRef, useState, useEffect } from 'react';
 
 interface StarFieldProps {
   count?: number;
@@ -8,6 +8,38 @@ interface StarFieldProps {
 const StarField = ({ count = 200 }: StarFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
+  const [cloudsCleared, setCloudsCleared] = useState(false);
+  const mouseMoveRef = useRef({ x: 0, y: 0, time: 0, distance: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (cloudsCleared) return;
+
+      const now = Date.now();
+      const dt = now - mouseMoveRef.current.time;
+      if (dt > 100) {
+        mouseMoveRef.current = { x: e.clientX, y: e.clientY, time: now, distance: 0 };
+        return;
+      }
+
+      const dx = e.clientX - mouseMoveRef.current.x;
+      const dy = e.clientY - mouseMoveRef.current.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      mouseMoveRef.current.distance += dist;
+      mouseMoveRef.current.x = e.clientX;
+      mouseMoveRef.current.y = e.clientY;
+      mouseMoveRef.current.time = now;
+
+      // If moved significantly in a short burst (a "scratch")
+      if (mouseMoveRef.current.distance > 300) {
+        setCloudsCleared(true);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [cloudsCleared]);
 
   // Create different star layers for parallax effect
   const layer1Y = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -79,37 +111,53 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
       <div className="absolute inset-0 bg-space-gradient opacity-50" />
 
       {/* Realistic Nebulae */}
-      {nebulae.map((nebula, i) => (
-        <motion.div
-          key={`nebula-${i}`}
-          className="absolute rounded-full blur-[120px]"
-          style={{
-            background: `radial-gradient(circle, ${nebula.color} 0%, transparent 70%)`,
-            width: nebula.width,
-            height: nebula.height,
-            left: nebula.left,
-            top: nebula.top,
-          }}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 0.8, 0.5],
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: nebula.duration,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
+      <AnimatePresence>
+        {!cloudsCleared && nebulae.map((nebula, i) => (
+          <motion.div
+            key={`nebula-${i}`}
+            className="absolute rounded-full blur-[120px]"
+            style={{
+              background: `radial-gradient(circle, ${nebula.color} 0%, transparent 70%)`,
+              width: nebula.width,
+              height: nebula.height,
+              left: nebula.left,
+              top: nebula.top,
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.5, 0.8, 0.5],
+              rotate: [0, 360],
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 1.5,
+              filter: 'blur(200px)',
+              transition: { duration: 1.5, ease: "easeOut" }
+            }}
+            transition={{
+              duration: nebula.duration,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </AnimatePresence>
 
       {/* Galactic Core Glow */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] opacity-30 blur-[150px]"
-        style={{
-          background: 'radial-gradient(circle, hsl(var(--electric-blue) / 0.15) 0%, transparent 60%)',
-        }}
-      />
+      <AnimatePresence>
+        {!cloudsCleared && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            exit={{ opacity: 0, transition: { duration: 2 } }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] blur-[150px]"
+            style={{
+              background: 'radial-gradient(circle, hsl(var(--electric-blue) / 0.15) 0%, transparent 60%)',
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Star Layers */}
       <motion.div style={{ y: layer1Y }} className="absolute inset-0">

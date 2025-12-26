@@ -28,6 +28,9 @@ import Navigation from '@/components/Navigation';
 import FloatingLogo from '@/components/FloatingLogo';
 import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
+import { CelestialTeamMap } from '@/components/CelestialTeamMap';
+import { MissionTrajectory } from '@/components/MissionTrajectory';
+import { SpaceAudio } from '@/components/SpaceAudio';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
@@ -113,6 +116,7 @@ const Index = () => {
               >
                   <FloatingLogo />
                   <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+                  <SpaceAudio />
 
                 {/* Hero / Home Section */}
                 <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
@@ -183,34 +187,41 @@ const Index = () => {
                 subtitle="Pioneering Technology Education & Solutions"
                 planetPosition="right"
               >
-                <div className="space-card p-8">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-planet-mars/30 to-cosmic-orange/20 flex items-center justify-center">
-                      <Award className="w-8 h-8 text-cosmic-orange" />
+                  <div className="space-card p-8">
+                    <div className="flex flex-col lg:flex-row gap-8">
+                      <div className="flex-1">
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-planet-mars/30 to-cosmic-orange/20 flex items-center justify-center">
+                            <Award className="w-8 h-8 text-cosmic-orange" />
+                          </div>
+                          <div>
+                            <h3 className="font-display text-xl font-bold text-foreground mb-1">
+                              Founded by Annem Akhila
+                            </h3>
+                            <p className="text-sm text-muted-foreground">Visionary Leader & Technology Innovator</p>
+                          </div>
+                        </div>
+
+                        <p className="text-muted-foreground leading-relaxed mb-6">
+                          Afferent Technologies Pvt Ltd is a leading technology company dedicated to bridging 
+                          the gap between academic knowledge and industry expertise. We provide comprehensive 
+                          internship programs, innovative project solutions, and cutting-edge IT services that 
+                          prepare students and businesses for the future of technology.
+                        </p>
+
+                        <p className="text-muted-foreground leading-relaxed mb-6">
+                          Our mission is to empower individuals with practical skills in emerging technologies 
+                          including Artificial Intelligence, Cybersecurity, Data Science, IoT, and Robotics. 
+                        </p>
+                      </div>
+
+                      <div className="flex-1">
+                        <CelestialTeamMap />
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-foreground mb-1">
-                        Founded by Annem Akhila
-                      </h3>
-                      <p className="text-sm text-muted-foreground">Visionary Leader & Technology Innovator</p>
-                    </div>
-                  </div>
 
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    Afferent Technologies Pvt Ltd is a leading technology company dedicated to bridging 
-                    the gap between academic knowledge and industry expertise. We provide comprehensive 
-                    internship programs, innovative project solutions, and cutting-edge IT services that 
-                    prepare students and businesses for the future of technology.
-                  </p>
+                    <div className="grid grid-cols-3 gap-4 pt-6 mt-6 border-t border-border/30">
 
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    Our mission is to empower individuals with practical skills in emerging technologies 
-                    including Artificial Intelligence, Cybersecurity, Data Science, IoT, and Robotics. 
-                    We believe in learning by doing, and our programs are designed to give you real-world 
-                    experience that sets you apart.
-                  </p>
-
-                  <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border/30">
                     <div className="text-center">
                       <div className="font-display text-3xl font-black text-gradient-primary">500+</div>
                       <div className="text-xs text-muted-foreground uppercase tracking-wider">Interns Trained</div>
@@ -222,10 +233,13 @@ const Index = () => {
                     <div className="text-center">
                       <div className="font-display text-3xl font-black text-gradient-primary">50+</div>
                       <div className="text-xs text-muted-foreground uppercase tracking-wider">Happy Clients</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </PlanetSection>
+                </PlanetSection>
+
+                <MissionTrajectory />
+
 
               {/* Internships Section - Saturn */}
               <PlanetSection
