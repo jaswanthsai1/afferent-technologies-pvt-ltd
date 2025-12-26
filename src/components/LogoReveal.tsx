@@ -75,16 +75,12 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
               border: '2px solid transparent',
               borderImage: 'linear-gradient(135deg, hsl(var(--electric-blue)), hsl(var(--cosmic-orange))) 1',
             }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
           />
         </motion.div>
 
         {/* Orbit rings */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
         >
           <div
             className="absolute w-[130%] h-[130%] rounded-full border border-electric-blue/30"

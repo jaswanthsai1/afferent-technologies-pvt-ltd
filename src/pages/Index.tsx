@@ -25,6 +25,7 @@ import IntroVideo from '@/components/IntroVideo';
 import LogoReveal from '@/components/LogoReveal';
 import StarField from '@/components/StarField';
 import Navigation from '@/components/Navigation';
+import FloatingLogo from '@/components/FloatingLogo';
 import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
 
@@ -102,15 +103,16 @@ const Index = () => {
           )}
         </AnimatePresence>
 
-        {/* Main Content */}
-        <AnimatePresence>
-          {phase === 'main' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-                <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+          {/* Main Content */}
+          <AnimatePresence>
+            {phase === 'main' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+              >
+                  <FloatingLogo />
+                  <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
 
                 {/* Hero / Home Section */}
                 <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
