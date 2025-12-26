@@ -31,9 +31,9 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6 }}
-      className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 w-[95%] sm:w-auto"
+      className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-2rem)]"
     >
-      <div className="flex items-center justify-center gap-1 md:gap-2 px-2 md:px-4 py-2 md:py-3 rounded-full bg-background/40 backdrop-blur-xl border border-border/30 overflow-x-auto no-scrollbar">
+      <div className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-full bg-background/40 backdrop-blur-xl border border-border/30">
         {navItems.map((item, index) => {
           const Icon = item.icon;
           const isExternal = !!item.href;
@@ -48,17 +48,17 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
               <div className="absolute inset-0 rounded-full bg-electric-blue/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity" />
               
               <div 
-                className={`relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${
+                className={`relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${
                   currentSection === 0 && item.id === 'home'
                     ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
                     : 'bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
               >
-                <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
               </div>
               
-              {/* Tooltip */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 text-xs font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              {/* Tooltip - Hidden on mobile */}
+              <div className="hidden sm:block absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 text-xs font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                 {item.label}
               </div>
             </motion.div>

@@ -54,69 +54,68 @@ export const InternshipCareerRoadmap = () => {
   });
 
   return (
-    <section id="roadmap" className="py-24 relative overflow-hidden bg-black/40" ref={containerRef}>
+    <section id="roadmap" className="py-16 sm:py-20 md:py-24 relative overflow-hidden bg-black/40" ref={containerRef}>
       <div className="container mx-auto px-4">
-        <div className="text-center mb-20 space-y-4">
-          <h2 className="font-display text-4xl md:text-5xl font-black tracking-tighter text-white">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20 space-y-3 sm:space-y-4">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter text-white">
             INTERNSHIP <span className="text-gradient-primary">CAREER ROADMAP</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
             Your flight path from student to industry professional across the Afferent galaxy.
           </p>
         </div>
 
         <div className="relative max-w-5xl mx-auto">
           {/* Progress Line */}
-          <div className="absolute left-8 md:left-12 top-0 bottom-0 w-px bg-white/10">
+          <div className="absolute left-6 sm:left-8 md:left-12 top-0 bottom-0 w-px bg-white/10">
             <motion.div 
               style={{ scaleY: scrollYProgress }}
               className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-electric-blue via-purple-500 to-cosmic-orange origin-top"
             />
           </div>
 
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative pl-20 md:pl-32"
-                >
-                  {/* Milestone Marker */}
-                  <div className="absolute left-0 top-0 flex items-center justify-center">
-                    <motion.div 
-                      whileHover={{ scale: 1.2 }}
-                      className={`w-12 h-12 md:w-24 md:h-24 rounded-xl md:rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center relative overflow-hidden group`}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <div className={`${milestone.color} relative z-10 scale-75 md:scale-100`}>
-                        {milestone.icon}
-                      </div>
-                      <span className="mt-2 text-[8px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest hidden md:block">
-                        {milestone.orbit.split(':')[0]}
-                      </span>
-                    </motion.div>
-                  </div>
-
-                    <div className="space-card p-5 md:p-8 group cursor-default">
-
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4 mb-4">
-                      <h3 className="font-display text-xl md:text-2xl font-bold text-white group-hover:text-electric-blue transition-colors">
-                        {milestone.title}
-                      </h3>
-                      <span className="text-[10px] md:text-xs font-display font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 w-fit">
-                        {milestone.orbit}
-                      </span>
+          <div className="space-y-8 sm:space-y-10 md:space-y-12">
+            {milestones.map((milestone, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-16 sm:pl-20 md:pl-32"
+              >
+                {/* Milestone Marker */}
+                <div className="absolute left-0 top-0 flex items-center justify-center">
+                  <motion.div 
+                    whileHover={{ scale: 1.2 }}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-xl md:rounded-2xl bg-black border border-white/10 flex flex-col items-center justify-center relative overflow-hidden group`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className={`${milestone.color} relative z-10 scale-75 sm:scale-90 md:scale-100`}>
+                      {milestone.icon}
                     </div>
-                    <p className="text-muted-foreground text-sm md:text-lg leading-relaxed max-w-3xl">
-                      {milestone.description}
-                    </p>
+                    <span className="mt-1 sm:mt-2 text-[6px] sm:text-[8px] md:text-[10px] font-bold text-white/40 uppercase tracking-widest hidden sm:block">
+                      {milestone.orbit.split(':')[0]}
+                    </span>
+                  </motion.div>
+                </div>
+
+                <div className="space-card p-4 sm:p-5 md:p-8 group cursor-default">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-3 sm:mb-4">
+                    <h3 className="font-display text-lg sm:text-xl md:text-2xl font-bold text-white group-hover:text-electric-blue transition-colors">
+                      {milestone.title}
+                    </h3>
+                    <span className="text-[8px] sm:text-[10px] md:text-xs font-display font-bold px-2 sm:px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/60 w-fit">
+                      {milestone.orbit}
+                    </span>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                  <p className="text-muted-foreground text-xs sm:text-sm md:text-lg leading-relaxed max-w-3xl">
+                    {milestone.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

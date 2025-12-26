@@ -22,18 +22,18 @@ const PlanetSection = ({
   planetPosition = 'right',
 }: PlanetSectionProps) => {
   const planetStyle = getPlanetStyle(planetName);
-    const positionClasses = {
-      left: '-left-48 md:-left-32 top-1/2 -translate-y-1/2',
-      right: '-right-48 md:-right-32 top-1/2 -translate-y-1/2',
-      center: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-    };
+  const positionClasses = {
+    left: '-left-32 sm:-left-40 md:-left-32 top-1/2 -translate-y-1/2',
+    right: '-right-32 sm:-right-40 md:-right-32 top-1/2 -translate-y-1/2',
+    center: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
+  };
 
-    const mobileSize = planetSize * 0.7;
+  const mobileSize = Math.min(planetSize * 0.5, 200);
 
     return (
       <section
         id={id}
-        className="planet-section min-h-screen relative py-16 md:py-32 overflow-hidden"
+        className="planet-section min-h-screen relative py-12 sm:py-16 md:py-32 overflow-hidden"
       >
         {/* Planet Background */}
           <motion.div
@@ -167,7 +167,7 @@ const PlanetSection = ({
       </motion.div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -198,7 +198,7 @@ const PlanetSection = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: false }}
-            className="font-display text-4xl md:text-6xl font-black mb-4"
+            className="font-display text-3xl sm:text-4xl md:text-6xl font-black mb-4"
           >
             <span className="text-gradient-primary">{title}</span>
           </motion.h2>
@@ -209,7 +209,7 @@ const PlanetSection = ({
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               viewport={{ once: false }}
-              className="text-lg md:text-xl text-muted-foreground mb-8"
+              className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8"
             >
               {subtitle}
             </motion.p>
