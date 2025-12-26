@@ -169,40 +169,56 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         />
       ))}
       
-      {/* Upgraded Meteor System */}
-      {[...Array(6)].map((_, i) => {
+      {/* Upgraded Meteor Showers & Comets System */}
+      {[...Array(8)].map((_, i) => {
+        const isComet = i < 2;
         const colors = ['#ffffff', 'hsl(var(--electric-blue))', 'hsl(var(--cosmic-orange))', '#b3d9ff'];
-        const color = colors[i % colors.length];
-        const duration = 0.8 + Math.random() * 0.8;
-        const delay = Math.random() * 20 + i * 4;
-        const size = 100 + Math.random() * 100;
+        const color = isComet ? 'hsl(var(--electric-blue) / 0.8)' : colors[i % colors.length];
+        
+        // Comets are slower and larger
+        const duration = isComet ? 3 + Math.random() * 2 : 0.6 + Math.random() * 0.8;
+        const delay = Math.random() * 30 + i * 5;
+        const size = isComet ? 300 + Math.random() * 200 : 100 + Math.random() * 100;
         
         return (
           <motion.div
-            key={`shooting-${i}`}
-            className="absolute h-[1px] blur-[0.5px]"
+            key={`celestial-${i}`}
+            className="absolute h-[1.5px] blur-[0.5px]"
             style={{
               width: `${size}px`,
               left: Math.random() * 100 + '%',
-              top: Math.random() * 60 + '%',
+              top: Math.random() * 80 + '%',
               transform: `rotate(${-25 - Math.random() * 20}deg)`,
-              background: `linear-gradient(90deg, transparent 0%, ${color} 50%, transparent 100%)`,
-              boxShadow: `0 0 10px ${color}`,
+              background: isComet 
+                ? `linear-gradient(90deg, transparent 0%, ${color} 80%, white 100%)`
+                : `linear-gradient(90deg, transparent 0%, ${color} 50%, transparent 100%)`,
+              boxShadow: isComet ? `0 0 20px ${color}` : `0 0 10px ${color}`,
+              zIndex: isComet ? 1 : 0,
             }}
             animate={{
-              x: [0, -600],
-              y: [0, 300],
-              opacity: [0, 1, 0],
-              scaleX: [0, 2, 0],
+              x: [0, -1000],
+              y: [0, 500],
+              opacity: [0, 1, 1, 0],
+              scaleX: isComet ? [0, 1, 1, 0.5] : [0, 2, 0],
             }}
             transition={{
               duration: duration,
               repeat: Infinity,
-              repeatDelay: Math.random() * 15 + 10,
+              repeatDelay: Math.random() * 20 + 15,
               delay: delay,
-              ease: "easeOut"
+              ease: isComet ? "linear" : "easeOut"
             }}
-          />
+          >
+            {/* Comet Head Glow */}
+            {isComet && (
+              <motion.div 
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white"
+                style={{ boxShadow: `0 0 15px 5px ${color}` }}
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 0.2, repeat: Infinity }}
+              />
+            )}
+          </motion.div>
         );
       })}
     </div>

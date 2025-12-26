@@ -36,27 +36,52 @@ const PlanetSection = ({
         className="planet-section min-h-screen relative py-16 md:py-32 overflow-hidden"
       >
         {/* Planet Background */}
-        <motion.div
-          className={`absolute ${positionClasses[planetPosition]} pointer-events-none`}
-          initial={{ opacity: 0, scale: 0.5 }}
-          whileInView={{ opacity: 0.4, scale: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          viewport={{ once: false, amount: 0.3 }}
-          style={{ width: 'var(--planet-width)', height: 'var(--planet-height)' }}
-        >
-          <style dangerouslySetInnerHTML={{ __html: `
-            #${id} .pointer-events-none {
-              --planet-width: ${mobileSize}px;
-              --planet-height: ${mobileSize}px;
-            }
-            @media (min-width: 768px) {
+          <motion.div
+            className={`absolute ${positionClasses[planetPosition]} pointer-events-none`}
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 0.4, scale: 1 }}
+            transition={{ duration: 1.5, ease: 'easeOut' }}
+            viewport={{ once: false, amount: 0.3 }}
+            style={{ width: 'var(--planet-width)', height: 'var(--planet-height)' }}
+          >
+            {/* Gravitational Distortion Effect */}
+            <svg width="0" height="0" className="absolute">
+              <defs>
+                <filter id={`gravity-distortion-${id}`}>
+                  <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise">
+                    <animate attributeName="baseFrequency" values="0.01;0.015;0.01" dur="10s" repeatCount="indefinite" />
+                  </feTurbulence>
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+                </filter>
+              </defs>
+            </svg>
+
+            <motion.div 
+              className="absolute inset-[-20%] rounded-full opacity-50 blur-xl"
+              style={{ 
+                background: `radial-gradient(circle, ${planetStyle.background} 0%, transparent 70%)`,
+                filter: `url(#gravity-distortion-${id})`,
+              }}
+              animate={{ 
+                scale: [1, 1.05, 1],
+                rotate: [0, 5, -5, 0]
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            <style dangerouslySetInnerHTML={{ __html: `
               #${id} .pointer-events-none {
-                --planet-width: ${planetSize}px;
-                --planet-height: ${planetSize}px;
+                --planet-width: ${mobileSize}px;
+                --planet-height: ${mobileSize}px;
               }
-            }
-          `}} />
-          {/* Planet glow */}
+              @media (min-width: 768px) {
+                #${id} .pointer-events-none {
+                  --planet-width: ${planetSize}px;
+                  --planet-height: ${planetSize}px;
+                }
+              }
+            `}} />
+            {/* Planet glow */}
         <div
           className="absolute inset-0 rounded-full blur-3xl"
           style={{
