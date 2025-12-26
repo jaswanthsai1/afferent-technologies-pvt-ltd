@@ -189,16 +189,16 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                       >
                         ARE YOU READY TO
                       </motion.h2>
-                      <motion.h2
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.6 }}
-                        className="font-display text-xl sm:text-2xl md:text-5xl font-black mb-6 sm:mb-8"
-                      >
-                        <span className="text-gradient-primary">INITIATE</span>{' '}
-                        <span className="text-gradient-secondary">SECURE SESSION</span>
-                        <span className="text-foreground">?</span>
-                      </motion.h2>
+                        <motion.h2
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.6 }}
+                          className="font-display text-xl sm:text-2xl md:text-5xl font-black mb-6 sm:mb-8"
+                        >
+                          <span className="text-gradient-primary">EXPERIENCE</span>{' '}
+                          <span className="text-gradient-secondary">GALAXY ADVENTURE</span>
+                          <span className="text-foreground">?</span>
+                        </motion.h2>
 
                       <motion.button
                         initial={{ opacity: 0, scale: 0.8 }}
