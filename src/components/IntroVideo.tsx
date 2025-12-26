@@ -258,64 +258,74 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
               <ShieldCheck className="w-6 h-6 text-electric-blue" />
               MISSION AUTHORIZATION
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-muted-foreground text-sm sm:text-base py-4 space-y-4">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between text-electric-blue font-mono text-[10px] tracking-tighter">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-electric-blue animate-pulse" />
-                    ENCRYPTION: AES-256-GCM
-                  </div>
-                  <div className="flex items-center gap-2 text-cosmic-orange">
-                    SIGNAL: STABLE [99.9%]
-                  </div>
-                </div>
-
-                <p className="leading-relaxed text-xs sm:text-sm">
-                  Identity verified. You are about to initiate the cosmic journey into the <span className="text-foreground font-bold italic">Afferent Universe</span>. 
-                  Authorization grants access to secure neural pathways and proprietary technology assets.
-                </p>
-
-                <div className="grid grid-cols-2 gap-3 py-3 border-y border-border/20">
-                  <div className="space-y-1">
-                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Command Unit</span>
-                    <span className="block font-mono text-[11px] text-cosmic-orange">AFFERENT-NAV-V2</span>
-                  </div>
-                  <div className="space-y-1 text-right">
-                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Session Token</span>
-                    <span className="block font-mono text-[11px] text-cosmic-orange truncate">AUTH_0X7F2B...</span>
-                  </div>
-                  <div className="space-y-1">
-                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Vessel Vitals</span>
-                    <span className="block font-mono text-[11px] text-electric-blue">NOMINAL</span>
-                  </div>
-                  <div className="space-y-1 text-right">
-                    <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">ETA to Future</span>
-                    <span className="block font-mono text-[11px] text-electric-blue">Q1-2026</span>
-                  </div>
-                </div>
-
-                <div className="bg-muted/30 p-3 rounded-md border border-border/10">
-                  <div className="flex items-start gap-2">
-                    <Info className="w-3.5 h-3.5 text-electric-blue mt-0.5 shrink-0" />
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-bold text-foreground/90 uppercase tracking-tight">Pre-Flight Protocol</p>
-                      <p className="text-[10px] leading-tight opacity-70">
-                        Sensory immersion engaged. Biometric feedback active. Real-time telemetry will be logged for mission analysis.
-                      </p>
+            <AlertDialogDescription asChild>
+              <div className="text-muted-foreground text-sm sm:text-base py-4 space-y-4">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between text-electric-blue font-mono text-[10px] tracking-tighter">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-electric-blue animate-pulse" />
+                      SECURE UPLINK: AES-256-GCM [ACTIVE]
+                    </div>
+                    <div className="flex items-center gap-2 text-cosmic-orange">
+                      LATENCY: 14ms (QUANTUM-LINK)
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 pt-1">
-                  <div className="h-1 flex-1 bg-muted/20 rounded-full overflow-hidden">
-                    <motion.div 
-                      className="h-full bg-electric-blue"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
+                  <div className="border-l-2 border-electric-blue/30 pl-3 py-1">
+                    <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-foreground/80 mb-1">Afferent Technologies Pvt. Ltd.</p>
+                    <p className="text-[9px] font-mono opacity-60">REG NO: U72900TG2022PTC160541 | AUTH LEVEL: ALPHA-4</p>
                   </div>
-                  <span className="text-[9px] font-mono text-muted-foreground animate-pulse">PREPARING INTERFACE...</span>
+
+                  <p className="leading-relaxed text-xs sm:text-sm">
+                    Identity verified via Neural Signature. You are about to initiate the cosmic journey into the <span className="text-foreground font-bold italic underline decoration-electric-blue/50">Afferent Universe</span>. 
+                    Authorization grants temporary access to secure education protocols and proprietary technology assets for the 2026 Innovation Cycle.
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-3 py-3 border-y border-border/20">
+                    <div className="space-y-1">
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Command Unit</span>
+                      <span className="block font-mono text-[11px] text-cosmic-orange">AFFERENT-NAV-V2</span>
+                    </div>
+                    <div className="space-y-1 text-right">
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Session Token</span>
+                      <span className="block font-mono text-[11px] text-cosmic-orange truncate">AUTH_0X7F2B8D9A...</span>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Quantum Core</span>
+                      <span className="block font-mono text-[11px] text-electric-blue">SYNCHRONIZED</span>
+                    </div>
+                    <div className="space-y-1 text-right">
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Mission Timeline</span>
+                      <span className="block font-mono text-[11px] text-electric-blue">FUTURE-2026-STABLE</span>
+                    </div>
+                  </div>
+
+                  <div className="bg-muted/30 p-3 rounded-md border border-border/10 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-1 opacity-20">
+                      <ShieldCheck className="w-8 h-8 text-electric-blue" />
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Info className="w-3.5 h-3.5 text-electric-blue mt-0.5 shrink-0" />
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-bold text-foreground/90 uppercase tracking-tight">Pre-Flight Protocol [Directive 2026]</p>
+                        <p className="text-[10px] leading-tight opacity-70">
+                          Sensory immersion engaged. Biometric feedback active. Unauthorized redistribution of mission data is strictly prohibited under the Cosmic Technology Act.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <div className="h-1 flex-1 bg-muted/20 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-gradient-to-r from-electric-blue to-cosmic-orange"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    </div>
+                    <span className="text-[9px] font-mono text-muted-foreground animate-pulse">ESTABLISHING NEURAL LINK... 99%</span>
+                  </div>
                 </div>
               </div>
             </AlertDialogDescription>
