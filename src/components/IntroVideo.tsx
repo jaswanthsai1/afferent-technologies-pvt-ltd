@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { ShieldCheck, Lock, Info, Rocket } from 'lucide-react';
+import { ShieldCheck, Lock, Info, CheckCircle2 } from 'lucide-react';
 
 interface IntroVideoProps {
   onEnter: () => void;
@@ -187,7 +187,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                         transition={{ delay: 0.4 }}
                         className="font-display text-lg sm:text-xl md:text-4xl font-bold text-foreground mb-2"
                       >
-                        ARE YOU READY FOR A
+                        ARE YOU READY TO
                       </motion.h2>
                       <motion.h2
                         initial={{ opacity: 0 }}
@@ -195,8 +195,8 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                         transition={{ delay: 0.6 }}
                         className="font-display text-xl sm:text-2xl md:text-5xl font-black mb-6 sm:mb-8"
                       >
-                        <span className="text-gradient-primary">SMALL</span>{' '}
-                        <span className="text-gradient-secondary">ADVENTURE</span>
+                        <span className="text-gradient-primary">INITIATE</span>{' '}
+                        <span className="text-gradient-secondary">SECURE SESSION</span>
                         <span className="text-foreground">?</span>
                       </motion.h2>
 
@@ -256,7 +256,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-3 font-display text-2xl font-bold">
               <ShieldCheck className="w-6 h-6 text-electric-blue" />
-              MISSION AUTHORIZATION
+              SYSTEM GATEWAY VERIFICATION
             </AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="text-muted-foreground text-sm sm:text-base py-4 space-y-4">
@@ -264,10 +264,10 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                   <div className="flex items-center justify-between text-electric-blue font-mono text-[10px] tracking-tighter">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-electric-blue animate-pulse" />
-                      SECURE UPLINK: AES-256-GCM [ACTIVE]
+                      ENTERPRISE NODE: ENCRYPTED TUNNEL [ACTIVE]
                     </div>
                     <div className="flex items-center gap-2 text-cosmic-orange">
-                      LATENCY: 14ms (QUANTUM-LINK)
+                      STATUS: SYNCHRONIZED (AFF-CORE-01)
                     </div>
                   </div>
 
@@ -277,26 +277,26 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                   </div>
 
                   <p className="leading-relaxed text-xs sm:text-sm">
-                    Identity verified via Neural Signature. You are about to initiate the cosmic journey into the <span className="text-foreground font-bold italic underline decoration-electric-blue/50">Afferent Universe</span>. 
-                    Authorization grants temporary access to secure education protocols and proprietary technology assets for the 2026 Innovation Cycle.
+                    Identity verified via Corporate Biometrics. You are about to enter the <span className="text-foreground font-bold italic underline decoration-electric-blue/50">internal proprietary infrastructure</span> of Afferent Technologies. 
+                    Access authorization is strictly granted for operational deployment and strategic resource management during the 2026 Innovation Cycle.
                   </p>
 
                   <div className="grid grid-cols-2 gap-3 py-3 border-y border-border/20">
                     <div className="space-y-1">
-                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Command Unit</span>
-                      <span className="block font-mono text-[11px] text-cosmic-orange">AFFERENT-NAV-V2</span>
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Terminal ID</span>
+                      <span className="block font-mono text-[11px] text-cosmic-orange">AFF-SRV-NORTH-01</span>
                     </div>
                     <div className="space-y-1 text-right">
                       <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Session Token</span>
                       <span className="block font-mono text-[11px] text-cosmic-orange truncate">AUTH_0X7F2B8D9A...</span>
                     </div>
                     <div className="space-y-1">
-                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Quantum Core</span>
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Data Layer</span>
                       <span className="block font-mono text-[11px] text-electric-blue">SYNCHRONIZED</span>
                     </div>
                     <div className="space-y-1 text-right">
-                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Mission Timeline</span>
-                      <span className="block font-mono text-[11px] text-electric-blue">FUTURE-2026-STABLE</span>
+                      <span className="block text-[9px] uppercase tracking-widest text-muted-foreground">Fiscal Protocol</span>
+                      <span className="block font-mono text-[11px] text-electric-blue">CYBER-PRO-2026-V1</span>
                     </div>
                   </div>
 
@@ -307,9 +307,9 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                     <div className="flex items-start gap-2">
                       <Info className="w-3.5 h-3.5 text-electric-blue mt-0.5 shrink-0" />
                       <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-foreground/90 uppercase tracking-tight">Pre-Flight Protocol [Directive 2026]</p>
+                        <p className="text-[10px] font-bold text-foreground/90 uppercase tracking-tight">Corporate Compliance [Directive 2026]</p>
                         <p className="text-[10px] leading-tight opacity-70">
-                          Sensory immersion engaged. Biometric feedback active. Unauthorized redistribution of mission data is strictly prohibited under the Cosmic Technology Act.
+                          Infrastructure monitoring active. Data logging engaged. Unauthorized distribution of proprietary assets is strictly prohibited under the Information Technology Act 2000.
                         </p>
                       </div>
                     </div>
@@ -324,7 +324,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                         transition={{ duration: 2, repeat: Infinity }}
                       />
                     </div>
-                    <span className="text-[9px] font-mono text-muted-foreground animate-pulse">ESTABLISHING NEURAL LINK... 99%</span>
+                    <span className="text-[9px] font-mono text-muted-foreground animate-pulse">CONNECTING CORPORATE ASSETS... 99%</span>
                   </div>
                 </div>
               </div>
@@ -333,7 +333,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
           <AlertDialogFooter>
             <AlertDialogCancel>ABORT</AlertDialogCancel>
             <AlertDialogAction onClick={handleConfirm} className="bg-gradient-to-r from-electric-blue to-cosmic-orange text-white">
-              <Rocket className="w-5 h-5 mr-2" />
+              <CheckCircle2 className="w-5 h-5 mr-2" />
               AUTHORIZE
             </AlertDialogAction>
           </AlertDialogFooter>
