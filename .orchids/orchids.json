@@ -1,0 +1,7 @@
+{
+  "projectId": "51f75c2d-713c-4ffe-9071-56fe0ea9ce97",
+  "createdAt": 1766777252753,
+  "startupCommands": [
+    "bun install; npx vite"
+  ]
+}
