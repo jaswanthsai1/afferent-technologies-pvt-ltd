@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
-import { getPlanetStyle } from '@/lib/planet-styles';
+import { getPlanetStyle } from '../lib/planet-styles';
 
 interface PlanetSectionProps {
   id: string;

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { getPlanetStyle } from '@/lib/planet-styles';
+import { getPlanetStyle } from '../lib/planet-styles';
 
 interface PlanetOrbitsProps {
   onPlanetClick: (sectionId: string) => void;
