@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import {
   Brain,
   Shield,
@@ -77,6 +77,10 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [phase]);
 
+  const { scrollYProgress } = useScroll();
+  const flareX = useTransform(scrollYProgress, [0, 1], ['-10%', '20%']);
+  const flareY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
+
   const internshipDomains = [
     { title: 'Artificial Intelligence', icon: <Brain className="w-6 h-6" />, description: 'Master machine learning, neural networks, and AI applications.' },
     { title: 'Cyber Security', icon: <Shield className="w-6 h-6" />, description: 'Learn ethical hacking, penetration testing, and security protocols.' },
@@ -93,6 +97,26 @@ const Index = () => {
       <div className="relative min-h-screen bg-background overflow-x-hidden">
         {/* Star field background */}
         <StarField count={200} />
+
+        {/* Lens Flare Effect */}
+        <motion.div
+          className="fixed pointer-events-none z-10 w-[100vw] h-[100vh]"
+          style={{
+            background: 'radial-gradient(circle at 80% 20%, rgba(135, 206, 235, 0.15) 0%, transparent 40%)',
+            x: flareX,
+            y: flareY,
+          }}
+        />
+
+        {/* Holographic Scanlines */}
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden opacity-[0.03]">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
+          <motion.div 
+            className="absolute inset-0 bg-[linear-gradient(transparent_0%,rgba(32,128,32,0.2)_50%,transparent_100%)] h-[20%] w-full"
+            animate={{ top: ['-20%', '100%'] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          />
+        </div>
 
         {/* Persistent Audio - Starts as early as possible */}
         <SpaceAudio showControls={true} />

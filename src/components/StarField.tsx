@@ -45,6 +45,18 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
     return layers;
   }, [count]);
 
+  const cosmicDust = useMemo(() => {
+    return [...Array(40)].map((_, i) => ({
+      id: `dust-${i}`,
+      left: Math.random() * 100 + '%',
+      top: Math.random() * 100 + '%',
+      size: Math.random() * 4 + 2,
+      opacity: Math.random() * 0.3 + 0.1,
+      duration: Math.random() * 20 + 20,
+      delay: Math.random() * 10,
+    }));
+  }, []);
+
   const nebulae = useMemo(() => {
     return [
       {
@@ -130,33 +142,69 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
           <StarItem key={star.id} {...star} />
         ))}
       </motion.div>
-      
-      {/* Occasional shooting stars */}
-      {[...Array(4)].map((_, i) => (
+
+      {/* Cosmic Dust Particles */}
+      {cosmicDust.map((dust) => (
         <motion.div
-          key={`shooting-${i}`}
-          className="absolute h-px bg-gradient-to-r from-transparent via-starlight to-transparent"
+          key={dust.id}
+          className="absolute rounded-full bg-white blur-[1px]"
           style={{
-            width: '150px',
-            left: Math.random() * 80 + '%',
-            top: Math.random() * 50 + '%',
-            transform: 'rotate(-35deg)',
+            width: dust.size + 'px',
+            height: dust.size + 'px',
+            left: dust.left,
+            top: dust.top,
+            opacity: dust.opacity,
           }}
           animate={{
-            x: [0, -400],
-            y: [0, 250],
-            opacity: [0, 1, 0],
-            scaleX: [0, 1.5, 0],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+            opacity: [dust.opacity, dust.opacity * 2, dust.opacity],
           }}
           transition={{
-            duration: 1.2,
+            duration: dust.duration,
             repeat: Infinity,
-            repeatDelay: Math.random() * 15 + 10,
-            delay: Math.random() * 10 + i * 5,
-            ease: "easeOut"
+            delay: dust.delay,
+            ease: "easeInOut",
           }}
         />
       ))}
+      
+      {/* Upgraded Meteor System */}
+      {[...Array(6)].map((_, i) => {
+        const colors = ['#ffffff', 'hsl(var(--electric-blue))', 'hsl(var(--cosmic-orange))', '#b3d9ff'];
+        const color = colors[i % colors.length];
+        const duration = 0.8 + Math.random() * 0.8;
+        const delay = Math.random() * 20 + i * 4;
+        const size = 100 + Math.random() * 100;
+        
+        return (
+          <motion.div
+            key={`shooting-${i}`}
+            className="absolute h-[1px] blur-[0.5px]"
+            style={{
+              width: `${size}px`,
+              left: Math.random() * 100 + '%',
+              top: Math.random() * 60 + '%',
+              transform: `rotate(${-25 - Math.random() * 20}deg)`,
+              background: `linear-gradient(90deg, transparent 0%, ${color} 50%, transparent 100%)`,
+              boxShadow: `0 0 10px ${color}`,
+            }}
+            animate={{
+              x: [0, -600],
+              y: [0, 300],
+              opacity: [0, 1, 0],
+              scaleX: [0, 2, 0],
+            }}
+            transition={{
+              duration: duration,
+              repeat: Infinity,
+              repeatDelay: Math.random() * 15 + 10,
+              delay: delay,
+              ease: "easeOut"
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
