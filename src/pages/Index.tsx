@@ -30,6 +30,8 @@ import PlanetSection from '@/components/PlanetSection';
 import ServiceCard from '@/components/ServiceCard';
 import { CelestialTeamMap } from '../components/CelestialTeamMap';
 import { MissionTrajectory } from '../components/MissionTrajectory';
+import { CareerRoadmap } from '../components/CareerRoadmap';
+import { BlackHoleNewsletter } from '../components/BlackHoleNewsletter';
 import { SpaceAudio } from '../components/SpaceAudio';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
@@ -238,6 +240,8 @@ const Index = () => {
                 </PlanetSection>
 
                 <MissionTrajectory />
+
+                <CareerRoadmap />
 
 
                 {/* Internships Section - Saturn */}
@@ -487,9 +491,11 @@ const Index = () => {
                     </p>
                   </div>
                 </div>
-              </PlanetSection>
+                </PlanetSection>
 
-              {/* Footer */}
+                <BlackHoleNewsletter />
+
+                {/* Footer */}
               <footer className="py-12 border-t border-border/20">
                 <div className="container mx-auto px-4 text-center">
                   <p className="font-display text-sm text-muted-foreground tracking-wider">
