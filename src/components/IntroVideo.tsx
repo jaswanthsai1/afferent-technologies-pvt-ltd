@@ -1,5 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ShieldCheck, Rocket, Info } from 'lucide-react';
 
 interface IntroVideoProps {
   onEnter: () => void;
@@ -9,6 +20,7 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -40,7 +52,12 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
     }
   }, []);
 
-  const handleEnter = () => {
+  const handleEnterClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = () => {
+    setShowConfirm(false);
     setIsExiting(true);
     setTimeout(() => {
       onEnter();
@@ -133,38 +150,79 @@ const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                     <span className="text-foreground">?</span>
                   </motion.h2>
 
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleEnter}
-                    className="group relative px-12 py-4 font-display text-xl font-bold uppercase tracking-widest overflow-hidden rounded-full"
-                  >
-                    {/* Button background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-                    
-                    {/* Inner dark background */}
-                    <div className="absolute inset-[2px] bg-background rounded-full" />
-                    
-                    {/* Text */}
-                    <span className="relative z-10 flex items-center gap-3">
-                      <span className="text-gradient-primary group-hover:text-gradient-secondary transition-all">
-                        ENTER
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleEnterClick}
+                      className="group relative px-12 py-4 font-display text-xl font-bold uppercase tracking-widest overflow-hidden rounded-full"
+                    >
+                      {/* Button background */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-electric-blue to-cosmic-orange rounded-full opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
+                      
+                      {/* Inner dark background */}
+                      <div className="absolute inset-[2px] bg-background rounded-full" />
+                      
+                      {/* Text */}
+                      <span className="relative z-10 flex items-center gap-3">
+                        <span className="text-gradient-primary group-hover:text-gradient-secondary transition-all">
+                          ENTER
+                        </span>
+                        <motion.span
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ repeat: Infinity, duration: 1.5 }}
+                          className="text-cosmic-orange"
+                        >
+                          →
+                        </motion.span>
                       </span>
-                      <motion.span
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ repeat: Infinity, duration: 1.5 }}
-                        className="text-cosmic-orange"
+                    </motion.button>
+                  </div>
+                </motion.div>
+
+                {/* Mission Authorization Alert */}
+                <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+                  <AlertDialogContent className="bg-background/95 border-border/50 backdrop-blur-xl shadow-[0_0_50px_-12px_hsl(var(--electric-blue)/0.3)]">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="flex items-center gap-3 font-display text-2xl font-bold tracking-tight">
+                        <div className="p-2 rounded-lg bg-electric-blue/20">
+                          <ShieldCheck className="w-6 h-6 text-electric-blue" />
+                        </div>
+                        MISSION AUTHORIZATION
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-muted-foreground text-lg py-4">
+                        You are about to initiate the cosmic journey into the 
+                        <span className="text-electric-blue font-bold"> Afferent Universe</span>. 
+                        Do you authorize the system to proceed with full initialization?
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="bg-muted/30 p-4 rounded-xl border border-border/30 mb-6 flex gap-4 items-start">
+                      <div className="p-2 rounded-full bg-cosmic-orange/20 mt-1">
+                        <Info className="w-4 h-4 text-cosmic-orange" />
+                      </div>
+                      <div className="text-xs text-muted-foreground leading-relaxed">
+                        <p className="font-bold text-foreground/80 mb-1 uppercase tracking-widest">System Note:</p>
+                        Proceeding will unlock interactive modules, immersive audio experiences, and high-performance visual simulations.
+                      </div>
+                    </div>
+                    <AlertDialogFooter className="gap-3 sm:gap-4">
+                      <AlertDialogCancel className="bg-muted/50 border-border/50 hover:bg-muted/80 text-foreground font-display font-bold tracking-wider rounded-xl py-6">
+                        ABORT MISSION
+                      </AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={handleConfirm}
+                        className="bg-gradient-to-r from-electric-blue to-cosmic-orange text-white font-display font-bold tracking-widest rounded-xl py-6 hover:shadow-[0_0_30px_-5px_hsl(var(--electric-blue)/0.5)] transition-all flex gap-2"
                       >
-                        →
-                      </motion.span>
-                    </span>
-                  </motion.button>
-                </div>
-              </motion.div>
+                        <Rocket className="w-5 h-5 animate-pulse" />
+                        AUTHORIZE & ENTER
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+
 
               {/* Floating particles */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
