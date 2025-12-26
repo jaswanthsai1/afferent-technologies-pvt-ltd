@@ -134,16 +134,16 @@ const Index = () => {
                       </span>
                     </motion.div>
 
-                    <div className="mb-6 flex justify-center">
-                      <motion.img 
-                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/now-1-1766777372055.jpeg?width=8000&height=8000&resize=contain" 
-                        alt="Afferent Technologies" 
-                        className="max-w-full h-auto max-h-[300px] md:max-h-[400px] object-contain mix-blend-screen"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                      />
-                    </div>
+                      <div className="mb-8 flex justify-center">
+                        <motion.img 
+                          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/now-1-1766777372055.jpeg?width=8000&height=8000&resize=contain" 
+                          alt="Afferent Technologies" 
+                          className="max-w-full h-auto max-h-[400px] md:max-h-[600px] object-contain mix-blend-screen contrast-125 brightness-110"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1.15 }}
+                          transition={{ duration: 1.5, ease: "easeOut" }}
+                        />
+                      </div>
 
                     <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
                       Afferent Technologies Pvt Ltd empowers the next generation with cutting-edge 
