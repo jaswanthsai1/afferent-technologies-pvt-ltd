@@ -122,30 +122,33 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
 
   useEffect(() => {
     const mobile = window.innerWidth < 768;
-    const finalCount = mobile ? Math.min(count, 40) : count;
+    const finalCount = mobile ? Math.min(count, 20) : count;
 
     const layers: StarItemProps[][] = [[], [], [], []];
+    // Enhanced Futuristic Colors
     const starColors = [
-      '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
-      '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
+      '#ffffff', '#e0f7fa', '#e1bee7', '#b3e5fc', '#b2dfdb', // Blue-ish / Purple-ish white
+      '#fff8e1', '#ffe0b2', '#f3e5f5', '#d1c4e9', '#c5cae9', // Warm / Cool variants
+      '#ffcc80', '#80deea', '#ce93d8', '#81d4fa', '#ffab91', // Vibrant accents
     ];
 
     for (let i = 0; i < finalCount; i++) {
       const layerIndex = Math.floor(Math.random() * 4);
       const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
       const color = starColors[Math.floor(Math.random() * starColors.length)];
-      const isGiant = Math.random() > 0.95;
-      const isPulsating = Math.random() > 0.85;
-      const hasRays = isGiant && !mobile && Math.random() > 0.7;
+      const isGiant = Math.random() > 0.98; // Slightly more rare giants
+      const isPulsating = Math.random() > 0.7; // More pulsating stars
+      const hasRays = isGiant && !mobile && Math.random() > 0.5;
 
       layers[layerIndex].push({
         id: i,
-        size: isGiant ? size * 2.5 : size,
+        // Larger variation in size
+        size: isGiant ? size * 3 : size,
         left: Math.random() * 100 + '%',
         top: Math.random() * 100 + '%',
         color,
-        opacity: Math.random() * 0.4 + 0.5,
-        duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
+        opacity: Math.random() * 0.5 + 0.5,
+        duration: isPulsating ? Math.random() * 1.5 + 0.5 : Math.random() * 8 + 6,
         delay: Math.random() * 5,
         isPulsating,
         isGiant,
@@ -154,7 +157,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
     }
     setStarLayers(layers);
 
-    const dustCount = mobile ? 10 : 120;
+    const dustCount = mobile ? 5 : 150;
     const dust = [...Array(dustCount)].map((_, i) => ({
       id: `dust-${i}`,
       left: Math.random() * 100 + '%',
@@ -192,12 +195,15 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
 
   const nebulaeClouds = useMemo(() => {
     const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (mobile) return []; // Disable nebulae on mobile for performance
+
     const clouds = [
-      { x: '15%', y: '20%', w: 600, h: 400, color: '#8b5cf6', opacity: 0.08, blur: 100, duration: 45 },
-      { x: '75%', y: '25%', w: 500, h: 400, color: '#3b82f6', opacity: 0.07, blur: 100, duration: 50 },
-      { x: '50%', y: '60%', w: 800, h: 600, color: '#ec4899', opacity: 0.06, blur: 150, duration: 60 },
+      { x: '15%', y: '20%', w: 700, h: 500, color: '#6200ea', opacity: 0.12, blur: 120, duration: 35 },
+      { x: '85%', y: '30%', w: 600, h: 500, color: '#2962ff', opacity: 0.1, blur: 120, duration: 40 },
+      { x: '50%', y: '70%', w: 900, h: 700, color: '#c51162', opacity: 0.08, blur: 150, duration: 45 },
+      { x: '20%', y: '80%', w: 500, h: 400, color: '#00b8d4', opacity: 0.09, blur: 100, duration: 38 },
     ];
-    return mobile ? clouds.slice(0, 2) : clouds;
+    return clouds;
   }, []);
 
   return (

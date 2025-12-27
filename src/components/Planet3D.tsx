@@ -75,6 +75,37 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
+  if (isMobile) {
+    // Highly optimized mobile version: ONE static div with a gradient
+    return (
+      <div
+        className={`relative ${className}`}
+        style={{ width: size, height: size }}
+      >
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `radial-gradient(circle at 30% 30%, ${config.atmosphereColor} 0%, ${config.glowColor} 50%, transparent 70%)`,
+            boxShadow: `0 0 20px ${config.glowColor.replace('0.5', '0.2')}`,
+            opacity: 0.8
+          }}
+        >
+          {/* Simple static texture overlay */}
+          <div
+            className="absolute inset-0 rounded-full opacity-60"
+            style={{
+              backgroundImage: `url(${config.texture})`,
+              backgroundSize: '200%',
+              backgroundPosition: 'center',
+              maskImage: 'radial-gradient(circle, black 40%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 100%)'
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`relative ${className}`}
@@ -98,7 +129,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
           filter: 'blur(40px)',
           zIndex: -1
         }}
-        animate={isMobile ? {} : {
+        animate={{
           scale: [1, 1.1, 1],
           opacity: [0.5, 0.7, 0.5],
         }}
@@ -124,7 +155,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
       <div
         className="absolute inset-0 rounded-full overflow-hidden"
         style={{
-          boxShadow: isMobile ? `inset -${size * 0.15}px -${size * 0.15}px ${size * 0.2}px rgba(0,0,0,0.9), 0 0 ${size * 0.1}px ${config.glowColor}` : `
+          boxShadow: `
             inset -${size * 0.25}px -${size * 0.1}px ${size * 0.4}px rgba(0,0,0,0.95),
             inset ${size * 0.05}px ${size * 0.05}px ${size * 0.15}px rgba(255,255,255,0.4),
             0 0 ${size * 0.05}px ${config.glowColor}
@@ -157,9 +188,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
         <div
           className="absolute inset-0 rounded-full pointer-events-none"
           style={{
-            background: isMobile
-              ? `radial-gradient(circle at 35% 35%, transparent 30%, rgba(0,0,0,0.8) 100%)`
-              : `
+            background: `
                 radial-gradient(circle at 30% 30%, transparent 10%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.95) 100%),
                 linear-gradient(120deg, rgba(255,255,255,0.15) 0%, transparent 40%)
               `,

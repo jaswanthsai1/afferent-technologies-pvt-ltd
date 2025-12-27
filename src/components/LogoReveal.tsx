@@ -8,6 +8,11 @@ interface LogoRevealProps {
 
 const LogoReveal = ({ onComplete }: LogoRevealProps) => {
   const [phase, setPhase] = useState<'earth' | 'logo' | 'complete'>('earth');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   useEffect(() => {
     const timer1 = setTimeout(() => setPhase('logo'), 2000);
@@ -29,21 +34,21 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
       transition={{ duration: 0.5 }}
     >
       {/* Rotating Earth */}
-        <motion.div
-          className="relative"
-          initial={{ scale: 0 }}
-          animate={
-            phase === 'complete'
-              ? { scale: 0.15, x: '-42vw', y: '-42vh' }
-              : phase === 'logo'
+      <motion.div
+        className="relative"
+        initial={{ scale: 0 }}
+        animate={
+          phase === 'complete'
+            ? { scale: 0.15, x: '-42vw', y: '-42vh' }
+            : phase === 'logo'
               ? { scale: 0.8 }
               : { scale: 1.2 }
-          }
-          transition={{
-            duration: phase === 'complete' ? 1 : 2,
-            ease: 'easeInOut',
-          }}
-        >
+        }
+        transition={{
+          duration: phase === 'complete' ? 1 : 2,
+          ease: 'easeInOut',
+        }}
+      >
         {/* Earth glow */}
         <motion.div
           className="absolute inset-0 rounded-full blur-3xl"
@@ -55,20 +60,21 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
           transition={{ duration: 2, repeat: Infinity }}
         />
 
-          {/* Earth representation with logo */}
-          <motion.div
-            className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden"
-            style={{
-              boxShadow: '0 0 60px hsl(var(--electric-blue) / 0.5), 0 0 120px hsl(var(--cosmic-orange) / 0.3)',
-            }}
-          >
-            <img
-              src={companyLogo}
-              alt="Afferent Technologies Logo"
-              className="w-full h-full object-cover"
-            />
-            
-            {/* Animated ring */}
+        {/* Earth representation with logo */}
+        <motion.div
+          className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden"
+          style={{
+            boxShadow: '0 0 60px hsl(var(--electric-blue) / 0.5), 0 0 120px hsl(var(--cosmic-orange) / 0.3)',
+          }}
+        >
+          <img
+            src={companyLogo}
+            alt="Afferent Technologies Logo"
+            className="w-full h-full object-cover"
+          />
+
+          {/* Animated ring - Desktop Only */}
+          {!isMobile && (
             <motion.div
               className="absolute inset-0 rounded-full"
               style={{
@@ -78,7 +84,8 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
               animate={{ rotate: 360 }}
               transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
             />
-          </motion.div>
+          )}
+        </motion.div>
 
         {/* Orbit rings */}
         <motion.div
@@ -99,8 +106,8 @@ const LogoReveal = ({ onComplete }: LogoRevealProps) => {
           phase === 'complete'
             ? { opacity: 0, y: -100 }
             : phase === 'logo'
-            ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: 50 }
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 50 }
         }
         transition={{ duration: 0.8 }}
       >

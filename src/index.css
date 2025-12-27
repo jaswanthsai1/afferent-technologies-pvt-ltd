@@ -101,6 +101,7 @@
 @layer components {
   .font-display {
     font-family: 'Orbitron', sans-serif;
+    font-display: swap;
   }
 
   .text-gradient-primary {
