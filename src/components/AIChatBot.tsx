@@ -32,10 +32,11 @@ Technologies Used:
 - Mobile: React Native, Flutter, Swift, Kotlin, Firebase
 - Automation: Custom AI Agents, Workflow Automation, Chatbots, Process Optimization
 
-Stats:
-- 500+ Interns
-- 100+ Projects
-- 50+ Clients
+  Stats:
+  - 100+ Interns
+  - 50+ Projects
+  - 50+ Clients
+
 
 Contact Information:
 - Email: info@afferenttech.com
@@ -100,14 +101,14 @@ export function AIChatBot() {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ 
-        model: "gemini-2.0-flash",
-        systemInstruction: `You are an AI assistant for Afferent Technologies Pvt Ltd. 
-        Use the following information to answer questions about the company: ${COMPANY_INFO}
-        If a user asks something unrelated to the company, use your general knowledge to answer, 
-        and if needed, simulate a web search to provide the most accurate information. 
-        Always be professional, helpful, and maintain a cosmic/technological theme.`
-      });
+        const model = genAI.getGenerativeModel({ 
+          model: "gemini-1.5-flash",
+          systemInstruction: `You are an AI assistant for Afferent Technologies Pvt Ltd. 
+          Use the following information to answer questions about the company: ${COMPANY_INFO}
+          If a user asks something unrelated to the company, use your general knowledge to answer, 
+          and if needed, simulate a web search to provide the most accurate information. 
+          Always be professional, helpful, and maintain a cosmic/technological theme.`
+        });
 
         const history = messages.map(m => ({
           role: m.role === 'user' ? 'user' : 'model',
@@ -155,7 +156,7 @@ export function AIChatBot() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-[#0a0a1a]/95 backdrop-blur-xl border border-electric-blue/30 rounded-2xl shadow-[0_0_30px_rgba(0,243,255,0.2)] flex flex-col overflow-hidden"
+            className="mb-4 w-[calc(100vw-2rem)] sm:w-[400px] h-[500px] max-h-[70vh] bg-[#0a0a1a]/95 backdrop-blur-xl border border-electric-blue/30 rounded-2xl shadow-[0_0_30px_rgba(0,243,255,0.2)] flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="p-4 border-b border-electric-blue/20 bg-gradient-to-r from-electric-blue/10 to-transparent flex items-center justify-between">

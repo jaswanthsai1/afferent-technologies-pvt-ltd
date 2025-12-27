@@ -267,11 +267,11 @@ const Index = () => {
                     <div className="grid grid-cols-3 gap-2 md:gap-4 pt-6 mt-6 border-t border-border/30">
 
                     <div className="text-center">
-                      <div className="font-display text-xl md:text-3xl font-black text-gradient-primary">500+</div>
+                      <div className="font-display text-xl md:text-3xl font-black text-gradient-primary">100+</div>
                       <div className="text-[8px] md:text-xs text-muted-foreground uppercase tracking-wider">Interns</div>
                     </div>
                     <div className="text-center">
-                      <div className="font-display text-xl md:text-3xl font-black text-gradient-secondary">100+</div>
+                      <div className="font-display text-xl md:text-3xl font-black text-gradient-secondary">50+</div>
                       <div className="text-[8px] md:text-xs text-muted-foreground uppercase tracking-wider">Projects</div>
                     </div>
                     <div className="text-center">
