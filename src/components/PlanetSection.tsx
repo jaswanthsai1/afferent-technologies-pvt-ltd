@@ -37,7 +37,7 @@ const PlanetSection = ({
 }: PlanetSectionProps) => {
   const sectionRef = useRef<HTMLElement>(null);
   const atmosphereColor = getAtmosphereColor(planetName);
-  
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
@@ -53,7 +53,7 @@ const PlanetSection = ({
 
   const mobileSize = Math.min(planetSize * 0.7, 280);
 
-  const [particles, setParticles] = useState<{left: string, top: string, duration: number, delay: number, size: number}[]>([]);
+  const [particles, setParticles] = useState<{ left: string, top: string, duration: number, delay: number, size: number }[]>([]);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -61,7 +61,7 @@ const PlanetSection = ({
     setMounted(true);
     const mobile = window.innerWidth < 768;
     setIsMobile(mobile);
-    
+
     if (!mobile) {
       const newParticles = [...Array(20)].map(() => ({
         left: Math.random() * 100 + '%',
@@ -80,25 +80,26 @@ const PlanetSection = ({
       id={id}
       className="planet-section min-h-screen relative py-16 sm:py-20 md:py-32 overflow-hidden"
     >
-        {!isMobile && (
-          <motion.div
-            className={`absolute ${positionClasses[planetPosition]} pointer-events-none z-0`}
-            style={{ 
-              y: planetY,
-            }}
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.8, ease: 'easeOut' }}
-            viewport={{ once: false, amount: 0.2 }}
-          >
-            <div className="hidden md:block">
-              <Planet3D planetName={planetName} size={planetSize} />
-            </div>
-            <div className="block md:hidden">
-              <Planet3D planetName={planetName} size={mobileSize} />
-            </div>
-          </motion.div>
-        )}
+      <motion.div
+        className={`absolute pointer-events-none z-0 ${isMobile
+            ? 'top-20 left-1/2 -translate-x-1/2 opacity-30' // Mobile positioning
+            : positionClasses[planetPosition] // Desktop positioning
+          }`}
+        style={{
+          y: isMobile ? 0 : planetY, // Disable parallax on mobile if needed for performance
+        }}
+        initial={{ opacity: 0, scale: 0.5 }}
+        whileInView={{ opacity: isMobile ? 0.3 : 1, scale: 1 }}
+        transition={{ duration: 1.8, ease: 'easeOut' }}
+        viewport={{ once: false, amount: 0.2 }}
+      >
+        <div className="hidden md:block">
+          <Planet3D planetName={planetName} size={planetSize} />
+        </div>
+        <div className="block md:hidden">
+          <Planet3D planetName={planetName} size={mobileSize} />
+        </div>
+      </motion.div>
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <motion.div
@@ -117,7 +118,7 @@ const PlanetSection = ({
           >
             <motion.div
               className="w-4 h-4 rounded-full"
-              style={{ 
+              style={{
                 background: atmosphereColor.replace('0.', '1.'),
                 boxShadow: `0 0 20px ${atmosphereColor}, 0 0 40px ${atmosphereColor}`,
               }}
@@ -192,7 +193,7 @@ const PlanetSection = ({
       </div>
 
       {!isMobile && (
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: `

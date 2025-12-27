@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 interface Planet3DProps {
   planetName: string;
@@ -75,40 +76,58 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
   }, []);
 
   return (
-    <div 
+    <div
       className={`relative ${className}`}
-      style={{ 
-        width: size, 
+      style={{
+        width: size,
         height: size,
       }}
     >
-      {/* Outer Atmosphere Glow */}
+      {/* Outer Atmosphere Glow - Enhanced */}
       <motion.div
         className="absolute rounded-full"
         style={{
-          width: '140%',
-          height: '140%',
-          left: '-20%',
-          top: '-20%',
-          background: `radial-gradient(circle, ${config.atmosphereColor} 0%, transparent 70%)`,
-          filter: 'blur(30px)',
+          width: '150%',
+          height: '150%',
+          left: '-25%',
+          top: '-25%',
+          background: `
+            radial-gradient(circle, ${config.atmosphereColor} 0%, transparent 60%),
+            radial-gradient(circle, ${config.glowColor.replace('0.5', '0.2')} 40%, transparent 70%)
+          `,
+          filter: 'blur(40px)',
           zIndex: -1
         }}
         animate={isMobile ? {} : {
-          scale: [1, 1.05, 1],
-          opacity: [0.4, 0.6, 0.4],
+          scale: [1, 1.1, 1],
+          opacity: [0.5, 0.7, 0.5],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Secondary Glow for Depth */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: '120%',
+          height: '120%',
+          left: '-10%',
+          top: '-10%',
+          background: `radial-gradient(circle, ${config.glowColor} 0%, transparent 70%)`,
+          filter: 'blur(20px)',
+          opacity: 0.6,
+          zIndex: -1
+        }}
       />
 
       {/* The 3D Sphere */}
       <div
         className="absolute inset-0 rounded-full overflow-hidden"
         style={{
-          boxShadow: isMobile ? `inset -${size * 0.05}px -${size * 0.05}px ${size * 0.1}px rgba(0,0,0,0.8), 0 0 ${size * 0.05}px ${config.glowColor}` : `
-            inset -${size * 0.1}px -${size * 0.1}px ${size * 0.2}px rgba(0,0,0,0.9),
-            inset ${size * 0.05}px ${size * 0.05}px ${size * 0.1}px rgba(255,255,255,0.2),
-            0 0 ${size * 0.1}px ${config.glowColor}
+          boxShadow: isMobile ? `inset -${size * 0.15}px -${size * 0.15}px ${size * 0.2}px rgba(0,0,0,0.9), 0 0 ${size * 0.1}px ${config.glowColor}` : `
+            inset -${size * 0.25}px -${size * 0.1}px ${size * 0.4}px rgba(0,0,0,0.95),
+            inset ${size * 0.05}px ${size * 0.05}px ${size * 0.15}px rgba(255,255,255,0.4),
+            0 0 ${size * 0.05}px ${config.glowColor}
           `,
           background: '#000',
         }}
@@ -136,14 +155,25 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
 
         {/* Shading Layer (Static overlay to keep lighting consistent while texture rotates) */}
         <div
-          className="absolute inset-0 rounded-full"
+          className="absolute inset-0 rounded-full pointer-events-none"
           style={{
-            background: isMobile 
-              ? `radial-gradient(circle at 30% 30%, transparent 40%, rgba(0,0,0,0.7) 100%)`
+            background: isMobile
+              ? `radial-gradient(circle at 35% 35%, transparent 30%, rgba(0,0,0,0.8) 100%)`
               : `
-                radial-gradient(circle at 30% 30%, transparent 20%, rgba(0,0,0,0.8) 100%),
-                linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)
+                radial-gradient(circle at 30% 30%, transparent 10%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.95) 100%),
+                linear-gradient(120deg, rgba(255,255,255,0.15) 0%, transparent 40%)
               `,
+            mixBlendMode: 'multiply'
+          }}
+        />
+
+        {/* Atmospheric rim lighting (screen mode) */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background: `radial-gradient(circle at 30% 30%, ${config.atmosphereColor} 0%, transparent 60%)`,
+            mixBlendMode: 'screen',
+            opacity: 0.4
           }}
         />
       </div>
@@ -151,7 +181,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
 
       {/* Saturn's Rings */}
       {config.hasRings && planetName === 'Saturn' && (
-        <div 
+        <div
           className="absolute"
           style={{
             width: size * 2.6,
@@ -183,7 +213,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
 
       {/* Uranus's Rings (Vertical) */}
       {config.hasRings && planetName === 'Uranus' && (
-        <div 
+        <div
           className="absolute"
           style={{
             width: size * 2.2,

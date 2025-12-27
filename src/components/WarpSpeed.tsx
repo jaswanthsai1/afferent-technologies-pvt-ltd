@@ -25,7 +25,15 @@ export const WarpSpeed: React.FC<WarpSpeedProps> = ({ active, onComplete }) => {
     }
   }, [active, onComplete]);
 
-  const [linesData, setLinesData] = useState<any[]>([]);
+  interface LineData {
+    angle: number;
+    x: number;
+    y: number;
+    delay: number;
+    isBlue: boolean;
+  }
+
+  const [linesData, setLinesData] = useState<LineData[]>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -66,19 +74,19 @@ export const WarpSpeed: React.FC<WarpSpeedProps> = ({ active, onComplete }) => {
             {mounted && linesData.map((line, i) => (
               <motion.div
                 key={i}
-                initial={{ 
+                initial={{
                   scaleX: 0,
                   x: 0,
                   y: 0,
-                  opacity: 0 
+                  opacity: 0
                 }}
-                animate={{ 
+                animate={{
                   scaleX: [0, 15, 30],
                   x: [0, line.x * 15],
                   y: [0, line.y * 15],
                   opacity: [0, 1, 0]
                 }}
-                transition={{ 
+                transition={{
                   duration: 1.5,
                   ease: "easeIn",
                   delay: line.delay
@@ -93,7 +101,7 @@ export const WarpSpeed: React.FC<WarpSpeedProps> = ({ active, onComplete }) => {
               />
             ))}
           </div>
-          
+
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 4, opacity: [0, 1, 0] }}

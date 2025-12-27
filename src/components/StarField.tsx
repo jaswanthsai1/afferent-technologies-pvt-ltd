@@ -5,9 +5,47 @@ interface StarFieldProps {
   count?: number;
 }
 
-const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => {
+interface StarItemProps {
+  size: number;
+  left: string | number;
+  top: string | number;
+  color: string;
+  opacity: number;
+  duration: number;
+  delay: number;
+  isPulsating: boolean;
+  isGiant: boolean;
+  hasRays: boolean;
+  id?: number | string;
+}
+
+interface CosmicDust {
+  id: string;
+  left: string | number;
+  top: string | number;
+  size: number;
+  opacity: number;
+  duration: number;
+  delay: number;
+  color: string;
+  driftX: number;
+  driftY: number;
+}
+
+interface StarCluster {
+  id: string;
+  left: string;
+  top: string;
+  size: number;
+  stars: number;
+  color: string;
+  rotation: number;
+  duration: number;
+}
+
+const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: StarItemProps) => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  
+
   return (
     <motion.div
       className="absolute"
@@ -20,7 +58,7 @@ const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsatin
       }}
       animate={{
         opacity: [opacity, opacity * 0.4, opacity],
-        scale: isPulsating ? [1, 1.2, 1] : [1, 1.05, 1],
+        scale: isPulsating ? [1, 1.5, 1] : [1, 1.05, 1],
       }}
       transition={{
         duration,
@@ -29,7 +67,7 @@ const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsatin
         ease: "easeInOut",
       }}
     >
-      <div 
+      <div
         className="absolute inset-0 rounded-full"
         style={{
           background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
@@ -40,7 +78,7 @@ const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsatin
       />
       {hasRays && !isMobile && (
         <>
-          <div 
+          <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
               width: size * 6,
@@ -48,7 +86,7 @@ const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsatin
               background: `linear-gradient(90deg, transparent, ${color}80, white, ${color}80, transparent)`,
             }}
           />
-          <div 
+          <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
               width: 1,
@@ -67,7 +105,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
   const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
     setIsMobile(window.innerWidth < 768);
@@ -78,72 +116,72 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
   const layer3Y = useTransform(scrollY, [0, 2000], [0, -240]);
   const layer4Y = useTransform(scrollY, [0, 2000], [0, -40]);
 
-  const [starLayers, setStarLayers] = useState<any[][]>([[], [], [], []]);
-  const [cosmicDust, setCosmicDust] = useState<any[]>([]);
-  const [starClusters, setStarClusters] = useState<any[]>([]);
+  const [starLayers, setStarLayers] = useState<StarItemProps[][]>([[], [], [], []]);
+  const [cosmicDust, setCosmicDust] = useState<CosmicDust[]>([]);
+  const [starClusters, setStarClusters] = useState<StarCluster[]>([]);
 
-    useEffect(() => {
-      const mobile = window.innerWidth < 768;
-      const finalCount = mobile ? Math.min(count, 40) : count;
-      
-      const layers: any[][] = [[], [], [], []];
-      const starColors = [
-        '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
-        '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
-      ];
+  useEffect(() => {
+    const mobile = window.innerWidth < 768;
+    const finalCount = mobile ? Math.min(count, 40) : count;
 
-      for (let i = 0; i < finalCount; i++) {
-        const layerIndex = Math.floor(Math.random() * 4);
-        const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
-        const color = starColors[Math.floor(Math.random() * starColors.length)];
-        const isGiant = Math.random() > 0.95;
-        const isPulsating = Math.random() > 0.85;
-        const hasRays = isGiant && !mobile && Math.random() > 0.7;
-        
-        layers[layerIndex].push({
-          id: i,
-          size: isGiant ? size * 2.5 : size,
-          left: Math.random() * 100 + '%',
-          top: Math.random() * 100 + '%',
-          color,
-          opacity: Math.random() * 0.4 + 0.5,
-          duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
-          delay: Math.random() * 5,
-          isPulsating,
-          isGiant,
-          hasRays,
-        });
-      }
-      setStarLayers(layers);
+    const layers: StarItemProps[][] = [[], [], [], []];
+    const starColors = [
+      '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
+      '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
+    ];
 
-      const dustCount = mobile ? 10 : 120;
-      const dust = [...Array(dustCount)].map((_, i) => ({
-        id: `dust-${i}`,
+    for (let i = 0; i < finalCount; i++) {
+      const layerIndex = Math.floor(Math.random() * 4);
+      const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
+      const color = starColors[Math.floor(Math.random() * starColors.length)];
+      const isGiant = Math.random() > 0.95;
+      const isPulsating = Math.random() > 0.85;
+      const hasRays = isGiant && !mobile && Math.random() > 0.7;
+
+      layers[layerIndex].push({
+        id: i,
+        size: isGiant ? size * 2.5 : size,
         left: Math.random() * 100 + '%',
         top: Math.random() * 100 + '%',
-        size: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.15 + 0.05,
-        duration: Math.random() * 60 + 40,
-        delay: Math.random() * 10,
-        color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff'][Math.floor(Math.random() * 4)],
-        driftX: (Math.random() - 0.5) * 100,
-        driftY: (Math.random() - 0.5) * 100,
-      }));
-      setCosmicDust(dust);
+        color,
+        opacity: Math.random() * 0.4 + 0.5,
+        duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
+        delay: Math.random() * 5,
+        isPulsating,
+        isGiant,
+        hasRays,
+      });
+    }
+    setStarLayers(layers);
 
-      const clusterCount = mobile ? 1 : 6;
-      const clusters = [...Array(clusterCount)].map((_, i) => ({
-        id: `cluster-${i}`,
-        left: Math.random() * 80 + 10 + '%',
-        top: Math.random() * 80 + 10 + '%',
-        size: 60 + Math.random() * 100,
-        stars: mobile ? 5 : 20,
-        color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
-        rotation: Math.random() * 360,
-        duration: 300 + Math.random() * 200,
-      }));
-      setStarClusters(clusters);
-    }, [count]);
+    const dustCount = mobile ? 10 : 120;
+    const dust = [...Array(dustCount)].map((_, i) => ({
+      id: `dust-${i}`,
+      left: Math.random() * 100 + '%',
+      top: Math.random() * 100 + '%',
+      size: Math.random() * 3 + 1,
+      opacity: Math.random() * 0.15 + 0.05,
+      duration: Math.random() * 60 + 40,
+      delay: Math.random() * 10,
+      color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff'][Math.floor(Math.random() * 4)],
+      driftX: (Math.random() - 0.5) * 100,
+      driftY: (Math.random() - 0.5) * 100,
+    }));
+    setCosmicDust(dust);
+
+    const clusterCount = mobile ? 1 : 6;
+    const clusters = [...Array(clusterCount)].map((_, i) => ({
+      id: `cluster-${i}`,
+      left: Math.random() * 80 + 10 + '%',
+      top: Math.random() * 80 + 10 + '%',
+      size: 60 + Math.random() * 100,
+      stars: mobile ? 5 : 20,
+      color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
+      rotation: Math.random() * 360,
+      duration: 300 + Math.random() * 200,
+    }));
+    setStarClusters(clusters);
+  }, [count]);
 
 
   const galaxyArms = useMemo(() => [
@@ -164,9 +202,9 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      <div 
+      <div
         className="absolute inset-0"
-        style={{ 
+        style={{
           background: `
             radial-gradient(ellipse 150% 100% at 50% 0%, #0a0520 0%, #030014 50%, #010008 100%),
             linear-gradient(180deg, #050020 0%, #020010 50%, #000005 100%)
@@ -175,7 +213,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
       />
 
       <div className="absolute inset-0" style={{ opacity: 0.4 }}>
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             background: `
@@ -188,7 +226,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
       </div>
 
       {mounted && (
-        <motion.div 
+        <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           animate={{
             scale: [1, 1.1, 1],
@@ -218,7 +256,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
       )}
 
       {mounted && (
-        <motion.div 
+        <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           animate={{
             scale: [1, 1.3, 1],
@@ -432,9 +470,8 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
             top: Math.random() * 100 + '%',
             width: Math.random() * 100 + 50,
             height: Math.random() * 100 + 50,
-            background: `radial-gradient(circle, ${
-              ['rgba(139, 92, 246, 0.1)', 'rgba(59, 130, 246, 0.1)', 'rgba(236, 72, 153, 0.08)', 'rgba(34, 211, 238, 0.1)'][i % 4]
-            } 0%, transparent 70%)`,
+            background: `radial-gradient(circle, ${['rgba(139, 92, 246, 0.1)', 'rgba(59, 130, 246, 0.1)', 'rgba(236, 72, 153, 0.08)', 'rgba(34, 211, 238, 0.1)'][i % 4]
+              } 0%, transparent 70%)`,
             filter: 'blur(20px)',
           }}
           animate={{
@@ -475,7 +512,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
         />
       ))}
 
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `

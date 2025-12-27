@@ -9,10 +9,17 @@ export const planetTextures: Record<string, string> = {
   Neptune: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980845%29_flatten_crop.jpg',
 };
 
+interface PlanetStyle {
+  background: string;
+  backgroundSize: string;
+  backgroundPosition: string;
+  boxShadow: string;
+}
+
 export const getPlanetStyle = (name: string) => {
   const texture = planetTextures[name];
-  
-  const baseStyles: Record<string, any> = {
+
+  const baseStyles: Record<string, PlanetStyle> = {
     Mercury: {
       background: `
         url(${texture}),
@@ -156,14 +163,20 @@ export const getPlanetStyle = (name: string) => {
     },
   };
 
-  return baseStyles[name] || { 
+  return baseStyles[name] || {
     background: 'linear-gradient(135deg, #666 0%, #333 100%)',
     boxShadow: 'inset -20px -20px 40px rgba(0,0,0,0.8)',
   };
 };
 
+interface AtmosphereStyle {
+  color: string;
+  spread: number;
+  blur: number;
+}
+
 export const getAtmosphereStyle = (name: string) => {
-  const atmospheres: Record<string, any> = {
+  const atmospheres: Record<string, AtmosphereStyle> = {
     Earth: {
       color: 'rgba(100, 180, 255, 0.4)',
       spread: 25,

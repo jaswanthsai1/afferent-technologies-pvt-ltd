@@ -19,15 +19,14 @@ export const StardustCursor: React.FC = () => {
     setIsMobile('ontouchstart' in window || window.innerWidth < 768);
   }, []);
 
-  const colors = [
-    'hsl(var(--electric-blue))',
-    'hsl(var(--cosmic-orange))',
-    '#ffffff',
-    '#b3d9ff',
-    '#ffe6cc'
-  ];
-
   const addParticle = useCallback((x: number, y: number) => {
+    const colors = [
+      'hsl(var(--electric-blue))',
+      'hsl(var(--cosmic-orange))',
+      '#ffffff',
+      '#b3d9ff',
+      '#ffe6cc'
+    ];
     const id = Date.now() + Math.random();
     const newParticle: Particle = {
       id,
@@ -38,7 +37,7 @@ export const StardustCursor: React.FC = () => {
       life: 1,
     };
     setParticles((prev) => [...prev.slice(-20), newParticle]);
-  }, [colors]);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -71,8 +70,8 @@ export const StardustCursor: React.FC = () => {
           <motion.div
             key={p.id}
             initial={{ opacity: 0.8, scale: 1 }}
-            animate={{ 
-              opacity: 0, 
+            animate={{
+              opacity: 0,
               scale: 0,
               x: p.x + (Math.random() - 0.5) * 20,
               y: p.y + (Math.random() - 0.5) * 20
@@ -91,7 +90,7 @@ export const StardustCursor: React.FC = () => {
           />
         ))}
       </AnimatePresence>
-      
+
       {/* Subtle core cursor glow */}
       <motion.div
         className="absolute w-8 h-8 rounded-full blur-xl pointer-events-none"

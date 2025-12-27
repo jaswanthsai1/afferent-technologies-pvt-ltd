@@ -43,42 +43,42 @@ export function PlanetaryHeroBackground() {
   const parallaxYBase = useTransform(scrollY, [0, 1000], [0, isMobile ? -100 : -200]);
   const rotateX = useTransform(smoothMouseY, [-1, 1], [2, -2]); // Vertical tilt
   const rotateY = useTransform(smoothMouseX, [-1, 1], [-2, 2]); // Horizontal tilt
-  
-    // Multiple layers for deep 3D effect
-    const starsCount = isMobile ? 15 : 100;
-    const stars = useMemo(() => [...Array(starsCount)].map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 1.5 + 0.5,
-      duration: 3 + Math.random() * 5,
-      delay: Math.random() * 5,
-      opacity: Math.random() * 0.5 + 0.2,
-    })), [isMobile, starsCount]);
-  
-    const groundEnergyCount = isMobile ? 2 : 15;
-    const groundEnergy = useMemo(() => [...Array(groundEnergyCount)].map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      bottom: `${Math.random() * 40}%`,
-      width: `${Math.random() * (isMobile ? 80 : 150) + 50}px`,
-      height: `${Math.random() * 3 + 1}px`,
-      delay: Math.random() * 4,
-      duration: 2 + Math.random() * 3,
-    })), [isMobile, groundEnergyCount]);
+
+  // Multiple layers for deep 3D effect
+  const starsCount = isMobile ? 15 : 100;
+  const stars = useMemo(() => [...Array(starsCount)].map((_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 1.5 + 0.5,
+    duration: 3 + Math.random() * 5,
+    delay: Math.random() * 5,
+    opacity: Math.random() * 0.5 + 0.2,
+  })), [starsCount]);
+
+  const groundEnergyCount = isMobile ? 2 : 15;
+  const groundEnergy = useMemo(() => [...Array(groundEnergyCount)].map((_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    bottom: `${Math.random() * 40}%`,
+    width: `${Math.random() * (isMobile ? 80 : 150) + 50}px`,
+    height: `${Math.random() * 3 + 1}px`,
+    delay: Math.random() * 4,
+    duration: 2 + Math.random() * 3,
+  })), [groundEnergyCount, isMobile]);
 
 
   const bgImage = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Screenshot-2025-12-27-133742-1766822869625.png";
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#020008]"
       style={{ perspective: isMobile ? 'none' : '1200px' }}
     >
       {/* 3D Wrapper Layer */}
-      <motion.div 
-        style={{ 
+      <motion.div
+        style={{
           y: parallaxYBase,
           rotateX: isMobile ? 0 : rotateX,
           rotateY: isMobile ? 0 : rotateY,
@@ -87,11 +87,11 @@ export function PlanetaryHeroBackground() {
         className={`absolute inset-0 ${isMobile ? '' : 'inset-[-15%]'} z-0`}
       >
         {/* Main Image Layer (Base) */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-95 scale-110"
-          style={{ 
+          style={{
             backgroundImage: `url(${bgImage})`,
-            transform: isMobile ? 'none' : 'translateZ(-50px)' 
+            transform: isMobile ? 'none' : 'translateZ(-50px)'
           }}
         />
 
@@ -180,7 +180,7 @@ export function PlanetaryHeroBackground() {
       </motion.div>
 
       {/* Static Overlays (Not affected by 3D tilt for stability) */}
-      
+
       {/* Ground Heat Shimmer SVG Filter Overlay - DISABLED ON MOBILE */}
       {!isMobile && (
         <>
@@ -192,8 +192,8 @@ export function PlanetaryHeroBackground() {
               <feDisplacementMap in="SourceGraphic" scale="5" />
             </filter>
           </svg>
-          
-          <div 
+
+          <div
             className="absolute bottom-0 left-0 w-full h-[45%] z-25 pointer-events-none opacity-40"
             style={{ filter: 'url(#heat-shimmer)' }}
           >

@@ -7,7 +7,7 @@ interface TeamMember {
   name: string | JSX.Element;
   role: string;
   bio: string;
-  icon: any;
+  icon: React.ElementType;
   x: number;
   y: number;
   color: string;
