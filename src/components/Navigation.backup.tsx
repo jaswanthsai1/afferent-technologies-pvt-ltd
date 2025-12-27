@@ -31,7 +31,7 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6 }}
-        className="fixed top-3 md:top-6 left-3 md:left-1/2 md:-translate-x-1/2 z-40 "
+        className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100vw-0.5rem)] sm:w-auto max-w-max"
       >
         <div className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-full bg-background/60 backdrop-blur-2xl border border-border/40 shadow-2xl shadow-black/50">
           {navItems.map((item, index) => {
@@ -59,7 +59,7 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
 
               
               {/* Tooltip - Hidden on mobile */}
-              <div className="hidden sm:block absolute top-full left-3 md:left-1/2 md:-translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 text-xs font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              <div className="hidden sm:block absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 text-xs font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                 {item.label}
               </div>
             </motion.div>
@@ -108,4 +108,3 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
 };
 
 export default Navigation;
-
