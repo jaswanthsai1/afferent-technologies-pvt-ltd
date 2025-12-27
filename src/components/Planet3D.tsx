@@ -75,36 +75,9 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
-  if (isMobile) {
-    // Highly optimized mobile version: ONE static div with a gradient
-    return (
-      <div
-        className={`relative ${className}`}
-        style={{ width: size, height: size }}
-      >
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: `radial-gradient(circle at 30% 30%, ${config.atmosphereColor.replace(/[\d.]+\)$/, '0.8)')} 0%, ${config.glowColor.replace(/[\d.]+\)$/, '0.8)')} 50%, transparent 70%)`,
-            boxShadow: `0 0 30px ${config.glowColor.replace('0.5', '0.4')}`,
-            opacity: 1
-          }}
-        >
-          {/* Simple static texture overlay */}
-          <div
-            className="absolute inset-0 rounded-full opacity-60"
-            style={{
-              backgroundImage: `url(${config.texture})`,
-              backgroundSize: '200%',
-              backgroundPosition: 'center',
-              maskImage: 'radial-gradient(circle, black 40%, transparent 100%)',
-              WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 100%)'
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
+  // Mobile optimization: Reduce heavy blur effects but keep 3D rotation
+  const blurAmount = isMobile ? '20px' : '40px';
+  const secondaryBlur = isMobile ? '10px' : '20px';
 
   return (
     <div
@@ -114,7 +87,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
         height: size,
       }}
     >
-      {/* Outer Atmosphere Glow - Enhanced */}
+      {/* Outer Atmosphere Glow - Optimized for mobile */}
       <motion.div
         className="absolute rounded-full"
         style={{
@@ -126,7 +99,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
             radial-gradient(circle, ${config.atmosphereColor} 0%, transparent 60%),
             radial-gradient(circle, ${config.glowColor.replace('0.5', '0.2')} 40%, transparent 70%)
           `,
-          filter: 'blur(40px)',
+          filter: `blur(${blurAmount})`,
           zIndex: -1
         }}
         animate={{
@@ -145,7 +118,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
           left: '-10%',
           top: '-10%',
           background: `radial-gradient(circle, ${config.glowColor} 0%, transparent 70%)`,
-          filter: 'blur(20px)',
+          filter: `blur(${secondaryBlur})`,
           opacity: 0.6,
           zIndex: -1
         }}
