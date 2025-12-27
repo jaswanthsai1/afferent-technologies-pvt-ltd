@@ -47,11 +47,11 @@ const PlanetSection = ({
 
   const positionClasses = {
     left: '-left-20 sm:-left-32 md:-left-20 top-1/2 -translate-y-1/2',
-    right: '-right-20 sm:-right-32 md:-right-20 top-1/2 -translate-y-1/2',
+    right: 'left-1/2 sm:left-auto sm:-right-20 md:-right-10 top-1/2 -translate-y-1/2',
     center: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
   };
 
-  const mobileSize = Math.min(planetSize * 0.55, 220);
+  const mobileSize = Math.min(planetSize * 0.7, 280);
 
   const [particles, setParticles] = useState<{left: string, top: string, duration: number, delay: number, size: number}[]>([]);
   const [mounted, setMounted] = useState(false);
