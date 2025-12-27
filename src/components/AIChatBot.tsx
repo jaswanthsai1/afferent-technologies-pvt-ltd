@@ -100,9 +100,9 @@ export function AIChatBot() {
         throw new Error("API Key not found. Please configure VITE_GEMINI_API_KEY.");
       }
 
-      const genAI = new GoogleGenerativeAI(apiKey);
+        const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ 
-          model: "gemini-1.5-flash",
+          model: "gemini-pro",
           systemInstruction: `You are an AI assistant for Afferent Technologies Pvt Ltd. 
           Use the following information to answer questions about the company: ${COMPANY_INFO}
           If a user asks something unrelated to the company, use your general knowledge to answer, 
