@@ -80,23 +80,25 @@ const PlanetSection = ({
       id={id}
       className="planet-section min-h-screen relative py-16 sm:py-20 md:py-32 overflow-hidden"
     >
-      <motion.div
-        className={`absolute ${positionClasses[planetPosition]} pointer-events-none z-0`}
-        style={{ 
-          y: planetY,
-        }}
-        initial={{ opacity: 0, scale: 0.5 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.8, ease: 'easeOut' }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <div className="hidden md:block">
-          <Planet3D planetName={planetName} size={planetSize} />
-        </div>
-        <div className="block md:hidden">
-          <Planet3D planetName={planetName} size={mobileSize} />
-        </div>
-      </motion.div>
+        {!isMobile && (
+          <motion.div
+            className={`absolute ${positionClasses[planetPosition]} pointer-events-none z-0`}
+            style={{ 
+              y: planetY,
+            }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.8, ease: 'easeOut' }}
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            <div className="hidden md:block">
+              <Planet3D planetName={planetName} size={planetSize} />
+            </div>
+            <div className="block md:hidden">
+              <Planet3D planetName={planetName} size={mobileSize} />
+            </div>
+          </motion.div>
+        )}
 
       <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
         <motion.div
@@ -189,17 +191,19 @@ const PlanetSection = ({
         ))}
       </div>
 
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(ellipse 80% 50% at ${planetPosition === 'right' ? '80%' : planetPosition === 'left' ? '20%' : '50%'} 50%, 
-              ${atmosphereColor.replace(')', ', 0.05)')} 0%, 
-              transparent 70%
-            )
-          `,
-        }}
-      />
+      {!isMobile && (
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              radial-gradient(ellipse 80% 50% at ${planetPosition === 'right' ? '80%' : planetPosition === 'left' ? '20%' : '50%'} 50%, 
+                ${atmosphereColor.replace(')', ', 0.05)')} 0%, 
+                transparent 70%
+              )
+            `,
+          }}
+        />
+      )}
     </section>
   );
 };

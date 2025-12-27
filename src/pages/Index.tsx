@@ -39,11 +39,21 @@ import { AIChatBot } from '../components/AIChatBot';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
-const Index = () => {
-  const [phase, setPhase] = useState<AppPhase>('intro');
-  const [currentSection, setCurrentSection] = useState(0);
+  const Index = () => {
+    const [phase, setPhase] = useState<AppPhase>('intro');
+    const [currentSection, setCurrentSection] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
 
-  const handleIntroComplete = useCallback(() => {
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const handleIntroComplete = useCallback(() => {
     setPhase('logo-reveal');
   }, []);
 
@@ -100,30 +110,32 @@ const Index = () => {
         <AIChatBot />
         
             <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
-            {/* Dynamic backgrounds */}
-              <div className="fixed inset-0 z-0">
-                  <AnimatePresence>
-                    {currentSection === 0 && (
-                      <motion.div
-                        key="hero-bg"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1 }}
-                        className="absolute inset-0"
-                      >
-                        <PlanetaryHeroBackground />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              {/* Dynamic backgrounds */}
+                <div className="fixed inset-0 z-0">
+                    <AnimatePresence>
+                      {(isMobile || currentSection === 0) && (
+                        <motion.div
+                          key="hero-bg"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 1 }}
+                          className="absolute inset-0"
+                        >
+                          <PlanetaryHeroBackground />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
-                  <div
-                    className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-                    style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
-                  >
-                    <StarField count={window.innerWidth < 768 ? 30 : 150} />
-                  </div>
-              </div>
+                    {!isMobile && (
+                      <div
+                        className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                        style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
+                      >
+                        <StarField count={150} />
+                      </div>
+                    )}
+                </div>
 
           {/* Lens Flare Effect - Disabled on Mobile for Performance */}
           {window.innerWidth >= 768 && (
