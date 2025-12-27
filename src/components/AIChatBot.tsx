@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, X, Bot, User, Search, Globe, Loader2 } from 'lucide-react';
+import { Send, X, Bot, User, Search, Globe, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { ScrollArea } from './ui/scroll-area';
 import { Input } from './ui/input';
@@ -101,7 +101,7 @@ export function AIChatBot() {
 
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ 
-        model: "gemini-3-flash",
+        model: "gemini-2.0-flash",
         systemInstruction: `You are an AI assistant for Afferent Technologies Pvt Ltd. 
         Use the following information to answer questions about the company: ${COMPANY_INFO}
         If a user asks something unrelated to the company, use your general knowledge to answer, 
