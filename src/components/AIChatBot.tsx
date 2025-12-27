@@ -101,7 +101,7 @@ export function AIChatBot() {
 
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash",
         systemInstruction: `You are an AI assistant for Afferent Technologies Pvt Ltd. 
         Use the following information to answer questions about the company: ${COMPANY_INFO}
         If a user asks something unrelated to the company, use your general knowledge to answer, 
@@ -109,12 +109,18 @@ export function AIChatBot() {
         Always be professional, helpful, and maintain a cosmic/technological theme.`
       });
 
-      const chat = model.startChat({
-        history: messages.map(m => ({
+        const history = messages.map(m => ({
           role: m.role === 'user' ? 'user' : 'model',
           parts: [{ text: m.content }],
-        })),
-      });
+        }));
+
+        // Gemini requires history to start with a 'user' message
+        const firstUserIndex = history.findIndex(h => h.role === 'user');
+        const validHistory = firstUserIndex !== -1 ? history.slice(firstUserIndex) : [];
+
+        const chat = model.startChat({
+          history: validHistory,
+        });
 
       const result = await chat.sendMessage(input);
       const responseText = result.response.text();
@@ -265,14 +271,14 @@ export function AIChatBot() {
               <X className="w-6 h-6" />
             </motion.div>
           ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-            >
-              <MessageSquare className="w-7 h-7" />
-            </motion.div>
+              <motion.div
+                key="chat"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+              >
+                <Bot className="w-7 h-7" />
+              </motion.div>
           )}
         </AnimatePresence>
         
