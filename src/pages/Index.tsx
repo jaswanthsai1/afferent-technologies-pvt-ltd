@@ -24,6 +24,7 @@ import SEO from '@/components/SEO';
 import IntroVideo from '@/components/IntroVideo';
 import LogoReveal from '@/components/LogoReveal';
 import StarField from '@/components/StarField';
+import PlanetaryHeroBackground from '@/components/PlanetaryHeroBackground';
 import Navigation from '@/components/Navigation';
 import FloatingLogo from '@/components/FloatingLogo';
 import PlanetSection from '@/components/PlanetSection';
@@ -96,9 +97,33 @@ const Index = () => {
       <SEO />
       <StardustCursor />
       
-      <div className="relative min-h-screen bg-background overflow-x-hidden">
-        {/* Star field background */}
-        <StarField count={200} />
+        <div className="relative min-h-screen bg-background overflow-x-hidden">
+          {/* Dynamic backgrounds */}
+          <AnimatePresence mode="wait">
+            {currentSection === 0 ? (
+              <motion.div
+                key="planetary-bg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="fixed inset-0 z-0"
+              >
+                <PlanetaryHeroBackground />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="starfield-bg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+                className="fixed inset-0 z-0"
+              >
+                <StarField count={200} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         {/* Lens Flare Effect */}
         <motion.div
