@@ -99,31 +99,33 @@ const Index = () => {
       
         <div className="relative min-h-screen bg-background overflow-x-hidden">
           {/* Dynamic backgrounds */}
-          <AnimatePresence mode="wait">
-            {currentSection === 0 ? (
-              <motion.div
-                key="planetary-bg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="fixed inset-0 z-0"
-              >
-                <PlanetaryHeroBackground />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="starfield-bg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="fixed inset-0 z-0"
-              >
-                <StarField count={200} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+            <div className="fixed inset-0 z-0">
+              <AnimatePresence>
+                {currentSection === 0 ? (
+                  <motion.div
+                    key="planetary-bg"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0"
+                  >
+                    <PlanetaryHeroBackground />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="starfield-bg"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-0"
+                  >
+                    <StarField count={window.innerWidth < 768 ? 100 : 200} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
         {/* Lens Flare Effect */}
         <motion.div

@@ -3,11 +3,19 @@ import { useMemo, useRef, useState, useEffect } from 'react';
 
 export function PlanetaryHeroBackground() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const handleMouseMove = (e: MouseEvent) => {
+      if (window.innerWidth < 768) return;
       // Normalize mouse position to range [-1, 1]
       setMousePosition({
         x: (e.clientX / window.innerWidth - 0.5) * 2,
@@ -15,24 +23,30 @@ export function PlanetaryHeroBackground() {
       });
     };
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   const smoothMouseX = useSpring(0, { stiffness: 50, damping: 25 });
   const smoothMouseY = useSpring(0, { stiffness: 50, damping: 25 });
 
   useEffect(() => {
-    smoothMouseX.set(mousePosition.x);
-    smoothMouseY.set(mousePosition.y);
-  }, [mousePosition.x, mousePosition.y, smoothMouseX, smoothMouseY]);
+    if (!isMobile) {
+      smoothMouseX.set(mousePosition.x);
+      smoothMouseY.set(mousePosition.y);
+    }
+  }, [mousePosition.x, mousePosition.y, smoothMouseX, smoothMouseY, isMobile]);
 
   // Parallax and Perspective transforms
-  const parallaxYBase = useTransform(scrollY, [0, 1000], [0, -200]);
+  const parallaxYBase = useTransform(scrollY, [0, 1000], [0, isMobile ? -100 : -200]);
   const rotateX = useTransform(smoothMouseY, [-1, 1], [2, -2]); // Vertical tilt
   const rotateY = useTransform(smoothMouseX, [-1, 1], [-2, 2]); // Horizontal tilt
   
   // Multiple layers for deep 3D effect
-  const stars = useMemo(() => [...Array(100)].map((_, i) => ({
+  const starsCount = isMobile ? 40 : 100;
+  const stars = useMemo(() => [...Array(starsCount)].map((_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -40,17 +54,18 @@ export function PlanetaryHeroBackground() {
     duration: 3 + Math.random() * 5,
     delay: Math.random() * 5,
     opacity: Math.random() * 0.5 + 0.2,
-  })), []);
+  })), [isMobile, starsCount]);
 
-  const groundEnergy = useMemo(() => [...Array(15)].map((_, i) => ({
+  const groundEnergyCount = isMobile ? 6 : 15;
+  const groundEnergy = useMemo(() => [...Array(groundEnergyCount)].map((_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
     bottom: `${Math.random() * 40}%`,
-    width: `${Math.random() * 150 + 50}px`,
-    height: `${Math.random() * 4 + 1}px`,
+    width: `${Math.random() * (isMobile ? 80 : 150) + 50}px`,
+    height: `${Math.random() * 3 + 1}px`,
     delay: Math.random() * 4,
     duration: 2 + Math.random() * 3,
-  })), []);
+  })), [isMobile, groundEnergyCount]);
 
   const bgImage = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Screenshot-2025-12-27-133742-1766822869625.png";
 
@@ -58,29 +73,29 @@ export function PlanetaryHeroBackground() {
     <div 
       ref={containerRef}
       className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#020008]"
-      style={{ perspective: '1200px' }}
+      style={{ perspective: isMobile ? 'none' : '1200px' }}
     >
       {/* 3D Wrapper Layer */}
       <motion.div 
         style={{ 
           y: parallaxYBase,
-          rotateX,
-          rotateY,
-          transformStyle: 'preserve-3d'
+          rotateX: isMobile ? 0 : rotateX,
+          rotateY: isMobile ? 0 : rotateY,
+          transformStyle: isMobile ? 'flat' : 'preserve-3d'
         }}
-        className="absolute inset-[-15%] z-0"
+        className={`absolute inset-0 ${isMobile ? '' : 'inset-[-15%]'} z-0`}
       >
         {/* Main Image Layer (Base) */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-95 scale-110"
           style={{ 
             backgroundImage: `url(${bgImage})`,
-            transform: 'translateZ(-50px)' 
+            transform: isMobile ? 'none' : 'translateZ(-50px)' 
           }}
         />
 
         {/* Space Enhancement: Dynamic Star Field (Upper Layer) */}
-        <div className="absolute inset-0 z-10" style={{ transform: 'translateZ(20px)' }}>
+        <div className="absolute inset-0 z-10" style={{ transform: isMobile ? 'none' : 'translateZ(20px)' }}>
           {stars.map((star) => (
             <motion.div
               key={star.id}
@@ -108,7 +123,7 @@ export function PlanetaryHeroBackground() {
         </div>
 
         {/* Ground Enhancement: Energy Veins (Isolated to bottom 40%) */}
-        <div className="absolute inset-0 z-20 overflow-hidden" style={{ transform: 'translateZ(100px)' }}>
+        <div className="absolute inset-0 z-20 overflow-hidden" style={{ transform: isMobile ? 'none' : 'translateZ(100px)' }}>
           {groundEnergy.map((vein) => (
             <motion.div
               key={vein.id}
@@ -137,10 +152,10 @@ export function PlanetaryHeroBackground() {
         </div>
 
         {/* Cinematic Nebula Glows */}
-        <div className="absolute inset-0 z-15 mix-blend-screen" style={{ transform: 'translateZ(40px)' }}>
+        <div className="absolute inset-0 z-15 mix-blend-screen" style={{ transform: isMobile ? 'none' : 'translateZ(40px)' }}>
           {/* Top Right Nova Glow */}
           <motion.div
-            className="absolute right-[10%] top-[35%] w-[600px] h-[600px] rounded-full"
+            className={`absolute right-[10%] top-[35%] ${isMobile ? 'w-[300px] h-[300px]' : 'w-[600px] h-[600px]'} rounded-full`}
             style={{
               background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%)',
               filter: 'blur(60px)',
@@ -150,7 +165,7 @@ export function PlanetaryHeroBackground() {
           />
           {/* Bottom Magma Glow */}
           <motion.div
-            className="absolute bottom-[-10%] left-[20%] w-[1000px] h-[400px] rounded-full"
+            className={`absolute bottom-[-10%] left-[20%] ${isMobile ? 'w-[500px] h-[200px]' : 'w-[1000px] h-[400px]'} rounded-full`}
             style={{
               background: 'radial-gradient(ellipse, rgba(249, 115, 22, 0.2) 0%, transparent 80%)',
               filter: 'blur(50px)',
@@ -163,23 +178,26 @@ export function PlanetaryHeroBackground() {
 
       {/* Static Overlays (Not affected by 3D tilt for stability) */}
       
-      {/* Ground Heat Shimmer SVG Filter Overlay */}
-      <svg className="hidden">
-        <filter id="heat-shimmer">
-          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" seed="1">
-            <animate attributeName="seed" from="1" to="100" dur="10s" repeatCount="indefinite" />
-          </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" scale="5" />
-        </filter>
-      </svg>
-      
-      {/* Applied Shimmer to Bottom portion */}
-      <div 
-        className="absolute bottom-0 left-0 w-full h-[45%] z-25 pointer-events-none opacity-40"
-        style={{ filter: 'url(#heat-shimmer)' }}
-      >
-        <div className="w-full h-full bg-transparent" />
-      </div>
+      {/* Ground Heat Shimmer SVG Filter Overlay - DISABLED ON MOBILE */}
+      {!isMobile && (
+        <>
+          <svg className="hidden">
+            <filter id="heat-shimmer">
+              <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="2" seed="1">
+                <animate attributeName="seed" from="1" to="100" dur="10s" repeatCount="indefinite" />
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" scale="5" />
+            </filter>
+          </svg>
+          
+          <div 
+            className="absolute bottom-0 left-0 w-full h-[45%] z-25 pointer-events-none opacity-40"
+            style={{ filter: 'url(#heat-shimmer)' }}
+          >
+            <div className="w-full h-full bg-transparent" />
+          </div>
+        </>
+      )}
 
       {/* Atmospheric Fog/Mist (Foreground) */}
       <div className="absolute inset-0 z-30 pointer-events-none">
