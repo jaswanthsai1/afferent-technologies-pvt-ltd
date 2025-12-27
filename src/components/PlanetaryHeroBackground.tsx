@@ -1,188 +1,163 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useMemo, useRef, useState, useEffect } from 'react';
-import Planet3D from './Planet3D';
 
 export function PlanetaryHeroBackground() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
 
   useEffect(() => {
-    setMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const parallaxY1 = useTransform(scrollY, [0, 1000], [0, -200]);
-  const parallaxY2 = useTransform(scrollY, [0, 1000], [0, -100]);
-  const parallaxY3 = useTransform(scrollY, [0, 1000], [0, -50]);
+  const smoothMouseX = useSpring(0, { stiffness: 50, damping: 20 });
+  const smoothMouseY = useSpring(0, { stiffness: 50, damping: 20 });
 
-  const nebulae = useMemo(() => [
-    { x: '20%', y: '30%', w: 600, h: 400, color: '#8b5cf6', opacity: 0.15, blur: 120 },
-    { x: '80%', y: '20%', w: 500, h: 500, color: '#f97316', opacity: 0.2, blur: 150 },
-    { x: '50%', y: '50%', w: 800, h: 600, color: '#3b82f6', opacity: 0.1, blur: 180 },
+  useEffect(() => {
+    smoothMouseX.set(mousePosition.x);
+    smoothMouseY.set(mousePosition.y);
+  }, [mousePosition.x, mousePosition.y, smoothMouseX, smoothMouseY]);
+
+  const parallaxYBase = useTransform(scrollY, [0, 1000], [0, -150]);
+  const parallaxYMid = useTransform(scrollY, [0, 1000], [0, -100]);
+  const parallaxYFore = useTransform(scrollY, [0, 1000], [0, -50]);
+
+  const mouseXBase = useTransform(smoothMouseX, (x) => x * 0.2);
+  const mouseYBase = useTransform(smoothMouseY, (y) => y * 0.2);
+  const mouseXMid = useTransform(smoothMouseX, (x) => x * 0.5);
+  const mouseYMid = useTransform(smoothMouseY, (y) => y * 0.5);
+
+  const particles = useMemo(() => [...Array(30)].map((_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 2 + 1,
+    duration: 5 + Math.random() * 10,
+    delay: Math.random() * 5,
+  })), []);
+
+  const glows = useMemo(() => [
+    { x: '75%', y: '85%', size: '400px', color: 'rgba(249, 115, 22, 0.25)', delay: 0 },
+    { x: '85%', y: '75%', size: '300px', color: 'rgba(251, 146, 60, 0.2)', delay: 2 },
+    { x: '20%', y: '80%', size: '350px', color: 'rgba(249, 115, 22, 0.15)', delay: 1 },
+    { x: '85%', y: '45%', size: '500px', color: 'rgba(255, 200, 150, 0.1)', delay: 3 },
   ], []);
 
-  if (!mounted) return null;
+  const bgImage = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Screenshot-2025-12-27-133742-1766822869625.png";
 
   return (
-    <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#020010]">
-      {/* Deep Space Base */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(circle at 80% 20%, #1a0b2e 0%, #020010 70%)'
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-[#020010]">
+      {/* Background Layer (Deep Space & Distant Stars) */}
+      <motion.div 
+        style={{ 
+          y: parallaxYBase,
+          x: mouseXBase,
+          translateY: mouseYBase
         }}
-      />
-
-      {/* Nebulae */}
-      {nebulae.map((nebula, i) => (
-        <motion.div
-          key={`nebula-${i}`}
-          className="absolute rounded-full"
-          style={{
-            left: nebula.x,
-            top: nebula.y,
-            width: nebula.w,
-            height: nebula.h,
-            background: `radial-gradient(circle, ${nebula.color} 0%, transparent 70%)`,
-            opacity: nebula.opacity,
-            filter: `blur(${nebula.blur}px)`,
-            transform: 'translate(-50%, -50%)',
-          }}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [nebula.opacity, nebula.opacity * 1.3, nebula.opacity],
-          }}
-          transition={{
-            duration: 10 + i * 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        className="absolute inset-[-10%] z-0"
+      >
+        <div 
+          className="w-full h-full bg-cover bg-center bg-no-repeat opacity-90 scale-105"
+          style={{ backgroundImage: `url(${bgImage})` }}
         />
-      ))}
+      </motion.div>
 
-      {/* Stars */}
-      <div className="absolute inset-0 opacity-40">
-        {[...Array(100)].map((_, i) => (
-          <div
+      {/* Atmospheric Glow Layer (Midground) */}
+      <motion.div 
+        style={{ 
+          y: parallaxYMid,
+          x: mouseXMid,
+          translateY: mouseYMid
+        }}
+        className="absolute inset-[-5%] z-10 mix-blend-screen"
+      >
+        {glows.map((glow, i) => (
+          <motion.div
             key={i}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full pointer-events-none"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: Math.random() * 2 + 1,
-              height: Math.random() * 2 + 1,
-              boxShadow: '0 0 5px white',
-              opacity: Math.random() * 0.8 + 0.2,
+              left: glow.x,
+              top: glow.y,
+              width: glow.size,
+              height: glow.size,
+              background: `radial-gradient(circle, ${glow.color} 0%, transparent 70%)`,
+              filter: 'blur(40px)',
+              transform: 'translate(-50%, -50%)',
+            }}
+            animate={{
+              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: glow.delay,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Floating Particles (Foreground) */}
+      <div className="absolute inset-0 z-20">
+        {particles.map((p) => (
+          <motion.div
+            key={p.id}
+            className="absolute bg-white rounded-full opacity-30"
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              width: p.size,
+              height: p.size,
+              boxShadow: '0 0 8px 1px rgba(255, 255, 255, 0.2)',
+            }}
+            animate={{
+              y: [0, -100, 0],
+              x: [0, Math.random() * 50 - 25, 0],
+              opacity: [0.1, 0.4, 0.1],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: p.delay,
             }}
           />
         ))}
       </div>
 
-      {/* Planets (Positioned like the image) */}
-      <motion.div style={{ y: parallaxY1 }} className="absolute inset-0">
-        {/* Large Earth-like planet on the left */}
-        <div className="absolute left-[5%] top-[25%] md:left-[10%] md:top-[30%]">
-          <Planet3D planetName="Earth" size={window.innerWidth < 768 ? 200 : 400} />
-        </div>
-        
-        {/* Small moon/planet near earth */}
-        <div className="absolute left-[25%] top-[45%] md:left-[28%] md:top-[48%]">
-          <Planet3D planetName="Mercury" size={40} />
-        </div>
+      {/* Foreground Depth Overlay (Shadows at the bottom) */}
+      <motion.div 
+        style={{ y: parallaxYFore }}
+        className="absolute bottom-0 left-0 w-full h-[60%] z-30 pointer-events-none"
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-[#020010] via-transparent to-transparent opacity-90" />
       </motion.div>
 
-      <motion.div style={{ y: parallaxY2 }} className="absolute inset-0">
-        {/* Jupiter-like planet in the center top */}
-        <div className="absolute left-[35%] top-[5%] md:left-[40%] md:top-[10%] opacity-80">
-          <Planet3D planetName="Jupiter" size={150} />
-        </div>
-
-        {/* Saturn with rings on the right */}
-        <div className="absolute right-[10%] top-[15%] md:right-[15%] md:top-[20%]">
-          <Planet3D planetName="Saturn" size={window.innerWidth < 768 ? 150 : 300} />
-        </div>
-
-        {/* Small planets scattered */}
-        <div className="absolute right-[30%] top-[35%]">
-          <Planet3D planetName="Mars" size={50} />
-        </div>
-        <div className="absolute right-[45%] top-[45%] opacity-60">
-          <Planet3D planetName="Venus" size={30} />
-        </div>
-      </motion.div>
-
-      {/* Bright Star / Sun Flare on the right */}
+      {/* Cinematic Lens Flare (Simulating the bright sun in the image) */}
       <motion.div
-        className="absolute right-[-10%] top-[40%] w-[600px] h-[600px] rounded-full"
+        className="absolute right-[15%] top-[45%] w-[800px] h-[800px] rounded-full z-15 mix-blend-screen pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(255, 200, 150, 0.4) 0%, rgba(255, 100, 50, 0.1) 40%, transparent 70%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(255, 200, 150, 0.2) 0%, rgba(255, 100, 50, 0.03) 40%, transparent 70%)',
+          filter: 'blur(80px)',
+          transform: 'translate(50%, -50%)',
         }}
         animate={{
-          opacity: [0.6, 0.8, 0.6],
+          opacity: [0.4, 0.7, 0.4],
           scale: [1, 1.1, 1],
         }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Foreground Terrain (Rocky/Glowing Landscape) */}
-      <motion.div 
-        style={{ y: parallaxY3 }}
-        className="absolute bottom-0 left-0 w-full h-[40vh] z-10"
-      >
-        <div 
-          className="absolute inset-0 w-full h-full"
-          style={{
-            background: `
-              linear-gradient(to top, #050010 20%, transparent 100%),
-              radial-gradient(ellipse at 50% 100%, rgba(249, 115, 22, 0.2) 0%, transparent 70%)
-            `,
-            clipPath: 'polygon(0 100%, 0 40%, 10% 35%, 25% 50%, 40% 30%, 55% 45%, 70% 25%, 85% 40%, 100% 30%, 100% 100%)',
-          }}
-        >
-          {/* Glowing Energy Lines on Terrain */}
-          <div className="absolute inset-0 opacity-30">
-             {[...Array(20)].map((_, i) => (
-               <motion.div
-                 key={i}
-                 className="absolute h-[1px] bg-gradient-to-r from-transparent via-[#f97316] to-transparent"
-                 style={{
-                   left: `${Math.random() * 100}%`,
-                   top: `${Math.random() * 100}%`,
-                   width: `${Math.random() * 200 + 100}px`,
-                   transform: `rotate(${Math.random() * 30 - 15}deg)`,
-                 }}
-                 animate={{
-                   opacity: [0, 1, 0],
-                 }}
-                 transition={{
-                   duration: 3 + Math.random() * 4,
-                   repeat: Infinity,
-                   delay: Math.random() * 5,
-                 }}
-               />
-             ))}
-          </div>
-        </div>
-
-        {/* Secondary Terrain Layer for depth */}
-        <div 
-          className="absolute inset-0 w-full h-full opacity-60"
-          style={{
-            background: 'linear-gradient(to top, #020005 30%, transparent 100%)',
-            clipPath: 'polygon(0 100%, 0 60%, 15% 55%, 30% 65%, 45% 50%, 60% 60%, 75% 45%, 90% 55%, 100% 40%, 100% 100%)',
-          }}
-        />
-      </motion.div>
-
-      {/* Atmospheric Mist/Nebula at the bottom */}
-      <div 
-        className="absolute bottom-0 left-0 w-full h-[30vh] opacity-40"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 100%, #8b5cf6 0%, transparent 70%)',
-          filter: 'blur(80px)',
-        }}
-      />
+      {/* Vignette */}
+      <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.8)] z-40" />
     </div>
   );
 }
