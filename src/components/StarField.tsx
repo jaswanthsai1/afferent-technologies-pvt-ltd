@@ -5,119 +5,110 @@ interface StarFieldProps {
   count?: number;
 }
 
-const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => (
-  <motion.div
-    className="absolute"
-    style={{
-      width: size + 'px',
-      height: size + 'px',
-      left,
-      top,
-    }}
-    animate={{
-      opacity: [opacity, opacity * 0.4, opacity],
-      scale: isPulsating ? [1, 1.5, 1] : [1, 1.15, 1],
-    }}
-    transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut",
-    }}
-  >
-    <div 
-      className="absolute inset-0 rounded-full"
+const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
+  return (
+    <motion.div
+      className="absolute"
       style={{
-        background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
-        boxShadow: isGiant 
-          ? `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}50, 0 0 ${size * 6}px ${color}30`
-          : `0 0 ${size}px ${color}80`,
+        width: size + 'px',
+        height: size + 'px',
+        left,
+        top,
+        willChange: 'transform, opacity',
       }}
-    />
-    {hasRays && (
-      <>
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 6,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}80, white, ${color}80, transparent)`,
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: 1,
-            height: size * 6,
-            background: `linear-gradient(180deg, transparent, ${color}80, white, ${color}80, transparent)`,
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 4,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
-            transform: 'rotate(45deg)',
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 4,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
-            transform: 'rotate(-45deg)',
-          }}
-        />
-      </>
-    )}
-  </motion.div>
-);
+      animate={{
+        opacity: [opacity, opacity * 0.4, opacity],
+        scale: isPulsating ? [1, 1.2, 1] : [1, 1.05, 1],
+      }}
+      transition={{
+        duration,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    >
+      <div 
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
+          boxShadow: isGiant && !isMobile
+            ? `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}50`
+            : isGiant ? `0 0 ${size}px ${color}` : 'none',
+        }}
+      />
+      {hasRays && !isMobile && (
+        <>
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: size * 6,
+              height: 1,
+              background: `linear-gradient(90deg, transparent, ${color}80, white, ${color}80, transparent)`,
+            }}
+          />
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: 1,
+              height: size * 6,
+              background: `linear-gradient(180deg, transparent, ${color}80, white, ${color}80, transparent)`,
+            }}
+          />
+        </>
+      )}
+    </motion.div>
+  );
+};
 
-const StarField = ({ count = 600 }: StarFieldProps) => {
+const StarField = ({ count = 300 }: StarFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const [mounted, setMounted] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
+  
   useEffect(() => {
     setMounted(true);
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
-  const layer1Y = useTransform(scrollY, [0, 2000], [0, -150]);
-  const layer2Y = useTransform(scrollY, [0, 2000], [0, -300]);
-  const layer3Y = useTransform(scrollY, [0, 2000], [0, -450]);
-  const layer4Y = useTransform(scrollY, [0, 2000], [0, -75]);
+  const layer1Y = useTransform(scrollY, [0, 2000], [0, -80]);
+  const layer2Y = useTransform(scrollY, [0, 2000], [0, -160]);
+  const layer3Y = useTransform(scrollY, [0, 2000], [0, -240]);
+  const layer4Y = useTransform(scrollY, [0, 2000], [0, -40]);
 
   const [starLayers, setStarLayers] = useState<any[][]>([[], [], [], []]);
   const [cosmicDust, setCosmicDust] = useState<any[]>([]);
   const [starClusters, setStarClusters] = useState<any[]>([]);
 
   useEffect(() => {
+    const mobile = window.innerWidth < 768;
+    const finalCount = mobile ? Math.min(count, 100) : count;
+    
     const layers: any[][] = [[], [], [], []];
     const starColors = [
       '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
       '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
-      '#ffe4b5', '#add8e6', '#dda0dd', '#98fb98',
     ];
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < finalCount; i++) {
       const layerIndex = Math.floor(Math.random() * 4);
-      const size = Math.random() * (layerIndex === 3 ? 4 : layerIndex === 2 ? 2.5 : 1.5) + 0.4;
+      const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
       const color = starColors[Math.floor(Math.random() * starColors.length)];
-      const isGiant = Math.random() > 0.94;
-      const isPulsating = Math.random() > 0.8;
-      const hasRays = isGiant && Math.random() > 0.5;
+      const isGiant = Math.random() > 0.95;
+      const isPulsating = Math.random() > 0.85;
+      const hasRays = isGiant && !mobile && Math.random() > 0.7;
       
       layers[layerIndex].push({
         id: i,
-        size: isGiant ? size * 3.5 : size,
+        size: isGiant ? size * 2.5 : size,
         left: Math.random() * 100 + '%',
         top: Math.random() * 100 + '%',
         color,
         opacity: Math.random() * 0.4 + 0.5,
-        duration: isPulsating ? Math.random() * 2 + 0.8 : Math.random() * 10 + 5,
-        delay: Math.random() * 10,
+        duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
+        delay: Math.random() * 5,
         isPulsating,
         isGiant,
         hasRays,
@@ -125,51 +116,50 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
     }
     setStarLayers(layers);
 
-    const dust = [...Array(200)].map((_, i) => ({
+    const dustCount = mobile ? 40 : 120;
+    const dust = [...Array(dustCount)].map((_, i) => ({
       id: `dust-${i}`,
       left: Math.random() * 100 + '%',
       top: Math.random() * 100 + '%',
-      size: Math.random() * 4 + 1,
-      opacity: Math.random() * 0.2 + 0.05,
-      duration: Math.random() * 60 + 30,
-      delay: Math.random() * 20,
-      color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff', '#88ffaa', '#ffcc99'][Math.floor(Math.random() * 6)],
-      driftX: (Math.random() - 0.5) * 200,
-      driftY: (Math.random() - 0.5) * 200,
+      size: Math.random() * 3 + 1,
+      opacity: Math.random() * 0.15 + 0.05,
+      duration: Math.random() * 60 + 40,
+      delay: Math.random() * 10,
+      color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff'][Math.floor(Math.random() * 4)],
+      driftX: (Math.random() - 0.5) * 100,
+      driftY: (Math.random() - 0.5) * 100,
     }));
     setCosmicDust(dust);
 
-    const clusters = [...Array(8)].map((_, i) => ({
+    const clusterCount = mobile ? 3 : 6;
+    const clusters = [...Array(clusterCount)].map((_, i) => ({
       id: `cluster-${i}`,
       left: Math.random() * 80 + 10 + '%',
       top: Math.random() * 80 + 10 + '%',
-      size: 80 + Math.random() * 150,
-      stars: Math.floor(Math.random() * 20) + 15,
-      color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee', '#a855f7', '#f97316'][i % 6],
+      size: 60 + Math.random() * 100,
+      stars: mobile ? 10 : 20,
+      color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
       rotation: Math.random() * 360,
-      duration: 200 + Math.random() * 200,
+      duration: 300 + Math.random() * 200,
     }));
     setStarClusters(clusters);
   }, [count]);
 
   const galaxyArms = useMemo(() => [
-    { rotate: 0, color1: 'rgba(139, 92, 246, 0.08)', color2: 'rgba(59, 130, 246, 0.05)', duration: 350 },
-    { rotate: 60, color1: 'rgba(236, 72, 153, 0.07)', color2: 'rgba(168, 85, 247, 0.04)', duration: 400 },
-    { rotate: 120, color1: 'rgba(34, 211, 238, 0.08)', color2: 'rgba(59, 130, 246, 0.05)', duration: 450 },
-    { rotate: 180, color1: 'rgba(249, 115, 22, 0.06)', color2: 'rgba(236, 72, 153, 0.04)', duration: 500 },
-    { rotate: 240, color1: 'rgba(139, 92, 246, 0.07)', color2: 'rgba(34, 211, 238, 0.04)', duration: 550 },
-    { rotate: 300, color1: 'rgba(168, 85, 247, 0.08)', color2: 'rgba(249, 115, 22, 0.05)', duration: 600 },
+    { rotate: 0, color1: 'rgba(139, 92, 246, 0.05)', color2: 'rgba(59, 130, 246, 0.03)', duration: 400 },
+    { rotate: 120, color1: 'rgba(34, 211, 238, 0.05)', color2: 'rgba(59, 130, 246, 0.03)', duration: 500 },
+    { rotate: 240, color1: 'rgba(168, 85, 247, 0.05)', color2: 'rgba(249, 115, 22, 0.03)', duration: 600 },
   ], []);
 
-  const nebulaeClouds = useMemo(() => [
-    { x: '15%', y: '20%', w: 800, h: 600, color: '#8b5cf6', opacity: 0.12, blur: 150, duration: 40 },
-    { x: '70%', y: '15%', w: 700, h: 500, color: '#3b82f6', opacity: 0.1, blur: 130, duration: 45 },
-    { x: '25%', y: '60%', w: 900, h: 700, color: '#ec4899', opacity: 0.08, blur: 180, duration: 50 },
-    { x: '80%', y: '55%', w: 600, h: 600, color: '#22d3ee', opacity: 0.1, blur: 140, duration: 35 },
-    { x: '50%', y: '40%', w: 1000, h: 800, color: '#a855f7', opacity: 0.06, blur: 200, duration: 55 },
-    { x: '10%', y: '80%', w: 750, h: 550, color: '#f97316', opacity: 0.07, blur: 160, duration: 42 },
-    { x: '60%', y: '75%', w: 650, h: 500, color: '#06b6d4', opacity: 0.09, blur: 145, duration: 48 },
-  ], []);
+  const nebulaeClouds = useMemo(() => {
+    const mobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const clouds = [
+      { x: '15%', y: '20%', w: 600, h: 400, color: '#8b5cf6', opacity: 0.08, blur: 100, duration: 45 },
+      { x: '75%', y: '25%', w: 500, h: 400, color: '#3b82f6', opacity: 0.07, blur: 100, duration: 50 },
+      { x: '50%', y: '60%', w: 800, h: 600, color: '#ec4899', opacity: 0.06, blur: 150, duration: 60 },
+    ];
+    return mobile ? clouds.slice(0, 2) : clouds;
+  }, []);
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0">

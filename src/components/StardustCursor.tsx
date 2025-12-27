@@ -13,6 +13,11 @@ interface Particle {
 export const StardustCursor: React.FC = () => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile('ontouchstart' in window || window.innerWidth < 768);
+  }, []);
 
   const colors = [
     'hsl(var(--electric-blue))',
@@ -46,6 +51,7 @@ export const StardustCursor: React.FC = () => {
   }, [addParticle]);
 
   useEffect(() => {
+    if (isMobile) return;
     const interval = setInterval(() => {
       setParticles((prev) =>
         prev
@@ -54,7 +60,9 @@ export const StardustCursor: React.FC = () => {
       );
     }, 50);
     return () => clearInterval(interval);
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">

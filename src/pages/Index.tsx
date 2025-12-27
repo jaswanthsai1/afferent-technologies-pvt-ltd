@@ -97,55 +97,43 @@ const Index = () => {
       <SEO />
       <StardustCursor />
       
-        <div className="relative min-h-screen bg-background overflow-x-hidden">
-          {/* Dynamic backgrounds */}
-            <div className="fixed inset-0 z-0">
-              <AnimatePresence>
-                {currentSection === 0 ? (
-                  <motion.div
-                    key="planetary-bg"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
-                    className="absolute inset-0"
+          <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
+            {/* Dynamic backgrounds */}
+              <div className="fixed inset-0 z-0">
+                  <div
+                    className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                    style={{ opacity: currentSection === 0 ? 1 : 0, pointerEvents: currentSection === 0 ? 'auto' : 'none' }}
                   >
                     <PlanetaryHeroBackground />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="starfield-bg"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
-                    className="absolute inset-0"
+                  </div>
+                  <div
+                    className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                    style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
                   >
-                    <StarField count={window.innerWidth < 768 ? 100 : 200} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                    <StarField count={window.innerWidth < 768 ? 80 : 150} />
+                  </div>
+              </div>
 
-        {/* Lens Flare Effect */}
-        <motion.div
-          className="fixed pointer-events-none z-10 w-[100vw] h-[100vh]"
-          style={{
-            background: 'radial-gradient(circle at 80% 20%, rgba(135, 206, 235, 0.15) 0%, transparent 40%)',
-            x: flareX,
-            y: flareY,
-          }}
-        />
-
-        {/* Holographic Scanlines */}
-        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden opacity-[0.03]">
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
-          <motion.div 
-            className="absolute inset-0 bg-[linear-gradient(transparent_0%,rgba(32,128,32,0.2)_50%,transparent_100%)] h-[20%] w-full"
-            animate={{ top: ['-20%', '100%'] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          {/* Lens Flare Effect */}
+          <motion.div
+            className="fixed pointer-events-none z-10 w-[100vw] h-[100vh]"
+            style={{
+              background: 'radial-gradient(circle at 80% 20%, rgba(135, 206, 235, 0.1) 0%, transparent 40%)',
+              x: flareX,
+              y: flareY,
+              opacity: currentSection === 0 ? 1 : 0.5,
+            }}
           />
-        </div>
+
+          {/* Holographic Scanlines */}
+          <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden opacity-[0.02]">
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.04),rgba(0,255,0,0.01),rgba(0,0,255,0.04))] bg-[length:100%_4px,3px_100%]" />
+            <motion.div 
+              className="absolute inset-0 bg-[linear-gradient(transparent_0%,rgba(32,128,32,0.1)_50%,transparent_100%)] h-[20%] w-full"
+              animate={{ y: ['-100%', '500%'] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
 
         {/* Persistent Audio - Starts as early as possible */}
         <SpaceAudio showControls={true} />

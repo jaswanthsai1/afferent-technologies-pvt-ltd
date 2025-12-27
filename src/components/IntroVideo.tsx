@@ -196,7 +196,7 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                           className="font-display text-xl sm:text-2xl md:text-5xl font-black mb-6 sm:mb-8"
                         >
                           <span className="text-gradient-primary">EXPERIENCE</span>{' '}
-                          <span className="text-gradient-secondary">GALAXY ADVENTURE</span>
+                          <span className="text-gradient-secondary">SPACE ADVENTURE</span>
                           <span className="text-foreground">?</span>
                         </motion.h2>
 
