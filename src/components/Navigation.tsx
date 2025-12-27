@@ -22,7 +22,7 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       id: 'linkedin', 
       icon: Linkedin, 
       label: 'LinkedIn',
-      href: 'https://linkedin.com/company/afferent-technologies-pvt-ltd'
+      href: 'https://www.linkedin.com/company/afferent-technologies-pvt-ltd/'
     },
   ];
 

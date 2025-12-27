@@ -503,43 +503,43 @@ const Index = () => {
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-cosmic-orange/20 flex items-center justify-center shrink-0">
                       <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-cosmic-orange" />
                     </div>
-                    <div>
-                      <h3 className="font-display font-bold text-foreground mb-1 text-sm sm:text-base">Phone</h3>
-                      <p className="text-muted-foreground text-sm">+91 XXXXX XXXXX</p>
+                      <div>
+                        <h3 className="font-display font-bold text-foreground mb-1 text-sm sm:text-base">Phone</h3>
+                        <p className="text-muted-foreground text-sm">+91 7795500160</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-planet-earth/20 flex items-center justify-center shrink-0">
+                        <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-planet-earth" />
+                      </div>
+                      <div>
+                        <h3 className="font-display font-bold text-foreground mb-1 text-sm sm:text-base">Location</h3>
+                        <p className="text-muted-foreground text-sm">GUNTUR, ANDHRA PRADESH, INDIA</p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-planet-earth/20 flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-planet-earth" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-foreground mb-1 text-sm sm:text-base">Location</h3>
-                      <p className="text-muted-foreground text-sm">India</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border/30">
-                  <p className="text-center text-xs sm:text-sm text-muted-foreground">
-                    Follow us on{' '}
-                    <a
-                      href="https://instagram.com/afferenttechnologiespvtltd"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-electric-blue hover:text-electric-blue-glow transition-colors"
-                    >
-                      Instagram
-                    </a>
-                    {' & '}
-                    <a
-                      href="https://linkedin.com/company/afferent-technologies-pvt-ltd"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-cosmic-orange hover:text-cosmic-orange-glow transition-colors"
-                    >
-                      LinkedIn
-                    </a>
+                  <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-border/30">
+                    <p className="text-center text-xs sm:text-sm text-muted-foreground">
+                      Follow us on{' '}
+                      <a
+                        href="https://instagram.com/afferenttechnologiespvtltd"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-electric-blue hover:text-electric-blue-glow transition-colors"
+                      >
+                        Instagram
+                      </a>
+                      {' & '}
+                      <a
+                        href="https://www.linkedin.com/company/afferent-technologies-pvt-ltd/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cosmic-orange hover:text-cosmic-orange-glow transition-colors"
+                      >
+                        LinkedIn
+                      </a>
                   </p>
                 </div>
               </div>
