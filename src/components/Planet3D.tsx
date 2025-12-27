@@ -68,7 +68,12 @@ const planetConfigs: Record<string, {
 
 export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
   const config = planetConfigs[planetName] || planetConfigs.Earth;
-  
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <div 
       className={`relative ${className}`}
@@ -89,7 +94,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
           filter: 'blur(30px)',
           zIndex: -1
         }}
-        animate={{
+        animate={isMobile ? {} : {
           scale: [1, 1.05, 1],
           opacity: [0.4, 0.6, 0.4],
         }}
@@ -100,7 +105,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
       <div
         className="absolute inset-0 rounded-full overflow-hidden"
         style={{
-          boxShadow: `
+          boxShadow: isMobile ? `inset -${size * 0.05}px -${size * 0.05}px ${size * 0.1}px rgba(0,0,0,0.8), 0 0 ${size * 0.05}px ${config.glowColor}` : `
             inset -${size * 0.1}px -${size * 0.1}px ${size * 0.2}px rgba(0,0,0,0.9),
             inset ${size * 0.05}px ${size * 0.05}px ${size * 0.1}px rgba(255,255,255,0.2),
             0 0 ${size * 0.1}px ${config.glowColor}
@@ -117,6 +122,7 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
             backgroundImage: `url(${config.texture})`,
             backgroundSize: '50% 100%',
             backgroundRepeat: 'repeat-x',
+            willChange: 'transform',
           }}
           animate={{
             x: ['0%', '-50%']
@@ -132,13 +138,16 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            background: `
-              radial-gradient(circle at 30% 30%, transparent 20%, rgba(0,0,0,0.8) 100%),
-              linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)
-            `,
+            background: isMobile 
+              ? `radial-gradient(circle at 30% 30%, transparent 40%, rgba(0,0,0,0.7) 100%)`
+              : `
+                radial-gradient(circle at 30% 30%, transparent 20%, rgba(0,0,0,0.8) 100%),
+                linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)
+              `,
           }}
         />
       </div>
+
 
       {/* Saturn's Rings */}
       {config.hasRings && planetName === 'Saturn' && (

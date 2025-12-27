@@ -55,17 +55,23 @@ const PlanetSection = ({
 
   const [particles, setParticles] = useState<{left: string, top: string, duration: number, delay: number, size: number}[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const newParticles = [...Array(20)].map(() => ({
-      left: Math.random() * 100 + '%',
-      top: Math.random() * 100 + '%',
-      duration: Math.random() * 4 + 3,
-      delay: Math.random() * 3,
-      size: Math.random() * 2 + 1,
-    }));
-    setParticles(newParticles);
+    const mobile = window.innerWidth < 768;
+    setIsMobile(mobile);
+    
+    if (!mobile) {
+      const newParticles = [...Array(20)].map(() => ({
+        left: Math.random() * 100 + '%',
+        top: Math.random() * 100 + '%',
+        duration: Math.random() * 4 + 3,
+        delay: Math.random() * 3,
+        size: Math.random() * 2 + 1,
+      }));
+      setParticles(newParticles);
+    }
   }, []);
 
   return (
