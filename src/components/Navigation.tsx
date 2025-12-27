@@ -31,9 +31,9 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6 }}
-      className="fixed top-14 sm:top-6 left-1/2 -translate-x-1/2 z-40 w-full flex justify-center pointer-events-none"
+      className="fixed top-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
     >
-      <div className="pointer-events-auto flex items-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full bg-background/80 backdrop-blur-2xl border border-border/40 shadow-2xl shadow-black/50 max-w-[90vw] overflow-x-auto no-scrollbar">
+      <div className="pointer-events-auto flex items-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full bg-background/80 backdrop-blur-md sm:backdrop-blur-2xl border border-border/40 shadow-2xl shadow-black/50 max-w-[95vw] overflow-x-auto no-scrollbar">
         {navItems.map((item, index) => {
           const Icon = item.icon;
           const isExternal = !!item.href;
@@ -49,8 +49,8 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
 
               <div
                 className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${currentSection === 0 && item.id === 'home'
-                    ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
-                    : 'bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted'
+                  ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
+                  : 'bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
               >
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
@@ -88,25 +88,11 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
             </button>
           );
         })}
-
-        {/* Animated indicator line */}
-        <div className="hidden md:block w-px h-6 bg-border/50 mx-1 shrink-0" />
-
-        <motion.div
-          className="hidden md:flex items-center gap-2 pl-2 shrink-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5 }}
-        >
-          <div className="w-2 h-2 rounded-full bg-electric-blue animate-pulse" />
-          <span className="text-xs font-display text-muted-foreground uppercase tracking-widest">
-            Explore
-          </span>
-        </motion.div>
       </div>
     </motion.nav>
   );
 };
 
 export default Navigation;
+
 

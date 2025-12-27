@@ -76,8 +76,8 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
   }, []);
 
   // Mobile optimization: Reduce heavy blur effects but keep 3D rotation
-  const blurAmount = isMobile ? '20px' : '40px';
-  const secondaryBlur = isMobile ? '10px' : '20px';
+  const blurAmount = isMobile ? '10px' : '40px';
+  const secondaryBlur = isMobile ? '5px' : '20px';
 
   return (
     <div
