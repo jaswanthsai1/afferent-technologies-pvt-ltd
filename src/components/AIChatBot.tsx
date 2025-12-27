@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, X, Volume2, Bot, User, Search, Globe, Loader2 } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, User, Search, Globe, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { ScrollArea } from './ui/scroll-area';
 import { Input } from './ui/input';
@@ -271,7 +271,7 @@ export function AIChatBot() {
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: -90, opacity: 0 }}
             >
-              <Volume2 className="w-7 h-7" />
+              <MessageSquare className="w-7 h-7" />
             </motion.div>
           )}
         </AnimatePresence>
