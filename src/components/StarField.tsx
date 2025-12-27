@@ -100,68 +100,75 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
     setMeteorData(meteors);
   }, [count]);
 
-  const nebulae = useMemo(() => {
-    return [
-      {
-        color: 'hsl(var(--space-nebula) / 0.15)',
-        width: '120vw',
-        height: '100vh',
-        left: '-10%',
-        top: '0%',
-        duration: 40,
-        y: nebula1Y,
-      },
-      {
-        color: 'hsla(280, 70%, 50%, 0.1)',
-        width: '100vw',
-        height: '80vh',
-        left: '20%',
-        top: '40%',
-        duration: 50,
-        y: nebula2Y,
-      },
-      {
-        color: 'hsla(200, 70%, 50%, 0.1)',
-        width: '130vw',
-        height: '110vh',
-        left: '-30%',
-        top: '20%',
-        duration: 60,
-        y: nebula3Y,
-      }
-    ];
-  }, [nebula1Y, nebula2Y, nebula3Y]);
+    const nebulae = useMemo(() => {
+      return [
+        {
+          color: 'hsla(210, 80%, 40%, 0.15)', // Electric Blue Nebula
+          width: '140vw',
+          height: '120vh',
+          left: '-20%',
+          top: '-10%',
+          duration: 60,
+          y: nebula1Y,
+          rotate: [0, 360],
+          blendMode: 'screen' as const,
+        },
+        {
+          color: 'hsla(280, 70%, 50%, 0.12)', // Purple Nebula
+          width: '120vw',
+          height: '100vh',
+          left: '30%',
+          top: '30%',
+          duration: 80,
+          y: nebula2Y,
+          rotate: [360, 0],
+          blendMode: 'plus-lighter' as const,
+        },
+        {
+          color: 'hsla(180, 70%, 50%, 0.1)', // Teal Nebula
+          width: '150vw',
+          height: '130vh',
+          left: '-40%',
+          top: '20%',
+          duration: 100,
+          y: nebula3Y,
+          rotate: [0, -360],
+          blendMode: 'screen' as const,
+        }
+      ];
+    }, [nebula1Y, nebula2Y, nebula3Y]);
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-space-deep">
       {/* Deep Space Background Gradient */}
-      <div className="absolute inset-0 bg-space-gradient opacity-50" />
+      <div className="absolute inset-0 bg-space-gradient opacity-60" />
 
-      {/* Realistic Nebulae */}
+      {/* Realistic Nebulae with Blend Modes and Rotation */}
       <AnimatePresence>
         {mounted && !cloudsCleared && nebulae.map((nebula, i) => (
           <motion.div
             key={`nebula-${i}`}
-            className="absolute rounded-full blur-[120px]"
+            className="absolute rounded-full blur-[150px]"
             style={{
-              background: `radial-gradient(circle, ${nebula.color} 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${nebula.color} 0%, transparent 80%)`,
               width: nebula.width,
               height: nebula.height,
               left: nebula.left,
               top: nebula.top,
               y: nebula.y,
+              mixBlendMode: nebula.blendMode,
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{
-              scale: [1, 1.1, 1],
-              opacity: [0.5, 0.8, 0.5],
-              rotate: [0, 360],
+              scale: [1, 1.15, 1],
+              opacity: [0.6, 0.9, 0.6],
+              rotate: nebula.rotate,
             }}
             exit={{ 
               opacity: 0, 
               scale: 1.5,
               filter: 'blur(200px)',
-              transition: { duration: 1.5, ease: "easeOut" }
+              transition: { duration: 2, ease: "easeOut" }
             }}
             transition={{
               duration: nebula.duration,
@@ -172,16 +179,16 @@ const StarField = ({ count = 200 }: StarFieldProps) => {
         ))}
       </AnimatePresence>
 
-      {/* Galactic Core Glow */}
+      {/* Galactic Core Glow Enhancement */}
       <AnimatePresence>
         {mounted && !cloudsCleared && (
           <motion.div 
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
-            exit={{ opacity: 0, transition: { duration: 2 } }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vh] blur-[150px]"
+            animate={{ opacity: 0.4 }}
+            exit={{ opacity: 0, transition: { duration: 3 } }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vh] blur-[200px]"
             style={{
-              background: 'radial-gradient(circle, hsl(var(--electric-blue) / 0.15) 0%, transparent 60%)',
+              background: 'radial-gradient(circle, hsla(210, 100%, 70%, 0.1) 0%, hsla(280, 100%, 50%, 0.05) 30%, transparent 70%)',
             }}
           />
         )}

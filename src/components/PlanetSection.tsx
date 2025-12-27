@@ -104,81 +104,106 @@ const PlanetSection = ({
         }}
       />
       
-      {/* Planet body */}
-      <motion.div
-        className="absolute inset-0 rounded-full overflow-hidden shadow-2xl"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-        style={planetStyle}
-      >
-        {/* Atmospheric glow overlay */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 60%)`,
-          }}
-        />
-      </motion.div>
-
-      {/* Orbiting Satellites */}
-      {[...Array(3)].map((_, i) => (
+        {/* Planet body */}
         <motion.div
-          key={`satellite-${i}`}
-          className="absolute top-1/2 left-1/2"
-          initial={{ rotate: i * 120 }}
-          animate={{ rotate: (i * 120) + 360 }}
-          transition={{
-            duration: 15 + i * 5,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-          style={{ 
-            width: '150%', 
-            height: '150%',
-            marginLeft: '-75%',
-            marginTop: '-75%',
-            zIndex: i === 1 ? -1 : 2 // Some go behind
-          }}
+          className="absolute inset-0 rounded-full overflow-hidden shadow-2xl"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+          style={planetStyle}
         >
-          <motion.div 
-            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-1"
-            animate={{
-              scale: [0.8, 1, 0.8],
-              opacity: [0.4, 1, 0.4]
+          {/* Surface Texture Overlay */}
+          <div className="absolute inset-0 opacity-20 mix-blend-overlay" style={{ filter: `url(#gravity-distortion-${id})` }} />
+          
+          {/* Earth Clouds */}
+          {planetName === 'Earth' && (
+            <motion.div 
+              className="absolute inset-0 opacity-40 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] mix-blend-screen"
+              animate={{ rotate: -360, x: [0, 10, 0], y: [0, 5, 0] }}
+              transition={{ 
+                rotate: { duration: 180, repeat: Infinity, ease: "linear" },
+                x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
+                y: { duration: 15, repeat: Infinity, ease: "easeInOut" }
+              }}
+            />
+          )}
+
+          {/* Atmospheric glow overlay */}
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 60%)`,
             }}
+          />
+        </motion.div>
+
+        {/* Orbiting Satellites */}
+        {[...Array(3)].map((_, i) => (
+          <motion.div
+            key={`satellite-${i}`}
+            className="absolute top-1/2 left-1/2"
+            initial={{ rotate: i * 120 }}
+            animate={{ rotate: (i * 120) + 360 }}
             transition={{
-              duration: 2,
+              duration: 15 + i * 5,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "linear"
+            }}
+            style={{ 
+              width: '150%', 
+              height: '150%',
+              marginLeft: '-75%',
+              marginTop: '-75%',
+              zIndex: i === 1 ? -1 : 2 // Some go behind
             }}
           >
-            {/* Satellite Body */}
-            <div className="w-2 h-2 bg-slate-400 rounded-sm shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-            {/* Solar Panels */}
-            <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
-            <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
-            
-            {/* Signal Blink */}
             <motion.div 
-              className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-red-500"
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
+              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center gap-1"
+              animate={{
+                scale: [0.8, 1, 0.8],
+                opacity: [0.4, 1, 0.4]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              {/* Satellite Body */}
+              <div className="w-2 h-2 bg-slate-400 rounded-sm shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+              {/* Solar Panels */}
+              <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
+              <div className="w-4 h-1 bg-blue-900/60 border border-blue-400/30 rounded-sm" />
+              
+              {/* Signal Blink */}
+              <motion.div 
+                className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-red-500"
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+            </motion.div>
           </motion.div>
-        </motion.div>
-      ))}
+        ))}
 
-      {/* Rings for Saturn */}
-      {planetName === 'Saturn' && (
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[30%] rounded-[100%] border-[8px] border-[#e4d3a2]/30"
-          style={{ 
-            transform: 'translate(-50%, -50%) rotate(-15deg)',
-            boxShadow: '0 0 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.5)'
-          }}
-        />
-      )}
-    </motion.div>
+        {/* Improved Rings for Saturn */}
+        {planetName === 'Saturn' && (
+          <>
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220%] h-[40%] rounded-[100%] border-[15px] border-[#e4d3a2]/20"
+              style={{ 
+                transform: 'translate(-50%, -50%) rotate(-15deg)',
+                boxShadow: '0 0 30px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.5)',
+                background: 'repeating-radial-gradient(circle, transparent 0, transparent 40px, rgba(228, 211, 162, 0.1) 42px, transparent 44px)'
+              }}
+            />
+            <div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[190%] h-[35%] rounded-[100%] border-[5px] border-[#c5a367]/30"
+              style={{ 
+                transform: 'translate(-50%, -50%) rotate(-15deg)',
+              }}
+            />
+          </>
+        )}
+      </motion.div>
 
     {/* Content */}
     <div className="container mx-auto px-4 sm:px-6 md:px-8 relative z-10">
