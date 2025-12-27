@@ -35,6 +35,7 @@ import { InternshipCareerRoadmap } from '../components/CareerRoadmap';
 import { BlackHoleNewsletter } from '../components/BlackHoleNewsletter';
 import { SpaceAudio } from '../components/SpaceAudio';
 import { StardustCursor } from '../components/StardustCursor';
+import { AIChatBot } from '../components/AIChatBot';
 
 type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
@@ -95,9 +96,10 @@ const Index = () => {
   return (
     <HelmetProvider>
       <SEO />
-      <StardustCursor />
-      
-          <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
+        <StardustCursor />
+        <AIChatBot />
+        
+            <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
             {/* Dynamic backgrounds */}
               <div className="fixed inset-0 z-0">
                   <div
