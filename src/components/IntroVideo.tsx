@@ -28,28 +28,32 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
   const [stars, setStars] = useState<{width: string, height: string, left: string, top: string, duration: string, delay: string}[]>([]);
   const [particles, setParticles] = useState<{left: string, top: string, bg: string, duration: number, delay: number}[]>([]);
 
-  useEffect(() => {
-    setMounted(true);
-    
-    const newStars = [...Array(50)].map(() => ({
-      width: Math.random() * 3 + 1 + 'px',
-      height: Math.random() * 3 + 1 + 'px',
-      left: Math.random() * 100 + '%',
-      top: Math.random() * 100 + '%',
-      duration: Math.random() * 3 + 2 + 's',
-      delay: Math.random() * 2 + 's',
-    }));
-    setStars(newStars);
+    useEffect(() => {
+      setMounted(true);
+      const isMobile = window.innerWidth < 768;
+      
+      const starCount = isMobile ? 20 : 50;
+      const newStars = [...Array(starCount)].map(() => ({
+        width: Math.random() * 3 + 1 + 'px',
+        height: Math.random() * 3 + 1 + 'px',
+        left: Math.random() * 100 + '%',
+        top: Math.random() * 100 + '%',
+        duration: Math.random() * 3 + 2 + 's',
+        delay: Math.random() * 2 + 's',
+      }));
+      setStars(newStars);
+  
+      const particleCount = isMobile ? 8 : 20;
+      const newParticles = [...Array(particleCount)].map((_, i) => ({
+        left: Math.random() * 100 + '%',
+        top: Math.random() * 100 + '%',
+        bg: i % 2 === 0 ? 'hsl(var(--electric-blue))' : 'hsl(var(--cosmic-orange))',
+        duration: Math.random() * 3 + 2,
+        delay: Math.random() * 2,
+      }));
+      setParticles(newParticles);
+    }, []);
 
-    const newParticles = [...Array(20)].map((_, i) => ({
-      left: Math.random() * 100 + '%',
-      top: Math.random() * 100 + '%',
-      bg: i % 2 === 0 ? 'hsl(var(--electric-blue))' : 'hsl(var(--cosmic-orange))',
-      duration: Math.random() * 3 + 2,
-      delay: Math.random() * 2,
-    }));
-    setParticles(newParticles);
-  }, []);
 
   useEffect(() => {
     if (!mounted) return;

@@ -31,31 +31,32 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 2, duration: 0.6 }}
-      className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-2rem)]"
-    >
-      <div className="flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-full bg-background/40 backdrop-blur-xl border border-border/30">
-        {navItems.map((item, index) => {
-          const Icon = item.icon;
-          const isExternal = !!item.href;
-          
-          const ButtonContent = (
-            <motion.div
-              className="relative group"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 rounded-full bg-electric-blue/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity" />
-              
-              <div 
-                className={`relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${
-                  currentSection === 0 && item.id === 'home'
-                    ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
-                    : 'bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
+        className="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100vw-1rem)] sm:w-auto max-w-max"
+      >
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-background/60 backdrop-blur-2xl border border-border/40 shadow-2xl shadow-black/50">
+          {navItems.map((item, index) => {
+            const Icon = item.icon;
+            const isExternal = !!item.href;
+            
+            const ButtonContent = (
+              <motion.div
+                className="relative group shrink-0"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
-                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              </div>
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 rounded-full bg-electric-blue/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity" />
+                
+                <div 
+                  className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${
+                    currentSection === 0 && item.id === 'home'
+                      ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
+                      : 'bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <Icon className="w-4.5 h-4.5 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                </div>
+
               
               {/* Tooltip - Hidden on mobile */}
               <div className="hidden sm:block absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-background/90 backdrop-blur-sm border border-border/50 text-xs font-display uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">

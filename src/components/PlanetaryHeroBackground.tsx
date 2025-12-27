@@ -44,28 +44,29 @@ export function PlanetaryHeroBackground() {
   const rotateX = useTransform(smoothMouseY, [-1, 1], [2, -2]); // Vertical tilt
   const rotateY = useTransform(smoothMouseX, [-1, 1], [-2, 2]); // Horizontal tilt
   
-  // Multiple layers for deep 3D effect
-  const starsCount = isMobile ? 40 : 100;
-  const stars = useMemo(() => [...Array(starsCount)].map((_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 1.5 + 0.5,
-    duration: 3 + Math.random() * 5,
-    delay: Math.random() * 5,
-    opacity: Math.random() * 0.5 + 0.2,
-  })), [isMobile, starsCount]);
+    // Multiple layers for deep 3D effect
+    const starsCount = isMobile ? 15 : 100;
+    const stars = useMemo(() => [...Array(starsCount)].map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 1.5 + 0.5,
+      duration: 3 + Math.random() * 5,
+      delay: Math.random() * 5,
+      opacity: Math.random() * 0.5 + 0.2,
+    })), [isMobile, starsCount]);
+  
+    const groundEnergyCount = isMobile ? 2 : 15;
+    const groundEnergy = useMemo(() => [...Array(groundEnergyCount)].map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      bottom: `${Math.random() * 40}%`,
+      width: `${Math.random() * (isMobile ? 80 : 150) + 50}px`,
+      height: `${Math.random() * 3 + 1}px`,
+      delay: Math.random() * 4,
+      duration: 2 + Math.random() * 3,
+    })), [isMobile, groundEnergyCount]);
 
-  const groundEnergyCount = isMobile ? 6 : 15;
-  const groundEnergy = useMemo(() => [...Array(groundEnergyCount)].map((_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    bottom: `${Math.random() * 40}%`,
-    width: `${Math.random() * (isMobile ? 80 : 150) + 50}px`,
-    height: `${Math.random() * 3 + 1}px`,
-    delay: Math.random() * 4,
-    duration: 2 + Math.random() * 3,
-  })), [isMobile, groundEnergyCount]);
 
   const bgImage = "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Screenshot-2025-12-27-133742-1766822869625.png";
 
@@ -151,24 +152,26 @@ export function PlanetaryHeroBackground() {
           ))}
         </div>
 
-        {/* Cinematic Nebula Glows */}
+        {/* Cinematic Nebula Glows - REDUCED ON MOBILE */}
         <div className="absolute inset-0 z-15 mix-blend-screen" style={{ transform: isMobile ? 'none' : 'translateZ(40px)' }}>
           {/* Top Right Nova Glow */}
-          <motion.div
-            className={`absolute right-[10%] top-[35%] ${isMobile ? 'w-[300px] h-[300px]' : 'w-[600px] h-[600px]'} rounded-full`}
-            style={{
-              background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%)',
-              filter: 'blur(60px)',
-            }}
-            animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
+          {!isMobile && (
+            <motion.div
+              className="absolute right-[10%] top-[35%] w-[600px] h-[600px] rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%)',
+                filter: 'blur(60px)',
+              }}
+              animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+          )}
           {/* Bottom Magma Glow */}
           <motion.div
-            className={`absolute bottom-[-10%] left-[20%] ${isMobile ? 'w-[500px] h-[200px]' : 'w-[1000px] h-[400px]'} rounded-full`}
+            className={`absolute bottom-[-10%] left-[20%] ${isMobile ? 'w-[300px] h-[150px]' : 'w-[1000px] h-[400px]'} rounded-full`}
             style={{
               background: 'radial-gradient(ellipse, rgba(249, 115, 22, 0.2) 0%, transparent 80%)',
-              filter: 'blur(50px)',
+              filter: isMobile ? 'blur(30px)' : 'blur(50px)',
             }}
             animate={{ opacity: [0.4, 0.7, 0.4] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}

@@ -82,68 +82,69 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
   const [cosmicDust, setCosmicDust] = useState<any[]>([]);
   const [starClusters, setStarClusters] = useState<any[]>([]);
 
-  useEffect(() => {
-    const mobile = window.innerWidth < 768;
-    const finalCount = mobile ? Math.min(count, 100) : count;
-    
-    const layers: any[][] = [[], [], [], []];
-    const starColors = [
-      '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
-      '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
-    ];
-
-    for (let i = 0; i < finalCount; i++) {
-      const layerIndex = Math.floor(Math.random() * 4);
-      const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
-      const color = starColors[Math.floor(Math.random() * starColors.length)];
-      const isGiant = Math.random() > 0.95;
-      const isPulsating = Math.random() > 0.85;
-      const hasRays = isGiant && !mobile && Math.random() > 0.7;
+    useEffect(() => {
+      const mobile = window.innerWidth < 768;
+      const finalCount = mobile ? Math.min(count, 40) : count;
       
-      layers[layerIndex].push({
-        id: i,
-        size: isGiant ? size * 2.5 : size,
+      const layers: any[][] = [[], [], [], []];
+      const starColors = [
+        '#ffffff', '#fff8f0', '#ffeedd', '#aaccff', '#88bbff',
+        '#ffddaa', '#ff9966', '#aaffff', '#ff88ff', '#88ffaa',
+      ];
+
+      for (let i = 0; i < finalCount; i++) {
+        const layerIndex = Math.floor(Math.random() * 4);
+        const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
+        const color = starColors[Math.floor(Math.random() * starColors.length)];
+        const isGiant = Math.random() > 0.95;
+        const isPulsating = Math.random() > 0.85;
+        const hasRays = isGiant && !mobile && Math.random() > 0.7;
+        
+        layers[layerIndex].push({
+          id: i,
+          size: isGiant ? size * 2.5 : size,
+          left: Math.random() * 100 + '%',
+          top: Math.random() * 100 + '%',
+          color,
+          opacity: Math.random() * 0.4 + 0.5,
+          duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
+          delay: Math.random() * 5,
+          isPulsating,
+          isGiant,
+          hasRays,
+        });
+      }
+      setStarLayers(layers);
+
+      const dustCount = mobile ? 10 : 120;
+      const dust = [...Array(dustCount)].map((_, i) => ({
+        id: `dust-${i}`,
         left: Math.random() * 100 + '%',
         top: Math.random() * 100 + '%',
-        color,
-        opacity: Math.random() * 0.4 + 0.5,
-        duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 10 + 8,
-        delay: Math.random() * 5,
-        isPulsating,
-        isGiant,
-        hasRays,
-      });
-    }
-    setStarLayers(layers);
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.15 + 0.05,
+        duration: Math.random() * 60 + 40,
+        delay: Math.random() * 10,
+        color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff'][Math.floor(Math.random() * 4)],
+        driftX: (Math.random() - 0.5) * 100,
+        driftY: (Math.random() - 0.5) * 100,
+      }));
+      setCosmicDust(dust);
 
-    const dustCount = mobile ? 40 : 120;
-    const dust = [...Array(dustCount)].map((_, i) => ({
-      id: `dust-${i}`,
-      left: Math.random() * 100 + '%',
-      top: Math.random() * 100 + '%',
-      size: Math.random() * 3 + 1,
-      opacity: Math.random() * 0.15 + 0.05,
-      duration: Math.random() * 60 + 40,
-      delay: Math.random() * 10,
-      color: ['#ffffff', '#aaccff', '#ffddcc', '#ff88ff'][Math.floor(Math.random() * 4)],
-      driftX: (Math.random() - 0.5) * 100,
-      driftY: (Math.random() - 0.5) * 100,
-    }));
-    setCosmicDust(dust);
+      const clusterCount = mobile ? 1 : 6;
+      const clusters = [...Array(clusterCount)].map((_, i) => ({
+        id: `cluster-${i}`,
+        left: Math.random() * 80 + 10 + '%',
+        top: Math.random() * 80 + 10 + '%',
+        size: 60 + Math.random() * 100,
+        stars: mobile ? 5 : 20,
+        color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
+        rotation: Math.random() * 360,
+        duration: 300 + Math.random() * 200,
+      }));
+      setStarClusters(clusters);
+    }, [count]);
 
-    const clusterCount = mobile ? 3 : 6;
-    const clusters = [...Array(clusterCount)].map((_, i) => ({
-      id: `cluster-${i}`,
-      left: Math.random() * 80 + 10 + '%',
-      top: Math.random() * 80 + 10 + '%',
-      size: 60 + Math.random() * 100,
-      stars: mobile ? 10 : 20,
-      color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
-      rotation: Math.random() * 360,
-      duration: 300 + Math.random() * 200,
-    }));
-    setStarClusters(clusters);
-  }, [count]);
 
   const galaxyArms = useMemo(() => [
     { rotate: 0, color1: 'rgba(139, 92, 246, 0.05)', color2: 'rgba(59, 130, 246, 0.03)', duration: 400 },
@@ -244,7 +245,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
         />
       )}
 
-      {mounted && galaxyArms.map((arm, i) => (
+      {mounted && !isMobile && galaxyArms.map((arm, i) => (
         <motion.div
           key={`arm-${i}`}
           className="absolute top-1/2 left-1/2"
@@ -269,7 +270,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
         />
       ))}
 
-      {mounted && (
+      {mounted && !isMobile && (
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{

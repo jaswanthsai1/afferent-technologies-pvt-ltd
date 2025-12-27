@@ -108,12 +108,13 @@ const Index = () => {
                   >
                     <PlanetaryHeroBackground />
                   </div>
-                  <div
-                    className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-                    style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
-                  >
-                    <StarField count={window.innerWidth < 768 ? 80 : 150} />
-                  </div>
+                    <div
+                      className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                      style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
+                    >
+                      <StarField count={window.innerWidth < 768 ? 40 : 150} />
+                    </div>
+
               </div>
 
           {/* Lens Flare Effect */}
