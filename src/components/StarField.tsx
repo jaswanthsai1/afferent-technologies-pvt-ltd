@@ -5,6 +5,141 @@ interface StarFieldProps {
   count?: number;
 }
 
+const AirshipItem = ({ left, top, size, duration, delay, color, type, driftX }: any) => (
+  <motion.div
+    className="absolute pointer-events-none"
+    style={{ left, top, width: size, height: size / 2 }}
+    initial={{ x: -driftX, opacity: 0 }}
+    animate={{ x: driftX, opacity: [0, 1, 1, 0] }}
+    transition={{
+      duration,
+      repeat: Infinity,
+      delay,
+      ease: "linear",
+    }}
+  >
+    <div 
+      className="absolute inset-0 rounded-full"
+      style={{
+        background: `linear-gradient(90deg, transparent, ${color} 50%, transparent)`,
+        boxShadow: `0 0 15px ${color}`,
+        clipPath: type === 0 
+          ? 'polygon(0 50%, 20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%)'
+          : type === 1
+          ? 'polygon(0 0, 100% 50%, 0 100%, 20% 50%)'
+          : 'polygon(10% 0, 90% 0, 100% 100%, 0 100%)'
+      }}
+    />
+    <motion.div
+      className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full"
+      style={{ background: 'cyan', filter: 'blur(4px)' }}
+      animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }}
+      transition={{ duration: 0.2, repeat: Infinity }}
+    />
+  </motion.div>
+);
+
+const SatelliteItem = ({ left, top, size, duration, delay }: any) => (
+  <motion.div
+    className="absolute pointer-events-none"
+    style={{ left, top, width: size, height: size }}
+    animate={{
+      rotate: [0, 360],
+      x: [0, 100, 0],
+      y: [0, -50, 0],
+    }}
+    transition={{
+      rotate: { duration: 120, repeat: Infinity, ease: "linear" },
+      x: { duration: duration, repeat: Infinity, ease: "easeInOut" },
+      y: { duration: duration * 1.2, repeat: Infinity, ease: "easeInOut" },
+      delay,
+    }}
+  >
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-slate-400 rounded-sm shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
+    <div className="absolute top-1/2 left-0 w-full h-1/6 bg-blue-900/80 -translate-y-1/2 rounded-sm border border-blue-400/30" />
+    <motion.div 
+      className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-1/2 bg-slate-300"
+      animate={{ height: [size/2, size/1.5, size/2] }}
+      transition={{ duration: 2, repeat: Infinity }}
+    />
+    <motion.div 
+      className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"
+      animate={{ opacity: [0, 1, 0] }}
+      transition={{ duration: 1, repeat: Infinity }}
+    />
+  </motion.div>
+);
+
+const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => (
+  <motion.div
+    className="absolute"
+    style={{
+      width: size + 'px',
+      height: size + 'px',
+      left,
+      top,
+    }}
+    animate={{
+      opacity: [opacity, opacity * 0.4, opacity],
+      scale: isPulsating ? [1, 1.5, 1] : [1, 1.15, 1],
+    }}
+    transition={{
+      duration,
+      repeat: Infinity,
+      delay,
+      ease: "easeInOut",
+    }}
+  >
+    <div 
+      className="absolute inset-0 rounded-full"
+      style={{
+        background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
+        boxShadow: isGiant 
+          ? `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}50, 0 0 ${size * 6}px ${color}30`
+          : `0 0 ${size}px ${color}80`,
+      }}
+    />
+    {hasRays && (
+      <>
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: size * 6,
+            height: 1,
+            background: `linear-gradient(90deg, transparent, ${color}80, white, ${color}80, transparent)`,
+          }}
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: 1,
+            height: size * 6,
+            background: `linear-gradient(180deg, transparent, ${color}80, white, ${color}80, transparent)`,
+          }}
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: size * 4,
+            height: 1,
+            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
+            transform: 'rotate(45deg)',
+          }}
+        />
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{
+            width: size * 4,
+            height: 1,
+            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
+            transform: 'rotate(-45deg)',
+          }}
+        />
+      </>
+    )}
+  </motion.div>
+);
+
 const StarField = ({ count = 600 }: StarFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
@@ -23,6 +158,8 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
   const [cosmicDust, setCosmicDust] = useState<any[]>([]);
   const [meteorData, setMeteorData] = useState<any[]>([]);
   const [starClusters, setStarClusters] = useState<any[]>([]);
+  const [airships, setAirships] = useState<any[]>([]);
+  const [satellites, setSatellites] = useState<any[]>([]);
 
   useEffect(() => {
     const layers: any[][] = [[], [], [], []];
@@ -94,6 +231,29 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
       duration: 200 + Math.random() * 200,
     }));
     setStarClusters(clusters);
+
+    const ships = [...Array(12)].map((_, i) => ({
+      id: `ship-${i}`,
+      left: Math.random() * 120 - 10 + '%',
+      top: Math.random() * 100 + '%',
+      size: Math.random() * 40 + 20,
+      duration: Math.random() * 40 + 30,
+      delay: Math.random() * 20,
+      color: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][i % 5],
+      type: Math.floor(Math.random() * 3),
+      driftX: Math.random() > 0.5 ? 2000 : -2000,
+    }));
+    setAirships(ships);
+
+    const sats = [...Array(15)].map((_, i) => ({
+      id: `sat-${i}`,
+      left: Math.random() * 100 + '%',
+      top: Math.random() * 100 + '%',
+      size: Math.random() * 15 + 10,
+      duration: Math.random() * 100 + 80,
+      delay: Math.random() * 10,
+    }));
+    setSatellites(sats);
   }, [count]);
 
   const galaxyArms = useMemo(() => [
@@ -117,7 +277,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
 
   return (
     <div ref={containerRef} className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Ultra Deep Space Base with Gradient */}
       <div 
         className="absolute inset-0"
         style={{ 
@@ -128,7 +287,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         }}
       />
 
-      {/* Distant Galaxy Background Layer */}
       <div className="absolute inset-0" style={{ opacity: 0.4 }}>
         <div 
           className="absolute inset-0"
@@ -142,7 +300,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       </div>
 
-      {/* 3D Galaxy Core with Pulsating Effect */}
       {mounted && (
         <motion.div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -173,7 +330,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       )}
 
-      {/* Galaxy Core Bright Center */}
       {mounted && (
         <motion.div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -202,7 +358,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       )}
 
-      {/* Rotating 3D Galaxy Arms */}
       {mounted && galaxyArms.map((arm, i) => (
         <motion.div
           key={`arm-${i}`}
@@ -228,7 +383,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {/* Secondary Spiral Arms */}
       {mounted && (
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -259,7 +413,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       )}
 
-      {/* Animated Nebulae Clouds */}
       {mounted && nebulaeClouds.map((nebula, i) => (
         <motion.div
           key={`nebula-${i}`}
@@ -288,7 +441,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {/* Star Clusters */}
       {mounted && starClusters.map((cluster) => (
         <motion.div
           key={cluster.id}
@@ -333,7 +485,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
               />
             );
           })}
-          {/* Cluster glow */}
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
@@ -346,7 +497,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         </motion.div>
       ))}
 
-      {/* Star Layers with Parallax */}
       <motion.div style={{ y: layer4Y }} className="absolute inset-0">
         {mounted && starLayers[3].map((star) => <StarItem key={`s4-${star.id}`} {...star} />)}
       </motion.div>
@@ -360,7 +510,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         {mounted && starLayers[2].map((star) => <StarItem key={`s3-${star.id}`} {...star} />)}
       </motion.div>
 
-      {/* Cosmic Dust Particles */}
       {mounted && cosmicDust.map((dust) => (
         <motion.div
           key={dust.id}
@@ -387,7 +536,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {/* Shooting Stars / Meteors */}
       {mounted && meteorData.map((meteor) => (
         <motion.div
           key={meteor.id}
@@ -415,7 +563,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
             ease: "easeOut"
           }}
         >
-          {/* Meteor head */}
           <motion.div
             className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full"
             style={{
@@ -425,7 +572,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
               boxShadow: `0 0 10px white, 0 0 20px ${meteor.color}, 0 0 40px ${meteor.color}`,
             }}
           />
-          {/* Meteor tail */}
           <div
             style={{
               width: '100%',
@@ -437,7 +583,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         </motion.div>
       ))}
 
-      {/* Floating Light Orbs */}
       {mounted && [...Array(15)].map((_, i) => (
         <motion.div
           key={`orb-${i}`}
@@ -467,7 +612,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {/* Cosmic Energy Waves */}
       {mounted && [...Array(5)].map((_, i) => (
         <motion.div
           key={`wave-${i}`}
@@ -491,7 +635,36 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {/* Subtle Grid Overlay for Futuristic Feel */}
+      {mounted && airships.map((ship) => (
+        <AirshipItem key={ship.id} {...ship} />
+      ))}
+
+      {mounted && satellites.map((sat) => (
+        <SatelliteItem key={sat.id} {...sat} />
+      ))}
+
+      {mounted && [...Array(8)].map((_, i) => (
+        <motion.div
+          key={`stream-${i}`}
+          className="absolute h-[1px] bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent"
+          style={{
+            width: '100%',
+            left: 0,
+            top: (i * 15) + 5 + '%',
+          }}
+          animate={{
+            x: ['-100%', '100%'],
+            opacity: [0, 0.5, 0],
+          }}
+          transition={{
+            duration: 15 + Math.random() * 10,
+            repeat: Infinity,
+            delay: Math.random() * 20,
+            ease: "linear",
+          }}
+        />
+      ))}
+
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -506,77 +679,5 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
     </div>
   );
 };
-
-const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => (
-  <motion.div
-    className="absolute"
-    style={{
-      width: size + 'px',
-      height: size + 'px',
-      left,
-      top,
-    }}
-    animate={{
-      opacity: [opacity, opacity * 0.4, opacity],
-      scale: isPulsating ? [1, 1.5, 1] : [1, 1.15, 1],
-    }}
-    transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut",
-    }}
-  >
-    {/* Star core */}
-    <div 
-      className="absolute inset-0 rounded-full"
-      style={{
-        background: `radial-gradient(circle, white 0%, ${color} 50%, transparent 100%)`,
-        boxShadow: isGiant 
-          ? `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}50, 0 0 ${size * 6}px ${color}30`
-          : `0 0 ${size}px ${color}80`,
-      }}
-    />
-    {/* Star rays for giant stars */}
-    {hasRays && (
-      <>
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 6,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}80, white, ${color}80, transparent)`,
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: 1,
-            height: size * 6,
-            background: `linear-gradient(180deg, transparent, ${color}80, white, ${color}80, transparent)`,
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 4,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
-            transform: 'rotate(45deg)',
-          }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: size * 4,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, ${color}60, white, ${color}60, transparent)`,
-            transform: 'rotate(-45deg)',
-          }}
-        />
-      </>
-    )}
-  </motion.div>
-);
 
 export default StarField;
