@@ -5,71 +5,6 @@ interface StarFieldProps {
   count?: number;
 }
 
-const AirshipItem = ({ left, top, size, duration, delay, color, type, driftX }: any) => (
-  <motion.div
-    className="absolute pointer-events-none"
-    style={{ left, top, width: size, height: size / 2 }}
-    initial={{ x: -driftX, opacity: 0 }}
-    animate={{ x: driftX, opacity: [0, 1, 1, 0] }}
-    transition={{
-      duration,
-      repeat: Infinity,
-      delay,
-      ease: "linear",
-    }}
-  >
-    <div 
-      className="absolute inset-0 rounded-full"
-      style={{
-        background: `linear-gradient(90deg, transparent, ${color} 50%, transparent)`,
-        boxShadow: `0 0 15px ${color}`,
-        clipPath: type === 0 
-          ? 'polygon(0 50%, 20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%)'
-          : type === 1
-          ? 'polygon(0 0, 100% 50%, 0 100%, 20% 50%)'
-          : 'polygon(10% 0, 90% 0, 100% 100%, 0 100%)'
-      }}
-    />
-    <motion.div
-      className="absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full"
-      style={{ background: 'cyan', filter: 'blur(4px)' }}
-      animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.5, 1] }}
-      transition={{ duration: 0.2, repeat: Infinity }}
-    />
-  </motion.div>
-);
-
-const SatelliteItem = ({ left, top, size, duration, delay }: any) => (
-  <motion.div
-    className="absolute pointer-events-none"
-    style={{ left, top, width: size, height: size }}
-    animate={{
-      rotate: [0, 360],
-      x: [0, 100, 0],
-      y: [0, -50, 0],
-    }}
-    transition={{
-      rotate: { duration: 120, repeat: Infinity, ease: "linear" },
-      x: { duration: duration, repeat: Infinity, ease: "easeInOut" },
-      y: { duration: duration * 1.2, repeat: Infinity, ease: "easeInOut" },
-      delay,
-    }}
-  >
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/3 h-1/3 bg-slate-400 rounded-sm shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-    <div className="absolute top-1/2 left-0 w-full h-1/6 bg-blue-900/80 -translate-y-1/2 rounded-sm border border-blue-400/30" />
-    <motion.div 
-      className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-1/2 bg-slate-300"
-      animate={{ height: [size/2, size/1.5, size/2] }}
-      transition={{ duration: 2, repeat: Infinity }}
-    />
-    <motion.div 
-      className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"
-      animate={{ opacity: [0, 1, 0] }}
-      transition={{ duration: 1, repeat: Infinity }}
-    />
-  </motion.div>
-);
-
 const StarItem = ({ size, left, top, color, opacity, duration, delay, isPulsating, isGiant, hasRays }: any) => (
   <motion.div
     className="absolute"
@@ -156,10 +91,7 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
 
   const [starLayers, setStarLayers] = useState<any[][]>([[], [], [], []]);
   const [cosmicDust, setCosmicDust] = useState<any[]>([]);
-  const [meteorData, setMeteorData] = useState<any[]>([]);
   const [starClusters, setStarClusters] = useState<any[]>([]);
-  const [airships, setAirships] = useState<any[]>([]);
-  const [satellites, setSatellites] = useState<any[]>([]);
 
   useEffect(() => {
     const layers: any[][] = [[], [], [], []];
@@ -207,19 +139,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
     }));
     setCosmicDust(dust);
 
-    const meteors = [...Array(20)].map((_, i) => ({
-      id: `meteor-${i}`,
-      color: ['#ffffff', '#aaddff', '#ffcc88', '#88ffff', '#ff88dd', '#88ff88'][i % 6],
-      duration: 0.6 + Math.random() * 1.2,
-      delay: Math.random() * 40 + i * 3,
-      size: 120 + Math.random() * 280,
-      left: Math.random() * 120 - 10 + '%',
-      top: Math.random() * 50 + '%',
-      rotate: -25 - Math.random() * 30,
-      repeatDelay: Math.random() * 20 + 15,
-    }));
-    setMeteorData(meteors);
-
     const clusters = [...Array(8)].map((_, i) => ({
       id: `cluster-${i}`,
       left: Math.random() * 80 + 10 + '%',
@@ -231,29 +150,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
       duration: 200 + Math.random() * 200,
     }));
     setStarClusters(clusters);
-
-    const ships = [...Array(12)].map((_, i) => ({
-      id: `ship-${i}`,
-      left: Math.random() * 120 - 10 + '%',
-      top: Math.random() * 100 + '%',
-      size: Math.random() * 40 + 20,
-      duration: Math.random() * 40 + 30,
-      delay: Math.random() * 20,
-      color: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][i % 5],
-      type: Math.floor(Math.random() * 3),
-      driftX: Math.random() > 0.5 ? 2000 : -2000,
-    }));
-    setAirships(ships);
-
-    const sats = [...Array(15)].map((_, i) => ({
-      id: `sat-${i}`,
-      left: Math.random() * 100 + '%',
-      top: Math.random() * 100 + '%',
-      size: Math.random() * 15 + 10,
-      duration: Math.random() * 100 + 80,
-      delay: Math.random() * 10,
-    }));
-    setSatellites(sats);
   }, [count]);
 
   const galaxyArms = useMemo(() => [
@@ -536,53 +432,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
         />
       ))}
 
-      {mounted && meteorData.map((meteor) => (
-        <motion.div
-          key={meteor.id}
-          className="absolute"
-          style={{
-            left: meteor.left,
-            top: meteor.top,
-            width: `${meteor.size}px`,
-            height: '2px',
-            transform: `rotate(${meteor.rotate}deg)`,
-            transformOrigin: 'left center',
-          }}
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{
-            opacity: [0, 1, 1, 0],
-            scaleX: [0, 1, 1, 0],
-            x: [0, -meteor.size * 2],
-            y: [0, meteor.size * 1.2],
-          }}
-          transition={{
-            duration: meteor.duration,
-            repeat: Infinity,
-            repeatDelay: meteor.repeatDelay,
-            delay: meteor.delay,
-            ease: "easeOut"
-          }}
-        >
-          <motion.div
-            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full"
-            style={{
-              width: 6,
-              height: 6,
-              background: 'white',
-              boxShadow: `0 0 10px white, 0 0 20px ${meteor.color}, 0 0 40px ${meteor.color}`,
-            }}
-          />
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              background: `linear-gradient(90deg, transparent 0%, ${meteor.color}40 30%, ${meteor.color} 70%, white 100%)`,
-              filter: 'blur(1px)',
-            }}
-          />
-        </motion.div>
-      ))}
-
       {mounted && [...Array(15)].map((_, i) => (
         <motion.div
           key={`orb-${i}`}
@@ -631,36 +480,6 @@ const StarField = ({ count = 600 }: StarFieldProps) => {
             repeat: Infinity,
             delay: i * 3,
             ease: "easeOut",
-          }}
-        />
-      ))}
-
-      {mounted && airships.map((ship) => (
-        <AirshipItem key={ship.id} {...ship} />
-      ))}
-
-      {mounted && satellites.map((sat) => (
-        <SatelliteItem key={sat.id} {...sat} />
-      ))}
-
-      {mounted && [...Array(8)].map((_, i) => (
-        <motion.div
-          key={`stream-${i}`}
-          className="absolute h-[1px] bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent"
-          style={{
-            width: '100%',
-            left: 0,
-            top: (i * 15) + 5 + '%',
-          }}
-          animate={{
-            x: ['-100%', '100%'],
-            opacity: [0, 0.5, 0],
-          }}
-          transition={{
-            duration: 15 + Math.random() * 10,
-            repeat: Infinity,
-            delay: Math.random() * 20,
-            ease: "linear",
           }}
         />
       ))}
