@@ -24,7 +24,33 @@ import { motion, AnimatePresence } from 'framer-motion';
       }
     };
 
-    const handleAudioError = (e: any) => {
+    useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'Cornfield Chase (Cosmic Theme)',
+        artist: 'Afferent Technologies Pvt Ltd',
+        album: 'Cosmic Navigator',
+        artwork: [
+          { src: '/logo.svg', sizes: '512x512', type: 'image/svg+xml' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        if (audioRef.current) {
+          audioRef.current.play();
+          setIsPlaying(true);
+        }
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      });
+    }
+  }, []);
+
+  const handleAudioError = (e: any) => {
       console.error("Audio source failed to load:", e);
       setIsPlaying(false);
     };
