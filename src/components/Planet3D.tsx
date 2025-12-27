@@ -85,9 +85,9 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            background: `radial-gradient(circle at 30% 30%, ${config.atmosphereColor} 0%, ${config.glowColor} 50%, transparent 70%)`,
-            boxShadow: `0 0 20px ${config.glowColor.replace('0.5', '0.2')}`,
-            opacity: 0.8
+            background: `radial-gradient(circle at 30% 30%, ${config.atmosphereColor.replace(/[\d.]+\)$/, '0.8)')} 0%, ${config.glowColor.replace(/[\d.]+\)$/, '0.8)')} 50%, transparent 70%)`,
+            boxShadow: `0 0 30px ${config.glowColor.replace('0.5', '0.4')}`,
+            opacity: 1
           }}
         >
           {/* Simple static texture overlay */}
