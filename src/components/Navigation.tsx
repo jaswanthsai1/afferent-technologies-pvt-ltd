@@ -11,7 +11,6 @@ const Navigation = ({ onNavigate, currentSection, onOpenChat }: NavigationProps)
   const navItems = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'roadmap', icon: Route, label: 'Roadmap' },
-    { id: 'newsletter', icon: Send, label: 'Newsletter' },
     { id: 'contact', icon: Phone, label: 'Contact' },
     {
       id: 'instagram',
@@ -29,7 +28,8 @@ const Navigation = ({ onNavigate, currentSection, onOpenChat }: NavigationProps)
       id: 'chat',
       icon: Bot,
       label: 'Message',
-    }
+    },
+    { id: 'newsletter', icon: Send, label: 'Newsletter' },
   ];
 
   return (
