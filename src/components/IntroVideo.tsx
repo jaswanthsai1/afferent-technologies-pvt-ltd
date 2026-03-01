@@ -173,19 +173,17 @@ export const IntroVideo = ({ onEnter }: IntroVideoProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4 }}
-                        className="font-display text-lg sm:text-xl md:text-4xl font-bold text-foreground mb-2"
+                        className="font-display text-lg sm:text-xl md:text-3xl font-bold text-foreground mb-2 whitespace-nowrap"
                       >
-                        ARE YOU READY TO
+                        <span className="text-gradient-primary">AFFERENT TECHNOLOGIES</span>
                       </motion.h2>
                       <motion.h2
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.6 }}
-                        className="font-display text-xl sm:text-2xl md:text-5xl font-black mb-6 sm:mb-8"
+                        className="font-display text-xl sm:text-2xl md:text-4xl font-black mb-6 sm:mb-8 whitespace-nowrap"
                       >
-                        <span className="text-gradient-primary">EXPERIENCE</span>{' '}
-                        <span className="text-gradient-secondary">SPACE ADVENTURE</span>
-                        <span className="text-foreground">?</span>
+                        <span className="text-gradient-secondary">PRIVATE LIMITED</span>
                       </motion.h2>
 
                       <motion.button
