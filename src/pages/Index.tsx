@@ -551,7 +551,7 @@ const Index = () => {
                       </div>
                       <div>
                         <h3 className="font-display font-bold text-foreground mb-1 text-sm sm:text-base">Location</h3>
-                        <p className="text-muted-foreground text-sm">GUNTUR, ANDHRA PRADESH, INDIA</p>
+                        <p className="text-muted-foreground text-sm">6-3-456/115 & 116, Model House, Panjagutta, Hyderabad-500082. Telengana, India</p>
                       </div>
                     </div>
                   </div>
