@@ -44,6 +44,7 @@ const Index = () => {
   const [phase, setPhase] = useState<AppPhase>('intro');
   const [currentSection, setCurrentSection] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -108,7 +109,7 @@ const Index = () => {
     <HelmetProvider>
       <SEO />
       <StardustCursor />
-      <AIChatBot />
+      <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 
       <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
         {/* Dynamic backgrounds */}
@@ -189,7 +190,7 @@ const Index = () => {
               transition={{ duration: 1 }}
             >
               <FloatingLogo />
-              <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+              <Navigation onNavigate={handleNavigate} currentSection={currentSection} onOpenChat={() => setIsChatOpen(true)} />
 
 
               {/* Hero / Home Section */}

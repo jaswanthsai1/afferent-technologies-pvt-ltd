@@ -52,8 +52,7 @@ interface Message {
   isSearch?: boolean;
 }
 
-export function AIChatBot() {
-  const [isOpen, setIsOpen] = useState(false);
+export function AIChatBot({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -253,7 +252,7 @@ export function AIChatBot() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsOpen(false)}
+                onClick={onClose}
                 className="hover:bg-white/10 text-muted-foreground hover:text-white"
               >
                 <X className="w-5 h-5" />
@@ -330,41 +329,6 @@ export function AIChatBot() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-electric-blue flex items-center justify-center text-white shadow-[0_0_20px_rgba(0,243,255,0.4)] group relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-            >
-              <X className="w-5 h-5 sm:w-6 sm:h-6" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-            >
-              <Bot className="w-6 h-6 sm:w-7 sm:h-7" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Pulsing Ring */}
-        {!isOpen && (
-          <div className="absolute inset-[-4px] border-2 border-electric-blue/30 rounded-full animate-ping pointer-events-none" />
-        )}
-      </motion.button>
     </div>
   );
 }

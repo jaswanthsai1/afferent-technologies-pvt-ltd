@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
-import { Home, Phone, Instagram, Linkedin, Route, Send, History } from 'lucide-react';
+import { Home, Phone, Instagram, Linkedin, Route, Send, History, Bot } from 'lucide-react';
 
 interface NavigationProps {
   onNavigate: (sectionId: string) => void;
   currentSection: number;
+  onOpenChat: () => void;
 }
 
-const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
+const Navigation = ({ onNavigate, currentSection, onOpenChat }: NavigationProps) => {
   const navItems = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'roadmap', icon: Route, label: 'Roadmap' },
@@ -24,6 +25,11 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/company/afferent-technologies-pvt-ltd/'
     },
+    {
+      id: 'chat',
+      icon: Bot,
+      label: 'Message',
+    }
   ];
 
   return (
@@ -81,7 +87,13 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
           return (
             <button
               key={item.id}
-              onClick={() => onNavigate(item.id)}
+              onClick={() => {
+                if (item.id === 'chat') {
+                  onOpenChat();
+                } else {
+                  onNavigate(item.id);
+                }
+              }}
               className="shrink-0"
             >
               {ButtonContent}
