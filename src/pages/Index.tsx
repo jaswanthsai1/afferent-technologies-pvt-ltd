@@ -23,6 +23,7 @@ import {
 import SEO from '@/components/SEO';
 import IntroVideo from '@/components/IntroVideo';
 import LogoReveal from '@/components/LogoReveal';
+import companyLogo from '@/assets/company-logo.jpeg';
 import StarField from '@/components/StarField';
 import PlanetaryHeroBackground from '@/components/PlanetaryHeroBackground';
 import Navigation from '@/components/Navigation';
@@ -201,7 +202,7 @@ const Index = () => {
                   >
                     <div className="mb-6 md:mb-8 flex justify-center">
                       <motion.img
-                        src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/now-1-1766777372055.jpeg?width=8000&height=8000&resize=contain"
+                        src={companyLogo}
                         alt="Afferent Technologies"
                         className="max-w-full h-auto max-h-[300px] md:max-h-[600px] object-contain mix-blend-screen contrast-125 brightness-110"
                         initial={{ opacity: 0, scale: 0.8 }}
