@@ -200,15 +200,24 @@ const Index = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.5 }}
                   >
-                    <div className="mb-6 md:mb-8 flex justify-center">
+                    <div className="mb-6 md:mb-8 flex flex-col items-center justify-center gap-4">
                       <motion.img
                         src={companyLogo}
-                        alt="Afferent Technologies"
-                        className="max-w-full h-auto max-h-[300px] md:max-h-[600px] object-contain mix-blend-screen contrast-125 brightness-110"
+                        alt="Afferent Technologies Logo"
+                        className="max-w-full h-auto max-h-[250px] md:max-h-[400px] object-contain mix-blend-screen contrast-125 brightness-110"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1.1 }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
                       />
+                      <motion.h1
+                        className="font-display text-2xl md:text-5xl font-black tracking-[0.2em] uppercase text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 mt-4 md:mt-8"
+                        style={{ textShadow: '0 0 30px rgba(255,255,255,0.1)' }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                      >
+                        Afferent Technologies
+                      </motion.h1>
                     </div>
 
                     <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-4">
