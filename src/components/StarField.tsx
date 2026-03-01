@@ -235,8 +235,8 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.8, 1, 0.8],
+            scale: window.innerWidth < 768 ? 1 : [1, 1.1, 1],
+            opacity: window.innerWidth < 768 ? 0.9 : [0.8, 1, 0.8],
           }}
           transition={{
             duration: 8,

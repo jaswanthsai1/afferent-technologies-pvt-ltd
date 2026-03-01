@@ -73,22 +73,32 @@ const Index = () => {
   useEffect(() => {
     if (phase !== 'main') return;
 
+    let ticking = false;
+
     const handleScroll = () => {
-      const sections = document.querySelectorAll('section[id]');
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = document.querySelectorAll('section[id]');
+          const scrollPosition = window.scrollY + window.innerHeight / 3;
 
-      sections.forEach((section, index) => {
-        const element = section as HTMLElement;
-        const top = element.offsetTop;
-        const height = element.offsetHeight;
+          sections.forEach((section, index) => {
+            const element = section as HTMLElement;
+            const top = element.offsetTop;
+            const height = element.offsetHeight;
 
-        if (scrollPosition >= top && scrollPosition < top + height) {
-          setCurrentSection(index);
-        }
-      });
+            if (scrollPosition >= top && scrollPosition < top + height) {
+              if (currentSection !== index) {
+                setCurrentSection(index);
+              }
+            }
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [phase]);
 

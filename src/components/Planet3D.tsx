@@ -75,9 +75,9 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
-  // Mobile optimization: Reduce heavy blur effects but keep 3D rotation
-  const blurAmount = isMobile ? '10px' : '40px';
-  const secondaryBlur = isMobile ? '5px' : '20px';
+  // Mobile optimization: Remove heavy CSS blur entirely, rely on radial-gradient softness
+  const blurAmount = isMobile ? '0px' : '40px';
+  const secondaryBlur = isMobile ? '0px' : '20px';
 
   return (
     <div
@@ -102,10 +102,10 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
           filter: `blur(${blurAmount})`,
           zIndex: -1
         }}
-        animate={{
+        animate={!isMobile ? {
           scale: [1, 1.1, 1],
           opacity: [0.5, 0.7, 0.5],
-        }}
+        } : { opacity: 0.6 }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       />
 

@@ -36,30 +36,37 @@ export const StardustCursor: React.FC = () => {
       color: colors[Math.floor(Math.random() * colors.length)],
       life: 1,
     };
-    setParticles((prev) => [...prev.slice(-20), newParticle]);
+
+    setParticles((prev) => {
+      const active = prev.slice(-15); // Keep max 15 particles to reduce DOM nodes
+      return [...active, newParticle];
+    });
+
+    // Clean up particle after animation finishes to prevent memory leak
+    setTimeout(() => {
+      setParticles((prev) => prev.filter(p => p.id !== id));
+    }, 1000);
   }, []);
 
   useEffect(() => {
+    let ticking = false;
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      addParticle(e.clientX, e.clientY);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setMousePos({ x: e.clientX, y: e.clientY });
+          // Only add particles sometimes to reduce DOM updates
+          if (Math.random() > 0.5) {
+            addParticle(e.clientX, e.clientY);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [addParticle]);
-
-  useEffect(() => {
-    if (isMobile) return;
-    const interval = setInterval(() => {
-      setParticles((prev) =>
-        prev
-          .map((p) => ({ ...p, life: p.life - 0.05 }))
-          .filter((p) => p.life > 0)
-      );
-    }, 50);
-    return () => clearInterval(interval);
-  }, [isMobile]);
 
   if (isMobile) return null;
 
