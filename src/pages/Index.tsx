@@ -320,30 +320,6 @@ const Index = () => {
               <MissionTrajectory />
 
 
-              {/* Internships Section - Saturn */}
-              <PlanetSection
-                id="internships"
-                planetName="Saturn"
-                title="INTERNSHIPS"
-                subtitle="Launch Your Career in Technology"
-                planetPosition="left"
-                planetSize={500}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                  {internshipDomains.map((domain, index) => (
-                    <ServiceCard
-                      key={domain.title}
-                      title={domain.title}
-                      description={domain.description}
-                      icon={domain.icon}
-                      delay={index * 0.1}
-                    />
-                  ))}
-                </div>
-              </PlanetSection>
-
-              <InternshipCareerRoadmap />
-
               {/* Projects Section - Jupiter */}
               <PlanetSection
                 id="projects"
@@ -503,6 +479,30 @@ const Index = () => {
                   </ul>
                 </div>
               </PlanetSection>
+
+              {/* Internships Section - Saturn (Moved Below Automation) */}
+              <PlanetSection
+                id="internships"
+                planetName="Saturn"
+                title="INTERNSHIPS"
+                subtitle="Launch Your Career in Technology"
+                planetPosition="left"
+                planetSize={500}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                  {internshipDomains.map((domain, index) => (
+                    <ServiceCard
+                      key={domain.title}
+                      title={domain.title}
+                      description={domain.description}
+                      icon={domain.icon}
+                      delay={index * 0.1}
+                    />
+                  ))}
+                </div>
+              </PlanetSection>
+
+              <InternshipCareerRoadmap />
 
               {/* Contact Section - Earth */}
               <PlanetSection
