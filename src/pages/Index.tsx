@@ -109,7 +109,7 @@ const Index = () => {
     <HelmetProvider>
       <SEO />
       <StardustCursor />
-      <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} onToggle={() => setIsChatOpen(!isChatOpen)} />
 
       <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
         {/* Dynamic backgrounds */}
