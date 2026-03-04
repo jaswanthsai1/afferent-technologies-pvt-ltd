@@ -1,13 +1,48 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Home, Phone, Instagram, Linkedin, Route, Send, History, Bot } from 'lucide-react';
 
 interface NavigationProps {
   onNavigate: (sectionId: string) => void;
-  currentSection: number;
   onOpenChat: () => void;
 }
 
-const Navigation = ({ onNavigate, currentSection, onOpenChat }: NavigationProps) => {
+const Navigation = ({ onNavigate, onOpenChat }: NavigationProps) => {
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = document.querySelectorAll('section[id]');
+          const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+          let current = 'home';
+          sections.forEach((section) => {
+            const element = section as HTMLElement;
+            const top = element.offsetTop;
+            const height = element.offsetHeight;
+
+            if (scrollPosition >= top && scrollPosition < top + height) {
+              current = element.id;
+            }
+          });
+
+          if (activeSection !== current) {
+            setActiveSection(current);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeSection]);
+
   const navItems = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'roadmap', icon: Route, label: 'Roadmap' },
@@ -54,7 +89,7 @@ const Navigation = ({ onNavigate, currentSection, onOpenChat }: NavigationProps)
               <div className="absolute inset-0 rounded-full bg-electric-blue/20 opacity-0 group-hover:opacity-100 blur-lg transition-opacity" />
 
               <div
-                className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${currentSection === 0 && item.id === 'home'
+                className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full transition-all duration-300 ${activeSection === item.id
                   ? 'bg-gradient-to-r from-electric-blue to-cosmic-orange text-primary-foreground'
                   : 'bg-muted/40 text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}

@@ -121,7 +121,7 @@ const Index = () => {
               background: 'radial-gradient(circle at 80% 20%, rgba(135, 206, 235, 0.1) 0%, transparent 40%)',
               x: flareX,
               y: flareY,
-              opacity: currentSection === 0 ? 1 : 0.5,
+              opacity: heroOpacity,
             }}
           />
         )}
@@ -163,10 +163,7 @@ const Index = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              <FloatingLogo />
-              <Navigation onNavigate={handleNavigate} currentSection={currentSection} onOpenChat={() => setIsChatOpen(true)} />
-
-
+              <Navigation onNavigate={handleNavigate} onOpenChat={() => setIsChatOpen(true)} />
               {/* Hero / Home Section */}
               <section id="home" className="min-h-screen flex items-center justify-center relative pt-24 pb-12">
                 <div className="container mx-auto px-4 text-center">
