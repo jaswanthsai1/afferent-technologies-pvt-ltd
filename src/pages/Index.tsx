@@ -38,11 +38,10 @@ import { SpaceAudio } from '../components/SpaceAudio';
 import { StardustCursor } from '../components/StardustCursor';
 import { AIChatBot } from '../components/AIChatBot';
 
-type AppPhase = 'intro' | 'logo-reveal' | 'main';
+export type AppPhase = 'intro' | 'logo-reveal' | 'main';
 
 const Index = () => {
   const [phase, setPhase] = useState<AppPhase>('intro');
-  const [currentSection, setCurrentSection] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -70,39 +69,12 @@ const Index = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (phase !== 'main') return;
-
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const sections = document.querySelectorAll('section[id]');
-          const scrollPosition = window.scrollY + window.innerHeight / 3;
-
-          sections.forEach((section, index) => {
-            const element = section as HTMLElement;
-            const top = element.offsetTop;
-            const height = element.offsetHeight;
-
-            if (scrollPosition >= top && scrollPosition < top + height) {
-              if (currentSection !== index) {
-                setCurrentSection(index);
-              }
-            }
-          });
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [phase]);
-
   const { scrollYProgress } = useScroll();
+
+  // Create pure CSS/Framer transform values instead of React State for scrolling background
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const starsOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+
   const flareX = useTransform(scrollYProgress, [0, 1], ['-10%', '20%']);
   const flareY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
 
@@ -124,28 +96,20 @@ const Index = () => {
       <div className="relative min-h-screen bg-[#020008] overflow-x-hidden">
         {/* Dynamic backgrounds */}
         <div className="fixed inset-0 z-0">
-          <AnimatePresence>
-            {(isMobile || currentSection === 0) && (
-              <motion.div
-                key="hero-bg"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="absolute inset-0"
-              >
-                <PlanetaryHeroBackground />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <motion.div
+            style={{ opacity: heroOpacity }}
+            className="absolute inset-0 pointer-events-none"
+          >
+            <PlanetaryHeroBackground />
+          </motion.div>
 
           {!isMobile && (
-            <div
-              className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-              style={{ opacity: currentSection !== 0 ? 1 : 0, pointerEvents: currentSection !== 0 ? 'auto' : 'none' }}
+            <motion.div
+              style={{ opacity: starsOpacity }}
+              className="absolute inset-0 pointer-events-none"
             >
               <StarField count={150} />
-            </div>
+            </motion.div>
           )}
         </div>
 

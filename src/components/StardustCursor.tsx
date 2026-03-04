@@ -1,116 +1,48 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  life: number;
-}
+import React, { useEffect, useState } from 'react';
 
 export const StardustCursor: React.FC = () => {
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile/hidden to be safe
 
   useEffect(() => {
-    setIsMobile('ontouchstart' in window || window.innerWidth < 768);
-  }, []);
+    const isTouch = 'ontouchstart' in window;
+    const isSmallScreen = window.innerWidth < 768;
+    setIsMobile(isTouch || isSmallScreen);
 
-  const addParticle = useCallback((x: number, y: number) => {
-    const colors = [
-      'hsl(var(--electric-blue))',
-      'hsl(var(--cosmic-orange))',
-      '#ffffff',
-      '#b3d9ff',
-      '#ffe6cc'
-    ];
-    const id = Date.now() + Math.random();
-    const newParticle: Particle = {
-      id,
-      x,
-      y,
-      size: Math.random() * 4 + 1,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      life: 1,
-    };
+    if (isTouch || isSmallScreen) return;
 
-    setParticles((prev) => {
-      const active = prev.slice(-15); // Keep max 15 particles to reduce DOM nodes
-      return [...active, newParticle];
-    });
+    // Direct DOM manipulation completely bypasses React's render queue (0 Lag)
+    const cursor = document.getElementById('stardust-cursor');
+    if (!cursor) return;
 
-    // Clean up particle after animation finishes to prevent memory leak
-    setTimeout(() => {
-      setParticles((prev) => prev.filter(p => p.id !== id));
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
     let ticking = false;
-    const handleMouseMove = (e: MouseEvent) => {
+    const updateCursor = (e: MouseEvent) => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setMousePos({ x: e.clientX, y: e.clientY });
-          // Only add particles sometimes to reduce DOM updates
-          if (Math.random() > 0.5) {
-            addParticle(e.clientX, e.clientY);
-          }
+        requestAnimationFrame(() => {
+          cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
           ticking = false;
         });
         ticking = true;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [addParticle]);
+    window.addEventListener('mousemove', updateCursor, { passive: true });
+    return () => window.removeEventListener('mousemove', updateCursor);
+  }, []);
 
   if (isMobile) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden">
-      <AnimatePresence>
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0.8, scale: 1 }}
-            animate={{
-              opacity: 0,
-              scale: 0,
-              x: p.x + (Math.random() - 0.5) * 20,
-              y: p.y + (Math.random() - 0.5) * 20
-            }}
-            exit={{ opacity: 0 }}
-            className="absolute rounded-full blur-[1px]"
-            style={{
-              left: p.x,
-              top: p.y,
-              width: p.size,
-              height: p.size,
-              backgroundColor: p.color,
-              boxShadow: `0 0 10px ${p.color}`,
-              transform: 'translate(-50%, -50%)',
-            }}
-          />
-        ))}
-      </AnimatePresence>
-
-      {/* Subtle core cursor glow */}
-      <motion.div
-        className="absolute w-8 h-8 rounded-full blur-xl pointer-events-none"
-        animate={{
-          left: mousePos.x,
-          top: mousePos.y,
-          transition: { type: 'spring', damping: 20, stiffness: 250, mass: 0.5 }
-        }}
-        style={{
-          backgroundColor: 'hsl(var(--electric-blue) / 0.3)',
-          transform: 'translate(-50%, -50%)',
-        }}
-      />
+    <div
+      id="stardust-cursor"
+      className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] rounded-full mix-blend-screen transition-transform duration-75 ease-out translate-x-[-50%] translate-y-[-50%] will-change-transform"
+      style={{
+        background: 'radial-gradient(circle, rgba(0, 243, 255, 0.8) 0%, rgba(0, 243, 255, 0) 70%)',
+        boxShadow: '0 0 20px rgba(0, 243, 255, 0.4), 0 0 40px rgba(255, 171, 145, 0.2)',
+        marginLeft: '-16px', // Offset center
+        marginTop: '-16px'   // Offset center
+      }}
+    >
+      <div className="absolute inset-2 rounded-full bg-white blur-[1px]" />
     </div>
   );
 };

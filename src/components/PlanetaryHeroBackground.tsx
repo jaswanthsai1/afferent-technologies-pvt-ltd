@@ -95,63 +95,6 @@ export function PlanetaryHeroBackground() {
           }}
         />
 
-        {/* Space Enhancement: Dynamic Star Field (Upper Layer) */}
-        <div className="absolute inset-0 z-10" style={{ transform: isMobile ? 'none' : 'translateZ(20px)' }}>
-          {stars.map((star) => (
-            <motion.div
-              key={star.id}
-              className="absolute bg-white rounded-full"
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: star.size,
-                height: star.size,
-                opacity: star.opacity,
-                boxShadow: `0 0 ${star.size * 3}px rgba(255, 255, 255, 0.8)`,
-              }}
-              animate={{
-                opacity: [star.opacity, star.opacity * 0.3, star.opacity],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: star.duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: star.delay,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Ground Enhancement: Energy Veins (Isolated to bottom 40%) */}
-        <div className="absolute inset-0 z-20 overflow-hidden" style={{ transform: isMobile ? 'none' : 'translateZ(100px)' }}>
-          {groundEnergy.map((vein) => (
-            <motion.div
-              key={vein.id}
-              className="absolute rounded-full"
-              style={{
-                left: vein.left,
-                bottom: vein.bottom,
-                width: vein.width,
-                height: vein.height,
-                background: 'linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.4), rgba(251, 191, 36, 0.6), rgba(249, 115, 22, 0.4), transparent)',
-                filter: 'blur(3px)',
-              }}
-              animate={{
-                opacity: [0.1, 0.5, 0.1],
-                scaleX: [0.8, 1.2, 0.8],
-                x: [-10, 10, -10],
-              }}
-              transition={{
-                duration: vein.duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: vein.delay,
-              }}
-            />
-          ))}
-        </div>
-
         {/* Cinematic Nebula Glows - REDUCED ON MOBILE */}
         <div className="absolute inset-0 z-15 mix-blend-screen" style={{ transform: isMobile ? 'none' : 'translateZ(40px)' }}>
           {/* Top Right Nova Glow */}
