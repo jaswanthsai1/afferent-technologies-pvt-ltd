@@ -122,7 +122,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
 
   useEffect(() => {
     const mobile = window.innerWidth < 768;
-    const finalCount = mobile ? Math.min(count, 20) : count;
+    const finalCount = mobile ? Math.min(count, 30) : Math.min(count, 150);
 
     const layers: StarItemProps[][] = [[], [], [], []];
     // Enhanced Futuristic Colors
@@ -136,19 +136,20 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
       const layerIndex = Math.floor(Math.random() * 4);
       const size = Math.random() * (layerIndex === 3 ? 3 : layerIndex === 2 ? 2 : 1.2) + 0.4;
       const color = starColors[Math.floor(Math.random() * starColors.length)];
-      const isGiant = Math.random() > 0.98; // Slightly more rare giants
-      const isPulsating = Math.random() > 0.7; // More pulsating stars
-      const hasRays = isGiant && !mobile && Math.random() > 0.5;
+
+      // Optimiziation: reduce heavy giant calculations on mobile
+      const isGiant = mobile ? false : Math.random() > 0.98;
+      const isPulsating = Math.random() > 0.8;
+      const hasRays = isGiant && !mobile && Math.random() > 0.6;
 
       layers[layerIndex].push({
         id: i,
-        // Larger variation in size
         size: isGiant ? size * 3 : size,
         left: Math.random() * 100 + '%',
         top: Math.random() * 100 + '%',
         color,
-        opacity: Math.random() * 0.5 + 0.5,
-        duration: isPulsating ? Math.random() * 1.5 + 0.5 : Math.random() * 8 + 6,
+        opacity: Math.random() * 0.5 + 0.4,
+        duration: isPulsating ? Math.random() * 2 + 1 : Math.random() * 8 + 6,
         delay: Math.random() * 5,
         isPulsating,
         isGiant,
@@ -157,7 +158,7 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
     }
     setStarLayers(layers);
 
-    const dustCount = mobile ? 5 : 150;
+    const dustCount = mobile ? 2 : 80;
     const dust = [...Array(dustCount)].map((_, i) => ({
       id: `dust-${i}`,
       left: Math.random() * 100 + '%',
@@ -172,13 +173,13 @@ const StarField = ({ count = 300 }: StarFieldProps) => {
     }));
     setCosmicDust(dust);
 
-    const clusterCount = mobile ? 1 : 6;
+    const clusterCount = mobile ? 0 : 3;
     const clusters = [...Array(clusterCount)].map((_, i) => ({
       id: `cluster-${i}`,
       left: Math.random() * 80 + 10 + '%',
       top: Math.random() * 80 + 10 + '%',
       size: 60 + Math.random() * 100,
-      stars: mobile ? 5 : 20,
+      stars: 15,
       color: ['#8b5cf6', '#3b82f6', '#ec4899', '#22d3ee'][i % 4],
       rotation: Math.random() * 360,
       duration: 300 + Math.random() * 200,

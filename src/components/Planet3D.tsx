@@ -70,10 +70,17 @@ const planetConfigs: Record<string, {
 export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
   const config = planetConfigs[planetName] || planetConfigs.Earth;
   const [isMobile, setIsMobile] = useState(false);
+  const [isTextureLoaded, setIsTextureLoaded] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
-  }, []);
+
+    // Preload texture
+    const img = new Image();
+    img.fetchPriority = "high";
+    img.src = config.texture;
+    img.onload = () => setIsTextureLoaded(true);
+  }, [config.texture]);
 
   // Mobile optimization: Remove heavy CSS blur entirely, rely on radial-gradient softness
   const blurAmount = isMobile ? '0px' : '40px';
@@ -142,10 +149,12 @@ export function Planet3D({ planetName, size, className = '' }: Planet3DProps) {
           style={{
             width: '200%',
             height: '100%',
-            backgroundImage: `url(${config.texture})`,
+            backgroundImage: isTextureLoaded ? `url(${config.texture})` : 'none',
             backgroundSize: '50% 100%',
             backgroundRepeat: 'repeat-x',
             willChange: 'transform',
+            opacity: isTextureLoaded ? 1 : 0,
+            transition: 'opacity 1s ease-in-out',
           }}
           animate={{
             x: ['0%', '-50%']
